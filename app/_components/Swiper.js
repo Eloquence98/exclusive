@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { register } from "swiper/element/bundle";
 
 register();
@@ -12,6 +12,7 @@ const screen = {
 
 export default function Swiper(props) {
   const swiperElRef = useRef(null);
+  const [ismounted, setIsMounted] = useState(false);
   const { children, ...rest } = props;
 
   useEffect(() => {
@@ -40,16 +41,6 @@ export default function Swiper(props) {
     const params = {
       injectStyles: [
         `
-        .swiper-container {
-          height: 100%;
-          width: 100%;
-        }
-
-        .swiper-wrapper {
-          height: 100%;
-          width: 100%;
-        }
-
       .swiper-pagination-bullet {
         width: 8px;
         height: 8px;
@@ -76,19 +67,29 @@ export default function Swiper(props) {
       },
     };
 
-    Object.assign(swiperEl, params);
+    // can not assign undefined to object
+    if (swiperEl) Object?.assign(swiperEl, params);
 
-    swiperEl.initialize();
-
-    console.log(swiperEl);
+    swiperEl?.initialize();
   }, [rest]);
+
+  useEffect(function () {
+    setIsMounted(true);
+  }, []);
+
+  if (!ismounted) return null;
 
   return (
     <swiper-container
       init="false"
       ref={swiperElRef}
       {...rest}
-      style={{ height: "100%", width: "100%" }}
+      style={{
+        height: "100%",
+        width: "100%",
+        maxHeight: "100%",
+        maxWidth: "100%",
+      }}
     >
       {children}
     </swiper-container>
@@ -99,7 +100,15 @@ function Slide(props) {
   const { children, ...rest } = props;
 
   return (
-    <swiper-slide {...rest} style={{ height: "100%", width: "100%" }}>
+    <swiper-slide
+      {...rest}
+      style={{
+        height: "100%",
+        width: "100%",
+        maxHeight: "100%",
+        maxWidth: "100%",
+      }}
+    >
       {children}
     </swiper-slide>
   );
