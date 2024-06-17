@@ -34,32 +34,42 @@ const Countdown = ({ hours: forHours }) => {
   }
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="flex">
-        <div className="flex flex-col items-center mx-2">
-          <span className="text-4xl font-bold">
-            {String(days).padStart(2, "0")}
-          </span>
-          <span className="text-sm text-gray-500">Days</span>
-        </div>
-        <div className="flex flex-col items-center mx-2">
-          <span className="text-4xl font-bold">
-            {String(hours).padStart(2, "0")}
-          </span>
-          <span className="text-sm text-gray-500">Hours</span>
-        </div>
-        <div className="flex flex-col items-center mx-2">
-          <span className="text-4xl font-bold">
-            {String(minutes).padStart(2, "0")}
-          </span>
-          <span className="text-sm text-gray-500">Minutes</span>
-        </div>
-        <div className="flex flex-col items-center mx-2">
-          <span className="text-4xl font-bold">
-            {String(seconds).padStart(2, "0")}
-          </span>
-          <span className="text-sm text-gray-500">Seconds</span>
-        </div>
+    <div className="flex text-black space-x-9">
+      <div className="relative flex flex-col items-start">
+        <span className="text-sm">Days</span>
+        <span className="text-4xl font-bold">
+          {String(days).padStart(2, "0")}
+        </span>
+        <span className="text-primary loading-none text-3xl absolute -right-5 bottom-1 ">
+          {" "}
+          :{" "}
+        </span>
+      </div>
+      <div className="relative flex flex-col items-start">
+        <span className="text-sm">Hours</span>
+        <span className="text-4xl font-bold">
+          {String(hours).padStart(2, "0")}
+        </span>
+        <span className="text-primary loading-none text-3xl absolute -right-5 bottom-1 ">
+          {" "}
+          :{" "}
+        </span>
+      </div>
+      <div className="relative flex flex-col items-start">
+        <span className="text-sm">Minutes</span>
+        <span className="text-4xl font-bold">
+          {String(minutes).padStart(2, "0")}
+        </span>
+        <span className="text-primary loading-none text-3xl absolute -right-5 bottom-1 ">
+          {" "}
+          :{" "}
+        </span>
+      </div>
+      <div className="flex flex-col items-start">
+        <span className="text-sm">Seconds</span>
+        <span className="text-4xl font-bold">
+          {String(seconds).padStart(2, "0")}
+        </span>
       </div>
     </div>
   );
