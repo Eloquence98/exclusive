@@ -12,8 +12,8 @@
     width: 60px;
     aspect-ratio: 1;
     border-radius: 50%;
-    border: 8px solid theme("colors.error.50");
-    border-right-color: theme("colors.error.100");
+    border: 8px solid theme("colors.primary.hover");
+    border-right-color: theme(colors.primary.DEFAULT);
     animation: rotate 1s infinite linear;
   }
 
