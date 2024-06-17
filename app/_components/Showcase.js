@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import LayoutPadding from "./LayoutPadding";
 import ShowcaseSlider from "./ShowcaseSlider";
+import Spinner from "./Spinner";
 
 const sideNavigationItem = [
   "T-Shirts",
@@ -34,7 +36,15 @@ function Showcase() {
           <SideNavigation />
         </aside>
         <div className="pt-10 xl:pl-11 overflow-hidden h-full w-full max-h-full max-w-full">
-          <ShowcaseSlider />
+          <Suspense
+            fallback={
+              <div className="h-full w-full flex items-center justify-center">
+                <Spinner />
+              </div>
+            }
+          >
+            <ShowcaseSlider />
+          </Suspense>
         </div>
       </section>
     </LayoutPadding>
