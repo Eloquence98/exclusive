@@ -1,9 +1,4 @@
-import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  StarIcon,
-} from "@heroicons/react/20/solid";
-import { EyeIcon, HeartIcon } from "@heroicons/react/24/outline";
+import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/20/solid";
 
 import controller from "@/public/controller.png";
 import Countdown from "./_components/CountDown";
@@ -11,12 +6,24 @@ import LayoutPadding from "./_components/LayoutPadding";
 import Showcase from "./_components/Showcase";
 
 import { Inter } from "next/font/google";
-import Image from "next/image";
+import ProductCard from "./_components/ProductCard";
 
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
 });
+
+// TODO: Fetch
+const product = {
+  image: controller,
+  name: "HAVIT HV-G92 Gamepad",
+  price: 160,
+  discount: 40,
+  ratings: {
+    total: 87,
+    dislikes: 15,
+  },
+};
 
 export default function Home() {
   return (
@@ -32,7 +39,9 @@ export default function Home() {
                   <span className="absolute left-0 top-0 inline-block h-full w-5 rounded bg-primary"></span>
                   Today&apos;s
                 </h3>
-                <h2 className={`${inter.className} text-4xl font-semibold`}>
+                <h2
+                  className={`${inter.className} text-nowrap text-4xl font-semibold`}
+                >
                   {" "}
                   Flash Sales
                 </h2>
@@ -50,46 +59,7 @@ export default function Home() {
               </div>
             </div>
             <div className="section-slider">
-              <div className="card space-y-2">
-                <div className="image relative flex h-[15.625rem] w-[16.875em] items-center justify-center rounded bg-secondary">
-                  <Image
-                    src={controller}
-                    quality={90}
-                    height={180}
-                    width={190}
-                    className="object-cover object-center"
-                    alt="Controller image"
-                  />
-                  <div className="absolute left-3 top-3 rounded bg-primary px-3 py-1 text-xs text-white">
-                    <p>-10%</p>
-                  </div>
-                  <div className="absolute right-3 top-3 space-y-2">
-                    <button className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-black">
-                      <HeartIcon className="h-5 w-5" />
-                    </button>
-                    <button className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-black">
-                      <EyeIcon className="h-5 w-5" />
-                    </button>
-                  </div>
-                </div>
-                <p className="font-medium">HAVIT HV-G92 Gamepad</p>
-                <p className="font-medium text-primary">
-                  $120 {"   "}
-                  <span className="ml-2 text-discount line-through">
-                    {" "}
-                    $160
-                  </span>{" "}
-                </p>
-                <div className="ratings flex items-end space-x-2">
-                  <StarIcon className="fill-rating-rated" />
-                  <StarIcon className="fill-rating-rated" />
-                  <StarIcon className="fill-rating-rated" />
-                  <StarIcon className="fill-rating-rated" />
-                  <StarIcon className="fill-rating-not-rated" />
-                  {/* Var totalRanking */}
-                  <p className="text-sm font-semibold text-discount">(87)</p>
-                </div>
-              </div>
+              <ProductCard product={product} />
             </div>
           </div>
         </LayoutPadding>
