@@ -14,7 +14,12 @@ module.exports = {
         },
         secondary: "#F5F5F5",
         accent: "#47B486",
+        rating: {
+          rated: "#FFAD33",
+          "not-rated": "#BFBFBF",
+        },
         placeholder: "#7B7B7B",
+        discount: "#7F7F7F",
         "bullet-point": "#808080",
         background: {
           one: "#FFFFFF",
@@ -66,6 +71,9 @@ module.exports = {
         layout: "1rem",
         "layout-md": "4rem",
         "layout-lg": "8.4375rem",
+        22: "5.5rem",
+        25: "6.375em",
+        35: "8.75rem",
       },
       maxWidth: {
         "8xl": "90rem",

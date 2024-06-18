@@ -34,13 +34,13 @@ const Countdown = ({ hours: forHours }) => {
   }
 
   return (
-    <div className="flex text-black space-x-9">
+    <div className="hidden space-x-9 text-black xl:flex">
       <div className="relative flex flex-col items-start">
         <span className="text-sm">Days</span>
         <span className="text-4xl font-bold">
           {String(days).padStart(2, "0")}
         </span>
-        <span className="text-primary loading-none text-3xl absolute -right-5 bottom-1 ">
+        <span className="loading-none absolute -right-5 bottom-1 text-3xl text-primary">
           {" "}
           :{" "}
         </span>
@@ -50,7 +50,7 @@ const Countdown = ({ hours: forHours }) => {
         <span className="text-4xl font-bold">
           {String(hours).padStart(2, "0")}
         </span>
-        <span className="text-primary loading-none text-3xl absolute -right-5 bottom-1 ">
+        <span className="loading-none absolute -right-5 bottom-1 text-3xl text-primary">
           {" "}
           :{" "}
         </span>
@@ -60,7 +60,7 @@ const Countdown = ({ hours: forHours }) => {
         <span className="text-4xl font-bold">
           {String(minutes).padStart(2, "0")}
         </span>
-        <span className="text-primary loading-none text-3xl absolute -right-5 bottom-1 ">
+        <span className="loading-none absolute -right-5 bottom-1 text-3xl text-primary">
           {" "}
           :{" "}
         </span>
