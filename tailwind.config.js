@@ -66,6 +66,9 @@ module.exports = {
         layout: "1rem",
         "layout-md": "4rem",
         "layout-lg": "8.4375rem",
+        22: "5.5rem",
+        25: "6.375em",
+        35: "8.75rem",
       },
       maxWidth: {
         "8xl": "90rem",
