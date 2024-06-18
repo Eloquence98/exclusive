@@ -14,7 +14,12 @@ module.exports = {
         },
         secondary: "#F5F5F5",
         accent: "#47B486",
+        rating: {
+          rated: "#FFAD33",
+          "not-rated": "#BFBFBF",
+        },
         placeholder: "#7B7B7B",
+        discount: "#7F7F7F",
         "bullet-point": "#808080",
         background: {
           one: "#FFFFFF",
