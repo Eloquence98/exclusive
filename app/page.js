@@ -40,7 +40,7 @@ export default function Home() {
               <div className="mt-auto">
                 <Countdown hours={25} />
               </div>
-              <div className="buttons ml-auto mt-auto flex items-center justify-center gap-2">
+              <div className="ml-auto mt-auto flex items-center justify-center gap-2">
                 <button className="flex h-11 w-11 items-center justify-center rounded-full bg-secondary text-black">
                   <ArrowLeftIcon />
                 </button>
