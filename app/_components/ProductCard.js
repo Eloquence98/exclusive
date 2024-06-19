@@ -3,22 +3,31 @@ import Image from "next/image";
 import StarRating from "./StarRating";
 
 function ProductCard({ product }) {
-  const { image, name, price, discount, ratings } = product;
+  const { image, title, price, discount, ratings } = product;
   const discountedPrice = price - discount;
   const percentOff = (discount / price) * 100;
   const isDiscount = percentOff > 0 ? true : false;
 
+  function formatCurrency(price) {
+    const formater = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    });
+    return formater.format(price);
+  }
+
   return (
-    <div className="card space-y-2">
-      <div className="image relative flex h-[15.625rem] w-[16.875em] items-center justify-center rounded bg-secondary">
-        <Image
-          src={image}
-          quality={90}
-          height={180}
-          width={190}
-          className="object-cover object-center"
-          alt={`${image} image`}
-        />
+    // <div className="card space-y-2">
+    <div className="card max-w-70 space-y-2">
+      <div className="image w-70 relative flex h-[15.625rem] items-center justify-center rounded bg-secondary">
+        <div className="image relative h-48 w-44">
+          <Image
+            src={image}
+            fill
+            className="object-cover"
+            alt={`${image} image`}
+          />
+        </div>
         {isDiscount && (
           <div className="absolute left-3 top-3 rounded bg-primary px-3 py-1 text-xs text-white">
             <p>-{percentOff.toFixed(2)}%</p>
@@ -33,12 +42,15 @@ function ProductCard({ product }) {
           </button>
         </div>
       </div>
-      <p className="font-medium">{name}</p>
+      <p className="font-medium">{title}</p>
       <p className="font-medium text-primary">
-        ${discountedPrice} {"   "}
+        {formatCurrency(discountedPrice)} {"   "}
         {isDiscount && (
           <>
-            <span className="ml-2 text-discount line-through"> ${price} </span>{" "}
+            <span className="ml-2 text-discount line-through">
+              {" "}
+              {formatCurrency(price)}{" "}
+            </span>{" "}
           </>
         )}
       </p>

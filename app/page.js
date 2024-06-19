@@ -1,12 +1,12 @@
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/20/solid";
 
-import controller from "@/public/controller.png";
-import Countdown from "./_components/CountDown";
-import LayoutPadding from "./_components/LayoutPadding";
-import Showcase from "./_components/Showcase";
+import Countdown from "@/app/_components/CountDown";
+import LayoutPadding from "@/app/_components/LayoutPadding";
+import ProductSlider from "@/app/_components/ProductSlider";
+import Showcase from "@/app/_components/Showcase";
 
+import { tempProducts } from "@/app/_lib/tempData";
 import { Inter } from "next/font/google";
-import ProductCard from "./_components/ProductCard";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -14,18 +14,28 @@ const inter = Inter({
 });
 
 // TODO: Fetch
-const product = {
-  image: controller,
-  name: "HAVIT HV-G92 Gamepad",
-  price: 160,
-  discount: 40,
-  ratings: {
-    total: 87,
-    dislikes: 15,
-  },
-};
+// const product = {
+//   image: controller,
+//   name: "HAVIT HV-G92 Gamepad",
+//   price: 160,
+//   discount: 40,
+//   ratings: {
+//     total: 87,
+//     dislikes: 15,
+//   },
+// };
 
-export default function Home() {
+export default async function Home() {
+  // const res = await fetch("https://fakestoreapi.com/products?limit=10");
+  // const res = await fetch(
+  //   "https://fakestoreapi.com/products/category/men's clothing",
+  // );
+  // if (!res.ok) console.log("500 server could not send anything");
+
+  // const data = await res.json();
+
+  // console.log(data);
+
   return (
     <main>
       <Showcase />
@@ -58,8 +68,11 @@ export default function Home() {
                 </button>
               </div>
             </div>
-            <div className="section-slider">
-              <ProductCard product={product} />
+            <div className="section-slider flex gap-7">
+              {/* {tempProducts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))} */}
+              <ProductSlider tempProducts={tempProducts} />
             </div>
           </div>
         </LayoutPadding>
