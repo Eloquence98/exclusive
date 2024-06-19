@@ -1,29 +1,12 @@
-import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/20/solid";
-
-import Countdown from "@/app/_components/CountDown";
-import LayoutPadding from "@/app/_components/LayoutPadding";
 import ProductSlider from "@/app/_components/ProductSlider";
 import Showcase from "@/app/_components/Showcase";
 
-import { tempProducts } from "@/app/_lib/tempData";
 import { Inter } from "next/font/google";
 
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
 });
-
-// TODO: Fetch
-// const product = {
-//   image: controller,
-//   name: "HAVIT HV-G92 Gamepad",
-//   price: 160,
-//   discount: 40,
-//   ratings: {
-//     total: 87,
-//     dislikes: 15,
-//   },
-// };
 
 export default async function Home() {
   // const res = await fetch("https://fakestoreapi.com/products?limit=10");
@@ -41,7 +24,7 @@ export default async function Home() {
       <Showcase />
       {/* Today's Sale */}
       <section className="mt-35">
-        <LayoutPadding>
+        {/* <LayoutPadding>
           <div className="test">
             <div className="section-stats mb-10 flex min-h-25 gap-22">
               <div className="headings flex flex-col justify-between">
@@ -69,13 +52,11 @@ export default async function Home() {
               </div>
             </div>
             <div className="section-slider flex gap-7">
-              {/* {tempProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))} */}
               <ProductSlider tempProducts={tempProducts} />
             </div>
           </div>
-        </LayoutPadding>
+        </LayoutPadding> */}
+        <ProductSlider />
       </section>
     </main>
   );
