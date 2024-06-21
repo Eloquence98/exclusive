@@ -1,6 +1,7 @@
 import { EyeIcon, HeartIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import StarRating from "./StarRating";
+import { formatCurrency } from "@/app/_utills/utility";
 
 function ProductCard({ product }) {
   const { image, title, price, discount, ratings } = product;
@@ -8,18 +9,10 @@ function ProductCard({ product }) {
   const percentOff = (discount / price) * 100;
   const isDiscount = percentOff > 0 ? true : false;
 
-  function formatCurrency(price) {
-    const formater = new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    });
-    return formater.format(price);
-  }
-
   return (
     // <div className="card space-y-2">
     <div className="card max-w-70 space-y-2">
-      <div className="image w-70 relative flex h-[15.625rem] items-center justify-center rounded bg-secondary">
+      <div className="image relative flex h-[15.625rem] w-70 items-center justify-center rounded bg-secondary">
         <div className="image relative h-48 w-44">
           <Image
             src={image}
