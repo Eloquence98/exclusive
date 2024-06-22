@@ -5,35 +5,35 @@ import SliderNavigationButton from "./SliderNavigationButton";
 
 register();
 
+const commonStyles = `
+.swiper-pagination-bullet {
+    height: 8px;
+    text-align: center;
+    line-height: 8px;
+    font-size: 0px !important;
+    color: #000;
+    opacity: 1;
+    background: rgba(128, 128, 128, 1);
+    width: 8px;
+}
+.swiper-pagination-bullet-active {
+    background: #db4444;
+    border: 2px solid #fff;
+    color: #fff;
+}
+`;
+
+const overflowStyles = `
+.swiper {
+    overflow: visible !important;
+}
+`;
+
 function Swiper(props) {
   const [isMounted, setIsMounted] = useState(false);
   const swiperElRef = useRef(null);
   const { children, pagination, breakProp, navigation, overflow, ...rest } =
     props;
-
-  const commonStyles = `
-    .swiper-pagination-bullet {
-        height: 8px;
-        text-align: center;
-        line-height: 8px;
-        font-size: 0px !important;
-        color: #000;
-        opacity: 1;
-        background: rgba(128, 128, 128, 1);
-        width: 8px;
-    }
-    .swiper-pagination-bullet-active {
-        background: #db4444;
-        border: 2px solid #fff;
-        color: #fff;
-    }
-`;
-
-  const overflowStyles = `
-    .swiper {
-        overflow: visible !important;
-    }
-`;
 
   const styles = [commonStyles + (overflow ? overflowStyles : "")];
 
