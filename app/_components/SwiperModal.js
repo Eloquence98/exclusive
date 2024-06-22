@@ -1,7 +1,7 @@
 "use client";
-import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/20/solid";
 import { useEffect, useRef, useState } from "react";
 import { register } from "swiper/element/bundle";
+import SliderNavigationButton from "./SliderNavigationButton";
 
 register();
 
@@ -42,10 +42,6 @@ function Swiper(props) {
     const params = {
       injectStyles: styles,
       navigation,
-      // navigation: {
-      //   nextEl: ".swiper-button-next",
-      //   prevEl: ".swiper-button-prev",
-      // },
       ...(pagination && {
         pagination: {
           clickable: true,
@@ -121,30 +117,11 @@ function Slide({ children, ...rest }) {
 }
 
 function PrevButton() {
-  return (
-    <SliderNavigationButton classes="swiper-button-prev">
-      <ArrowLeftIcon />
-    </SliderNavigationButton>
-  );
+  return <SliderNavigationButton classes="swiper-button-prev" />;
 }
 
 function NextButton() {
-  return (
-    <SliderNavigationButton classes="swiper-button-next">
-      <ArrowRightIcon />
-    </SliderNavigationButton>
-  );
-}
-
-function SliderNavigationButton({ classes, children, onClick }) {
-  return (
-    <button
-      className={`${classes} flex h-11 w-11 items-center justify-center rounded-full bg-secondary text-black focus:ring-2 focus:ring-secondary focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50`}
-      onClick={onClick}
-    >
-      {children}
-    </button>
-  );
+  return <SliderNavigationButton next classes="swiper-button-next" />;
 }
 
 Swiper.Slide = Slide;
