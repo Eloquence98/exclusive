@@ -20,7 +20,7 @@ export default async function Home() {
   // console.log(data);
 
   return (
-    <main>
+    <main className="overflow-x-hidden">
       <Showcase />
       {/* Today's Sale */}
       <section className="mt-35">

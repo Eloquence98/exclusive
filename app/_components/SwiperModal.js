@@ -37,31 +37,42 @@ function SwiperModal({ children }) {
 function Swiper(props) {
   const { isMounted, setIsMounted, swiperElRef } =
     useContext(SwiperModalContext);
-  const { children, pagination, breakProp, ...rest } = props;
+  const { children, pagination, breakProp, overflow, ...rest } = props;
+
+  const commonStyles = `
+    .swiper-pagination-bullet {
+        height: 8px;
+        text-align: center;
+        line-height: 8px;
+        font-size: 0px !important;
+        color: #000;
+        opacity: 1;
+        background: rgba(128, 128, 128, 1);
+        width: 8px;
+    }
+    .swiper-pagination-bullet-active {
+        background: #db4444;
+        border: 2px solid #fff;
+        color: #fff;
+    }
+`;
+
+  const overflowStyles = `
+    .swiper {
+        overflow: visible !important;
+    }
+`;
+
+  const styles = [commonStyles + (overflow ? overflowStyles : "")];
 
   useEffect(() => {
     const swiperElement = swiperElRef.current;
     const params = {
-      injectStyles: [
-        `
-          .swiper-pagination-bullet {
-            width: 8px;
-            height: 8px;
-            text-align: center;
-            line-height: 8px;
-            font-size: 0px !important;
-            color: #000;
-            opacity: 1;
-            background: rgba(128, 128, 128, 1);
-          }
-      
-          .swiper-pagination-bullet-active {
-            color: #fff;
-            background: #DB4444;
-            border: 2px solid #fff;
-          }
-        `,
-      ],
+      injectStyles: styles,
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
       ...(pagination && {
         pagination: {
           clickable: true,
@@ -70,12 +81,24 @@ function Swiper(props) {
         },
       }),
       ...(breakProp && {
+        slidesPerView: 1,
+        spaceBetween: 10,
         breakpoints: {
-          570: { slidesPerView: 2 },
-          970: { slidesPerView: 3 },
-          1024: { slidesPerView: 2 },
-          1140: { slidesPerView: 3 },
-          1400: { slidesPerView: 4 },
+          540: {
+            slidesPerView: 2,
+            spaceBetween: 30,
+            slidesPerGroup: 2,
+          },
+          880: {
+            slidesPerView: 3,
+            slidesPerGroup: 3,
+            spaceBetween: 30,
+          },
+          1280: {
+            slidesPerView: 4,
+            slidesPerGroup: 4,
+            spaceBetween: 30,
+          },
         },
       }),
     };
@@ -83,6 +106,7 @@ function Swiper(props) {
     if (swiperElement) Object.assign(swiperElement, params);
 
     swiperElement?.initialize();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pagination, breakProp, swiperElRef, rest]);
 
   useEffect(
@@ -102,8 +126,6 @@ function Swiper(props) {
       style={{
         height: "100%",
         width: "100%",
-        maxHeight: "100%",
-        maxWidth: "100%",
       }}
     >
       {children}
@@ -118,8 +140,6 @@ function Slide({ children, ...rest }) {
       style={{
         height: "100%",
         width: "100%",
-        maxHeight: "100%",
-        maxWidth: "100%",
       }}
     >
       {children}
@@ -132,7 +152,10 @@ function PrevButton() {
 
   return (
     <SliderNavigationButton
-      onClick={() => swiperElRef.current.swiper.slidePrev()}
+      classes="swiper-button-prev"
+      // onClick={() => {
+      //   swiperElRef.current.swiper.slidePrev();
+      // }}
     >
       <ArrowLeftIcon />
     </SliderNavigationButton>
@@ -143,19 +166,20 @@ function NextButton() {
   const { swiperElRef } = useContext(SwiperModalContext);
   return (
     <SliderNavigationButton
-      onClick={() => {
-        swiperElRef.current.swiper.slideNext();
-      }}
+      classes="swiper-button-next"
+      // onClick={() => {
+      //   swiperElRef.current.swiper.slideNext();
+      // }}
     >
       <ArrowRightIcon />
     </SliderNavigationButton>
   );
 }
 
-function SliderNavigationButton({ children, onClick }) {
+function SliderNavigationButton({ classes, children, onClick }) {
   return (
     <button
-      className="flex h-11 w-11 items-center justify-center rounded-full bg-secondary text-black focus:ring-2 focus:ring-secondary focus:ring-offset-1"
+      className={`${classes} flex h-11 w-11 items-center justify-center rounded-full bg-secondary text-black focus:ring-2 focus:ring-secondary focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50`}
       onClick={onClick}
     >
       {children}

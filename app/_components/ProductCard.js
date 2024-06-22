@@ -11,8 +11,8 @@ function ProductCard({ product }) {
 
   return (
     // <div className="card space-y-2">
-    <div className="card max-w-70 space-y-2">
-      <div className="image relative flex h-[15.625rem] w-70 items-center justify-center rounded bg-secondary">
+    <div className="card space-y-2">
+      <div className="image relative flex h-[15.625rem] w-full items-center justify-center rounded bg-secondary">
         <div className="image relative h-48 w-44">
           <Image
             src={image}
