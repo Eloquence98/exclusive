@@ -1,43 +1,15 @@
 "use client";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/20/solid";
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useRef, useState } from "react";
 import { register } from "swiper/element/bundle";
 
 register();
 
-const SwiperModalContext = createContext();
-
-function SwiperModal({ children }) {
+function Swiper(props) {
   const [isMounted, setIsMounted] = useState(false);
   const swiperElRef = useRef(null);
-
-  const contextValue = useMemo(
-    () => ({
-      isMounted,
-      setIsMounted,
-      swiperElRef,
-    }),
-    [isMounted],
-  );
-
-  return (
-    <SwiperModalContext.Provider value={contextValue}>
-      {children}
-    </SwiperModalContext.Provider>
-  );
-}
-
-function Swiper(props) {
-  const { isMounted, setIsMounted, swiperElRef } =
-    useContext(SwiperModalContext);
-  const { children, pagination, breakProp, overflow, ...rest } = props;
+  const { children, pagination, breakProp, navigation, overflow, ...rest } =
+    props;
 
   const commonStyles = `
     .swiper-pagination-bullet {
@@ -69,10 +41,11 @@ function Swiper(props) {
     const swiperElement = swiperElRef.current;
     const params = {
       injectStyles: styles,
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
+      navigation,
+      // navigation: {
+      //   nextEl: ".swiper-button-next",
+      //   prevEl: ".swiper-button-prev",
+      // },
       ...(pagination && {
         pagination: {
           clickable: true,
@@ -148,29 +121,16 @@ function Slide({ children, ...rest }) {
 }
 
 function PrevButton() {
-  const { swiperElRef } = useContext(SwiperModalContext);
-
   return (
-    <SliderNavigationButton
-      classes="swiper-button-prev"
-      // onClick={() => {
-      //   swiperElRef.current.swiper.slidePrev();
-      // }}
-    >
+    <SliderNavigationButton classes="swiper-button-prev">
       <ArrowLeftIcon />
     </SliderNavigationButton>
   );
 }
 
 function NextButton() {
-  const { swiperElRef } = useContext(SwiperModalContext);
   return (
-    <SliderNavigationButton
-      classes="swiper-button-next"
-      // onClick={() => {
-      //   swiperElRef.current.swiper.slideNext();
-      // }}
-    >
+    <SliderNavigationButton classes="swiper-button-next">
       <ArrowRightIcon />
     </SliderNavigationButton>
   );
@@ -190,5 +150,5 @@ function SliderNavigationButton({ classes, children, onClick }) {
 Swiper.Slide = Slide;
 Swiper.Prev = PrevButton;
 Swiper.Next = NextButton;
-SwiperModal.Swiper = Swiper;
-export default SwiperModal;
+
+export default Swiper;
