@@ -1,127 +1,42 @@
 "use client";
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { register } from "swiper/element/bundle";
+import SliderNavigationButton from "./SliderNavigationButton";
 
 register();
 
-const screen = {
-  height: "100%",
-  width: "100%",
-  cursor: "pointer",
-};
+function Swiper(props) {
+  const swiperRef = useRef(null);
+  const [isMounted, setIsMounted] = useState(false);
+  const { children, ...rest } = props;
 
-export default function Swiper(props) {
-  const swiperElRef = useRef(null);
-  const [ismounted, setIsMounted] = useState(false);
-  const { children, pagination, breakProp, ...rest } = props;
+  useEffect(
+    function () {
+      setIsMounted(true);
+    },
+    [setIsMounted],
+  );
 
   useEffect(() => {
-    const swiperEl = swiperElRef.current;
-
-    // const handleSwiperProgress = (e) => {
-    //   const [swiper, progress] = e.detail;
-    //   // console.log(progress);
-    // };
-
-    // const handleSwiperSlideChange = (e) => {
-    //   console.log("slide changed");
-    // };
-
-    // swiperEl.addEventListener("swiperprogress", handleSwiperProgress);
-    // swiperEl.addEventListener("swiperslidechange", handleSwiperSlideChange);
-
-    // return () => {
-    //   swiperEl.removeEventListener("swiperprogress", handleSwiperProgress);
-    //   swiperEl.removeEventListener(
-    //     "swiperslidechange",
-    //     handleSwiperSlideChange
-    //   );
-    // };
-
+    if (!isMounted) return;
     const params = {
-      injectStyles: [
-        `
-        .swiper-pagination-bullet {
-          width: 8px;
-          height: 8px;
-          text-align: center;
-          line-height: 8px;
-          font-size: 0px !important;
-          color: #000;
-          opacity: 1;
-          background: rgba(128, 128, 128, 1);
-        }
-    
-        .swiper-pagination-bullet-active {
-          color: #fff;
-          background: #DB4444;
-          border: 2px solid #fff;
-        }
-        `,
-      ],
-      ...(pagination
-        ? {
-            pagination: {
-              clickable: true,
-              renderBullet: function (index, className) {
-                return '<span class="' + className + '">' + index + "</span>";
-              },
-            },
-          }
-        : {}),
-      ...(breakProp
-        ? {
-            breakpoints: {
-              570: {
-                slidesPerView: 2,
-              },
-              970: {
-                slidesPerView: 3,
-              },
-              1024: {
-                slidesPerView: 2,
-              },
-              1140: {
-                slidesPerView: 3,
-              },
-              1400: {
-                slidesPerView: 4,
-              },
-            },
-          }
-        : {}),
+      ...rest,
     };
 
-    // can not assign undefined to object
-    if (swiperEl) Object?.assign(swiperEl, params);
+    Object.assign(swiperRef.current, params);
 
-    swiperEl?.initialize();
-  }, [breakProp, pagination, rest]);
+    swiperRef.current.initialize();
+  }, [isMounted, rest]);
 
-  useEffect(function () {
-    setIsMounted(true);
-  }, []);
-
-  if (!ismounted) return null;
+  if (!isMounted) return null;
 
   return (
-    <swiper-container
-      init="false"
-      ref={swiperElRef}
-      {...rest}
-      style={{
-        height: "100%",
-        width: "100%",
-        maxHeight: "100%",
-        maxWidth: "100%",
-      }}
-    >
+    <swiper-container init="false" ref={swiperRef}>
       {children}
     </swiper-container>
   );
 }
-
-function Slide(props) {
+export function Slide(props) {
   const { children, ...rest } = props;
 
   return (
@@ -130,8 +45,6 @@ function Slide(props) {
       style={{
         height: "100%",
         width: "100%",
-        maxHeight: "100%",
-        maxWidth: "100%",
       }}
     >
       {children}
@@ -139,4 +52,16 @@ function Slide(props) {
   );
 }
 
+function PrevButton() {
+  return <SliderNavigationButton classes="swiper-button-prev" />;
+}
+
+function NextButton() {
+  return <SliderNavigationButton next classes="swiper-button-next" />;
+}
+
 Swiper.Slide = Slide;
+Swiper.Prev = PrevButton;
+Swiper.Next = NextButton;
+
+export default Swiper;
