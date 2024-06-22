@@ -19,14 +19,40 @@ const sliderProducts = [
   },
 ];
 
+const paginationBulletStyles = [
+  `
+  .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    text-align: center;
+    line-height: 8px;
+    font-size: 0px !important;
+    color: #000;
+    opacity: 1;
+    background: rgba(128, 128, 128, 1);
+  }
+
+  .swiper-pagination-bullet-active {
+    color: #fff;
+    background: #DB4444;
+    border: 2px solid #fff;
+  }
+  `,
+];
+
 export default function ShowcaseSlider() {
   return (
     <Swiper
-      slides-per-view="1"
-      pagination="true"
-      loop="true"
-      initial-slide={2}
-      className="max-h-full max-w-full"
+      injectStyles={paginationBulletStyles}
+      slidesPerView={1}
+      pagination={{
+        clickable: true,
+        renderBullet: function (index, className) {
+          return '<span class="' + className + '">' + index + "</span>";
+        },
+      }}
+      initialSlide={2}
+      className="h-full max-h-full w-full max-w-full"
     >
       {sliderProducts.map((product) => (
         <Swiper.Slide key={product.name}>

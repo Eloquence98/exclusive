@@ -1,16 +1,20 @@
 "use client";
-import { Inter } from "next/font/google";
-import LayoutPadding from "./LayoutPadding";
-import Swiper from "./SwiperModal";
 import Countdown from "@/app/_components/CountDown";
 import { tempProducts } from "@/app/_lib/tempData";
-import ProductCard from "./ProductCard";
+import { Inter } from "next/font/google";
 import Button from "./Button";
+import LayoutPadding from "./LayoutPadding";
+import ProductCard from "./ProductCard";
+import Swiper from "./Swiper";
 
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
 });
+
+const OverflowStyles = `.swiper {
+  overflow: visible !important;
+}`;
 
 function ProductSlider() {
   return (
@@ -39,14 +43,31 @@ function ProductSlider() {
 
         <div className="section-slider flex gap-7 overflow-x-visible">
           <Swiper
-            breakProp={true}
-            overflow={true}
+            injectStyles={[OverflowStyles]}
             navigation={{
               nextEl: ".swiper-button-next",
               prevEl: ".swiper-button-prev",
             }}
-            // slidesPerGroupAuto={true}
-            className="max-h-full max-w-full"
+            slidesPerView={1}
+            spaceBetween={10}
+            breakpoints={{
+              540: {
+                slidesPerView: 2,
+                spaceBetween: 30,
+                slidesPerGroup: 2,
+              },
+              880: {
+                slidesPerView: 3,
+                slidesPerGroup: 3,
+                spaceBetween: 30,
+              },
+              1280: {
+                slidesPerView: 4,
+                slidesPerGroup: 4,
+                spaceBetween: 30,
+              },
+            }}
+            className="h-full max-h-full w-full max-w-full"
           >
             {tempProducts.map((product) => (
               <Swiper.Slide key={product.id}>
