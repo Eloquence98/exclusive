@@ -53,9 +53,11 @@ export function Slide(props) {
 }
 
 function PrevButton() {
+  // the class swiper-button-prev will let the swiper to make it a navigation prev button
   return <SliderNavigationButton classes="swiper-button-prev" />;
 }
 
+// the class swiper-button-next will let the swiper to make it a navigation next button
 function NextButton() {
   return <SliderNavigationButton next classes="swiper-button-next" />;
 }
