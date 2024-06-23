@@ -1,28 +1,19 @@
 "use client";
-import { tempProducts } from "@/app/_lib/tempData";
 import ProductCard from "@/app/_components/ProductCard";
 import SliderSection from "@/app/_components/SliderSection";
 import Swiper from "@/app/_components/Swiper";
+import { tempProducts } from "@/app/_lib/tempData";
 
-const OverflowStyles = `.swiper {
-  overflow: visible !important;
-}`;
-
-function ProductSlider() {
+function BestSellingProductSlider() {
   return (
     <SliderSection
-      subHeading="Today's"
-      heading="Flash Sales"
-      countDown={{ isNeeded: true, props: { hours: 25 } }}
+      subHeading="This Month"
+      heading="Best Selling Products"
+      countDown={{ isNeeded: false, props: null }}
       category={false}
-      navigateButtons={true}
+      navigateButtons={false}
       data={tempProducts}
       sliderProps={{
-        injectStyles: [OverflowStyles],
-        navigation: {
-          nextEl: ".sale-button-next",
-          prevEl: ".sale-button-prev",
-        },
         slidesPerView: 1,
         spaceBetween: 10,
         breakpoints: {
@@ -52,4 +43,4 @@ function ProductSlider() {
   );
 }
 
-export default ProductSlider;
+export default BestSellingProductSlider;

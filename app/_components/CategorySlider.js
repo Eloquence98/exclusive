@@ -1,27 +1,21 @@
 "use client";
-import { tempProducts } from "@/app/_lib/tempData";
-import ProductCard from "@/app/_components/ProductCard";
 import SliderSection from "@/app/_components/SliderSection";
 import Swiper from "@/app/_components/Swiper";
+import { sideNavigationItem } from "./Showcase";
 
-const OverflowStyles = `.swiper {
-  overflow: visible !important;
-}`;
-
-function ProductSlider() {
+function CategorySlider() {
   return (
     <SliderSection
-      subHeading="Today's"
-      heading="Flash Sales"
-      countDown={{ isNeeded: true, props: { hours: 25 } }}
-      category={false}
+      subHeading="Categories"
+      heading="Browse By Category"
+      countDown={{ isNeeded: false, props: null }}
+      category={true}
       navigateButtons={true}
-      data={tempProducts}
+      data={sideNavigationItem}
       sliderProps={{
-        injectStyles: [OverflowStyles],
         navigation: {
-          nextEl: ".sale-button-next",
-          prevEl: ".sale-button-prev",
+          nextEl: ".category-button-next",
+          prevEl: ".category-button-prev",
         },
         slidesPerView: 1,
         spaceBetween: 10,
@@ -43,13 +37,13 @@ function ProductSlider() {
           },
         },
       }}
-      render={(product) => (
-        <Swiper.Slide key={product.id}>
-          <ProductCard product={product} />
+      render={(category) => (
+        <Swiper.Slide key={category}>
+          <p> {category} </p>
         </Swiper.Slide>
       )}
     />
   );
 }
 
-export default ProductSlider;
+export default CategorySlider;

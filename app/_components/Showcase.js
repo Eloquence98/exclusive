@@ -1,10 +1,10 @@
-import Link from "next/link";
 import { Suspense } from "react";
-import LayoutPadding from "./LayoutPadding";
-import ShowcaseSlider from "./ShowcaseSlider";
-import Spinner from "./Spinner";
+import LayoutPadding from "@/app/_components/LayoutPadding";
+import ShowcaseSlider from "@/app/_components/ShowcaseSlider";
+import Spinner from "@/app/_components/Spinner";
+import Link from "next/link";
 
-const sideNavigationItem = [
+export const sideNavigationItem = [
   "T-Shirts",
   "Polos",
   "Shirts",
@@ -31,14 +31,14 @@ function SideNavigation() {
 function Showcase() {
   return (
     <LayoutPadding>
-      <section className="grid grid-rows-1 xl:grid-cols-[14.5625em,1fr] h-96 ">
-        <aside className="hidden xl:block sideNavigation pt-10 pr-4 border-r  border-border ">
+      <section className="grid h-96 grid-rows-1 xl:grid-cols-[14.5625em,1fr]">
+        <aside className="sideNavigation hidden border-r border-border pr-4 pt-10 xl:block">
           <SideNavigation />
         </aside>
-        <div className="pt-10 xl:pl-11 overflow-hidden h-full w-full max-h-full max-w-full">
+        <div className="h-full max-h-full w-full max-w-full overflow-hidden pt-10 xl:pl-11">
           <Suspense
             fallback={
-              <div className="h-full w-full flex items-center justify-center">
+              <div className="flex h-full w-full items-center justify-center">
                 <Spinner />
               </div>
             }

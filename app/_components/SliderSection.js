@@ -14,6 +14,7 @@ function SliderSection({
   subHeading,
   heading,
   countDown,
+  category,
   navigateButtons,
   sliderProps,
   data,
@@ -21,7 +22,7 @@ function SliderSection({
 }) {
   return (
     <LayoutPadding>
-      <section className="mb-15 mt-35">
+      <div className="reuse-slider-section">
         <div className="section-stats mb-10 flex min-h-25 gap-22">
           <div className="headings flex flex-col justify-between">
             <h3 className="text-regular relative pl-9 font-semibold leading-9 text-primary">
@@ -40,8 +41,12 @@ function SliderSection({
           <div className="ml-auto mt-auto flex items-center justify-center gap-2">
             {navigateButtons ? (
               <>
-                <Swiper.Prev />
-                <Swiper.Next />
+                <Swiper.Prev
+                  className={`${sliderProps.navigation.prevEl.replace(".", "")}`}
+                />
+                <Swiper.Next
+                  className={`${sliderProps.navigation.nextEl.replace(".", "")}`}
+                />
               </>
             ) : (
               <Button as="link" href="/">
@@ -60,14 +65,14 @@ function SliderSection({
           </Swiper>
         </div>
 
-        {navigateButtons ? (
+        {!category && navigateButtons ? (
           <div className="mt-14 inline-flex w-full items-center justify-center">
             <Button as="link" href="/">
               View All Products
             </Button>
           </div>
         ) : null}
-      </section>
+      </div>
     </LayoutPadding>
   );
 }
@@ -76,6 +81,7 @@ SliderSection.defaultProps = {
   subHeading: "Today's",
   heading: "Flash Sales",
   countDown: { isNeeded: false, props: null },
+  category: false,
   navigateButtons: false,
   sliderProps: {},
   data: [],
@@ -89,6 +95,7 @@ SliderSection.propTypes = {
     isNeeded: PropTypes.bool,
     props: PropTypes.object,
   }),
+  category: PropTypes.bool,
   navigateButtons: PropTypes.bool,
   sliderProps: PropTypes.object,
   data: PropTypes.array.isRequired,
