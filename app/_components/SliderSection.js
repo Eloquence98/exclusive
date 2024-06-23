@@ -1,9 +1,9 @@
+import Button from "@/app/_components/Button";
 import Countdown from "@/app/_components/CountDown";
+import LayoutPadding from "@/app/_components/LayoutPadding";
+import Swiper from "@/app/_components/Swiper";
 import { Inter } from "next/font/google";
 import PropTypes from "prop-types";
-import Button from "./Button";
-import LayoutPadding from "./LayoutPadding";
-import Swiper from "./Swiper";
 
 const inter = Inter({
   subsets: ["latin"],

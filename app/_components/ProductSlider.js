@@ -1,8 +1,8 @@
 "use client";
 import { tempProducts } from "@/app/_lib/tempData";
-import ProductCard from "./ProductCard";
-import SliderSection from "./SliderSection";
-import Swiper from "./Swiper";
+import ProductCard from "@/app/_components/ProductCard";
+import SliderSection from "@/app/_components/SliderSection";
+import Swiper from "@/app/_components/Swiper";
 
 const OverflowStyles = `.swiper {
   overflow: visible !important;
