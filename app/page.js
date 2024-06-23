@@ -19,7 +19,7 @@ export default async function Home() {
       </section>
       <Hr />
       {/* Best Selling product */}
-      <section className="category">
+      <section className="best-selling-product">
         <BestSellingProductSlider />
       </section>
     </main>
