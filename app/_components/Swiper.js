@@ -31,7 +31,14 @@ function Swiper(props) {
   if (!isMounted) return null;
 
   return (
-    <swiper-container init="false" ref={swiperRef}>
+    <swiper-container
+      init="false"
+      ref={swiperRef}
+      // style={{
+      //   height: "100%",
+      //   width: "100%",
+      // }}
+    >
       {children}
     </swiper-container>
   );
@@ -41,11 +48,11 @@ export function Slide(props) {
 
   return (
     <swiper-slide
-      {...rest}
-      style={{
-        height: "100%",
-        width: "100%",
-      }}
+    // {...rest}
+    // style={{
+    //   height: "100%",
+    //   width: "100%",
+    // }}
     >
       {children}
     </swiper-slide>

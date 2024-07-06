@@ -34,3 +34,10 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+<!-- notes -->
+ExploreOurProducts.js:
+in ExploreOurProduct, i am using a trick ti get the desired grid outcome,
+can not use swiper react, havnt looked into a different library, at this stage using this trick,
+render 2 cards in one swiper-slide, now managing the data with the array, for now the way is plit data into 2 arrys each of them contains the half of the intial array data (the initial array contains 7 then 4 in first one (this one will be responsible for the map method) and 3 in the second one ) now inside the render prop the Slider.Slide would render 2 productCards first one would recieve the product from first array and the second one would recieve the product from the second array,
+<!--  -->

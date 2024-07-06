@@ -1,10 +1,13 @@
+"use client";
 import BestSellingProductSlider from "@/app/_components/BestSellingProductSlider";
 import CategorySlider from "@/app/_components/CategorySlider";
 import LayoutPadding from "@/app/_components/LayoutPadding";
 import ProductSlider from "@/app/_components/ProductSlider";
 import Showcase from "@/app/_components/Showcase";
+import ExploreOurProducts from "@/app/_components/ExploreOurProducts";
+import Swiper from "./_components/Swiper";
 
-export default async function Home() {
+export default function Home() {
   return (
     <main className="overflow-x-hidden">
       <Showcase />
@@ -21,6 +24,10 @@ export default async function Home() {
       {/* Best Selling product */}
       <section className="best-selling-product">
         <BestSellingProductSlider />
+      </section>
+      {/* use this 15 for now */}
+      <section className="explore-our-products mt-15">
+        <ExploreOurProducts />
       </section>
     </main>
   );

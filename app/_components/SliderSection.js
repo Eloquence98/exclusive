@@ -42,10 +42,10 @@ function SliderSection({
             {navigateButtons ? (
               <>
                 <Swiper.Prev
-                  className={`${sliderProps.navigation.prevEl.replace(".", "")}`}
+                  className={`${sliderProps.navigation?.prevEl.replace(".", "")}`}
                 />
                 <Swiper.Next
-                  className={`${sliderProps.navigation.nextEl.replace(".", "")}`}
+                  className={`${sliderProps.navigation?.nextEl.replace(".", "")}`}
                 />
               </>
             ) : (
