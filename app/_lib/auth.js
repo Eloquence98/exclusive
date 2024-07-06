@@ -21,6 +21,15 @@ const authConfig = {
     //   },
     // }),
   ],
+  callbacks: {
+    authorized({ auth, request }) {
+      // !! convert any value into a boolean
+      return !!auth?.user;
+    },
+  },
+  pages: {
+    signIn: "/login"
+  }
 };
 
 export const {
