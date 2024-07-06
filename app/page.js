@@ -6,6 +6,7 @@ import ProductSlider from "@/app/_components/ProductSlider";
 import Showcase from "@/app/_components/Showcase";
 import ExploreOurProducts from "@/app/_components/ExploreOurProducts";
 import Swiper from "./_components/Swiper";
+import NewArival from "./_components/NewArival";
 
 export default function Home() {
   return (
@@ -28,6 +29,10 @@ export default function Home() {
       {/* use this 15 for now */}
       <section className="explore-our-products mt-15">
         <ExploreOurProducts />
+      </section>
+      {/* new arival */}
+      <section className="new-arival mt-15">
+        <NewArival />
       </section>
     </main>
   );
