@@ -1,8 +1,6 @@
 import Link from "next/link";
 import Button from "./Button";
-import { signInAction } from "../_lib/actions";
 import GoogleSignIn from "./GoogleSignIn";
-import SignInButton from "./SignInButton";
 
 const Form = () => {
   return (
@@ -24,7 +22,6 @@ const Form = () => {
       </form>
 
       <GoogleSignIn />
-      {/* <SignInButton /> */}
 
       <p className="mt-4 text-center">
         Already have an account?{" "}

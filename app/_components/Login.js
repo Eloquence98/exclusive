@@ -1,10 +1,10 @@
-import SignInButton from "./SignInButton";
+import GoogleSignIn from "./GoogleSignIn";
 
 function Login() {
   return (
     <div>
       {" "}
-      <SignInButton />{" "}
+      <GoogleSignIn />
     </div>
   );
 }
