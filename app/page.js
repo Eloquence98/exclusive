@@ -10,7 +10,7 @@ import NewArival from "./_components/NewArival";
 
 export default function Home() {
   return (
-    <main className="overflow-x-hidden">
+    <>
       <Showcase />
       {/* Today's Sale */}
       <section className="sale mt-35">
@@ -34,7 +34,7 @@ export default function Home() {
       <section className="new-arival mt-15">
         <NewArival />
       </section>
-    </main>
+    </>
   );
 }
 
