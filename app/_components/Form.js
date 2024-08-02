@@ -2,7 +2,7 @@ import Link from "next/link";
 import Button from "./Button";
 import GoogleSignIn from "./GoogleSignIn";
 
-const Form = () => {
+function Form() {
   return (
     <>
       <form className="mx-auto mt-8 w-full max-w-sm">
@@ -25,13 +25,13 @@ const Form = () => {
 
       <p className="mt-4 text-center">
         Already have an account?{" "}
-        <Link href="/" class="text-primary hover:underline">
+        <Link href="/login" class="text-primary hover:underline">
           Log in
         </Link>
       </p>
     </>
   );
-};
+}
 
 export default Form;
 
