@@ -23,7 +23,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${poppins.className} mx-auto max-w-8xl bg-white`}>
         <Header />
-        {children}
+        <main className="mb-24 min-h-[calc(100dvh-4.625rem)] overflow-x-hidden">
+          {children}
+        </main>
         <Footer />
       </body>
     </html>
