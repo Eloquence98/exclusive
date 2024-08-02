@@ -1,14 +1,39 @@
-import Form from "./Form";
+import Link from "next/link";
+import Button from "./Button";
+import FormInput from "./FormInput";
+import GoogleSignIn from "./GoogleSignIn";
 
 function Signup() {
   return (
-    <div className="max-w-md space-y-6">
-      <div className="space-y-2">
-        <h1 className="text-4xl font-medium">Create an account</h1>
-        <p className="">Enter your details below</p>
-      </div>
-      <Form />
-    </div>
+    <>
+      <form className="mx-auto mt-8 w-full max-w-sm">
+        <FormInput type="text" name="name" placeholder="Name" required />
+        <FormInput type="text" name="email" placeholder="Email" required />
+        <FormInput
+          type="password"
+          name="password"
+          placeholder="Password"
+          required
+        />
+
+        {/* <Button type="submit" primary>
+          Create Account
+        </Button> */}
+        <Button className="w-full">Create Account</Button>
+      </form>
+
+      <GoogleSignIn />
+
+      <p className="mt-4 text-center">
+        Already have an account?{" "}
+        <Link
+          href="/login"
+          class="text-primary hover:text-primary-hover hover:underline"
+        >
+          Log in
+        </Link>
+      </p>
+    </>
   );
 }
 
