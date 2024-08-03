@@ -39,7 +39,7 @@ function CategorySlider() {
         },
       }}
       render={(category) => (
-        <Swiper.Slide key={category}>
+        <Swiper.Slide key={category?.name}>
           <CategoryCard category={category} />
         </Swiper.Slide>
       )}

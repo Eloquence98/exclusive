@@ -18,7 +18,8 @@ export async function getProductById(id) {
   }
 }
 
-export async function getProducts({ section }) {
+export async function getProducts(section) {
+  console.log(`Section inza fetch function ${section}`);
   try {
     const response = await fetch("https://fakestoreapi.com/products");
 

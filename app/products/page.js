@@ -8,6 +8,7 @@ export const metadata = {
 
 function Page({ searchParams }) {
   const section = searchParams?.section ?? "explore our products";
+  console.log(`Section inza page ${section}`);
 
   return (
     <div>

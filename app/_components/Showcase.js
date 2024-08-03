@@ -47,7 +47,7 @@ function SideNavigation() {
 function Showcase() {
   return (
     <LayoutPadding>
-      <section className="h-99 grid grid-rows-1 xl:grid-cols-[14.5625em,1fr]">
+      <section className="grid h-99 grid-rows-1 xl:grid-cols-[14.5625em,1fr]">
         <aside className="sideNavigation hidden border-r border-border pr-4 pt-10 xl:block">
           <SideNavigation />
         </aside>

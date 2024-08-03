@@ -11,15 +11,15 @@ const inter = Inter({
 });
 
 function SliderSection({
-  subHeading,
-  heading,
-  countDown,
-  category,
-  navigateButtons,
-  sliderProps,
-  href,
-  data,
-  render,
+  subHeading = "Today's",
+  heading = "Flash Sales",
+  countDown = { isNeeded: false, props: null },
+  category = false,
+  navigateButtons = false,
+  sliderProps = {},
+  href = "",
+  data = [],
+  render = (e) => console.log(e),
 }) {
   return (
     <LayoutPadding>
@@ -75,18 +75,6 @@ function SliderSection({
     </LayoutPadding>
   );
 }
-
-SliderSection.defaultProps = {
-  subHeading: "Today's",
-  heading: "Flash Sales",
-  href: "",
-  countDown: { isNeeded: false, props: null },
-  category: false,
-  navigateButtons: false,
-  sliderProps: {},
-  data: [],
-  render: (e) => console.log(e),
-};
 
 SliderSection.propTypes = {
   subHeading: PropTypes.string,
