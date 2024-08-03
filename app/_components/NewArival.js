@@ -66,11 +66,20 @@ function NewArival() {
           </div>
         </div>
 
-        <div className="grid h-[600px] grid-cols-[1fr_0.5fr_0.5fr] grid-rows-2 gap-8">
-          <ProductShowcaseCard className="row-span-2" product={product1} />
-          <ProductShowcaseCard className="col-span-2" product={product2} />
-          <ProductShowcaseCard product={product3} />
-          <ProductShowcaseCard product={product4} />
+        <div className="grid grid-cols-1 grid-rows-[repeat(2,_300px)] gap-8 md:grid-cols-2 md:grid-rows-[repeat(2,_400px)] lg:h-[600px] lg:grid-cols-[1fr_0.5fr_0.5fr] lg:grid-rows-2 xl:grid-cols-[1fr_0.5fr_0.5fr] xl:grid-rows-2">
+          <ProductShowcaseCard
+            className="lg:row-span-2 xl:row-span-2"
+            product={product1}
+          />
+          <ProductShowcaseCard
+            className="lg:col-span-2 xl:col-span-2"
+            product={product2}
+          />
+          <ProductShowcaseCard
+            className="hidden md:col-span-2 md:block xl:col-span-1"
+            product={product3}
+          />
+          <ProductShowcaseCard className="hidden xl:block" product={product4} />
         </div>
       </div>
     </LayoutPadding>
