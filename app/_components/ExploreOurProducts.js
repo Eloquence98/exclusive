@@ -18,8 +18,9 @@ function ExploreOurProducts() {
 
   return (
     <SliderSection
-      subHeading="Our Products"
-      heading="Explore Our Products"
+      subHeading="our products"
+      heading="explore our products"
+      href={`/products?section=${encodeURIComponent("explore our products")}`}
       countDown={{ isNeeded: false, props: null }}
       category={false}
       navigateButtons={true}

@@ -7,8 +7,8 @@ import CategoryCard from "./CategoryCard";
 function CategorySlider() {
   return (
     <SliderSection
-      subHeading="Categories"
-      heading="Browse By Category"
+      subHeading="categories"
+      heading="browse by category"
       countDown={{ isNeeded: false, props: null }}
       category={true}
       navigateButtons={true}
@@ -39,7 +39,7 @@ function CategorySlider() {
         },
       }}
       render={(category) => (
-        <Swiper.Slide key={category}>
+        <Swiper.Slide key={category?.name}>
           <CategoryCard category={category} />
         </Swiper.Slide>
       )}

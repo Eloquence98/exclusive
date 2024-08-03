@@ -5,7 +5,7 @@ export async function getProductById(id) {
     const response = await fetch(`https://fakestoreapi.com/products/${id}`);
 
     // For testing
-    // await new Promise((res) => setTimeout(res, 2000));
+    // await new Promise((res) => setTimeout(res, 5000));
 
     if (!response.ok) {
       throw new Error("Network response was not ok");
@@ -18,9 +18,12 @@ export async function getProductById(id) {
   }
 }
 
-export async function getProducts() {
+export async function getProducts(section) {
+  console.log(`Section inza fetch function ${section}`);
   try {
     const response = await fetch("https://fakestoreapi.com/products");
+
+    // await new Promise((res) => setTimeout(res, 5000));
 
     if (!response.ok) {
       throw new Error("Network response was not ok");

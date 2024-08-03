@@ -7,8 +7,9 @@ import { tempProducts } from "@/app/_lib/tempData";
 function BestSellingProductSlider() {
   return (
     <SliderSection
-      subHeading="This Month"
-      heading="Best Selling Products"
+      subHeading="this month"
+      heading="best selling products"
+      href={`/products?section=${encodeURIComponent("best selling products")}`}
       countDown={{ isNeeded: false, props: null }}
       category={false}
       navigateButtons={false}

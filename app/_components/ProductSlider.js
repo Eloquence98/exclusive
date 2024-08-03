@@ -11,8 +11,9 @@ const OverflowStyles = `.swiper {
 function ProductSlider() {
   return (
     <SliderSection
-      subHeading="Today's"
-      heading="Flash Sales"
+      subHeading="today's"
+      heading="flash sales"
+      href={`/products?section=${encodeURIComponent("flash sales")}`}
       countDown={{ isNeeded: true, props: { hours: 25 } }}
       category={false}
       navigateButtons={true}
