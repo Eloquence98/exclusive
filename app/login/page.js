@@ -1,10 +1,11 @@
-import RegisterUser from "../_components/RegisterUser";
-// import SignInButton from "../_components/SignInButton";
+import RegisterUser from "@/app/_components/RegisterUser";
 
 export const metadata = {
   title: "Login",
 };
 
-export default function Page() {
+function Page() {
   return <RegisterUser />;
 }
+
+export default Page;

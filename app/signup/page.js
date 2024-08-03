@@ -1,4 +1,4 @@
-import RegisterUser from "../_components/RegisterUser";
+import RegisterUser from "@/app/_components/RegisterUser";
 
 export const metadata = {
   title: "Signup",
