@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { getProducts } from "../_lib/data-service";
 
-async function ProductList() {
-  const products = await getProducts();
+async function ProductList({ section }) {
+  // use section param for specific products when use the actual API
+  const products = await getProducts({ section });
 
   if (!products.length) return null;
   return (

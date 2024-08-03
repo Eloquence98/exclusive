@@ -17,6 +17,7 @@ function SliderSection({
   category,
   navigateButtons,
   sliderProps,
+  href,
   data,
   render,
 }) {
@@ -24,7 +25,7 @@ function SliderSection({
     <LayoutPadding>
       <div className="reuse-slider-section">
         <div className="section-stats mb-10 flex min-h-25 gap-22">
-          <div className="headings flex flex-col justify-between">
+          <div className="headings flex flex-col justify-between capitalize">
             <h3 className="text-regular relative pl-9 font-semibold leading-9 text-primary">
               <span className="absolute left-0 top-0 inline-block h-full w-5 rounded bg-primary"></span>
               {subHeading}
@@ -49,9 +50,7 @@ function SliderSection({
                 />
               </>
             ) : (
-              <Button as="link" href="/">
-                View All
-              </Button>
+              <DoINeedViewAllButton href={href} />
             )}
           </div>
         </div>
@@ -67,7 +66,7 @@ function SliderSection({
 
         {!category && navigateButtons ? (
           <div className="mt-14 inline-flex w-full items-center justify-center">
-            <Button as="link" href="/">
+            <Button as="link" href={href}>
               View All Products
             </Button>
           </div>
@@ -80,6 +79,7 @@ function SliderSection({
 SliderSection.defaultProps = {
   subHeading: "Today's",
   heading: "Flash Sales",
+  href: "",
   countDown: { isNeeded: false, props: null },
   category: false,
   navigateButtons: false,
@@ -91,6 +91,7 @@ SliderSection.defaultProps = {
 SliderSection.propTypes = {
   subHeading: PropTypes.string,
   heading: PropTypes.string,
+  href: PropTypes.string,
   countDown: PropTypes.shape({
     isNeeded: PropTypes.bool,
     props: PropTypes.object,
@@ -103,3 +104,13 @@ SliderSection.propTypes = {
 };
 
 export default SliderSection;
+
+function DoINeedViewAllButton({ href }) {
+  if (!href) return null;
+
+  return (
+    <Button as="link" href={href}>
+      View All
+    </Button>
+  );
+}

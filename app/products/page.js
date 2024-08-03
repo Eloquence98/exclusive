@@ -6,15 +6,17 @@ export const metadata = {
   title: "Products",
 };
 
-function page() {
+function Page({ searchParams }) {
+  const section = searchParams?.section ?? "explore our products";
+
   return (
     <div>
       <h1 className="mb-12 text-center text-8xl text-primary">Products</h1>
       <Suspense fallback={<Spinner />}>
-        <ProductList />
+        <ProductList section={section} />
       </Suspense>
     </div>
   );
 }
 
-export default page;
+export default Page;

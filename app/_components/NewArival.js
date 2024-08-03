@@ -4,10 +4,10 @@ import SliderSection from "./SliderSection";
 function NewArival() {
   return (
     <SliderSection
-      subHeading="Featured"
-      heading="New Arival"
-      data={[{ item: 1, title: "item" }]}
-      render={(item) => <h1>Test this one here</h1>}
+      subHeading="featured"
+      heading="new arival"
+      data={[{ item: 1, title: "nigga" }]}
+      render={(item) => <h1> {item.title} Test this one here</h1>}
     />
   );
 }
