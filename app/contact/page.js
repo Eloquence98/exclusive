@@ -1,4 +1,5 @@
-import { HiOutlinePhone, HiOutlineEnvelope } from "react-icons/hi2";
+import { HiOutlineEnvelope, HiOutlinePhone } from "react-icons/hi2";
+import ContactForm from "../_components/ContactForm";
 import HeadingSmall from "../_components/HeadingSmall";
 import LayoutPadding from "../_components/LayoutPadding";
 import StyledIcon from "../_components/StyledIcon";
@@ -30,7 +31,9 @@ function page() {
           </div>
         </div>
 
-        <div className="form p-6 shadow-sm">Form</div>
+        <div className="form p-6 shadow-sm">
+          <ContactForm />
+        </div>
       </div>
     </LayoutPadding>
   );
