@@ -1,4 +1,3 @@
-"use client";
 import BestSellingProductSlider from "@/app/_components/BestSellingProductSlider";
 import CategorySlider from "@/app/_components/CategorySlider";
 import ExploreOurProducts from "@/app/_components/ExploreOurProducts";
