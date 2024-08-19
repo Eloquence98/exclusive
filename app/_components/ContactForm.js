@@ -1,28 +1,21 @@
 "use client";
+import { contactGeneralInquiry } from "../_lib/actions";
 import {
-  validateAddress,
   validateEmail,
   validateInput,
   validateName,
+  validatePhone,
 } from "../_utills/errorValidations";
 import { useError } from "../_utills/useError";
-import { Address, Email, Text } from "./Input";
+import { Email, Phone, Text, Textarea } from "./Input";
 
 function ContactForm({ className }) {
-  const [emailError, setEmailError, emailRef] = useError();
-  const [firstNameError, setFirstNameError, firstNameRef] = useError();
   const [lastNameError, setLastNameError, lastNameRef] = useError();
-  const [streetAddressError, setStreetAddressError, streetAddressRef] =
-    useError();
-  const [cityError, setCityError, cityRef] = useError();
-  const [postalCodeError, setPostalCodeError, postalCodeRef] = useError();
+  const [emailError, setEmailError, emailRef] = useError();
+  const [phoneError, setPhoneError, phoneRef] = useError();
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    if (!firstNameRef.current.validity.valid) {
-      setFirstNameError(validateName(firstNameRef.current)?.message);
-      return;
-    }
+  function handleSubmit(formData) {
+    // Client side validation for ux
     if (!lastNameRef.current.validity.valid) {
       setLastNameError(validateName(lastNameRef.current)?.message);
       return;
@@ -31,36 +24,19 @@ function ContactForm({ className }) {
       setEmailError(validateEmail(emailRef.current)?.message);
       return;
     }
-    if (!streetAddressRef.current.validity.valid) {
-      setStreetAddressError(
-        showAddressError(streetAddressRef.current)?.message,
-      );
-      return;
-    }
-    if (!cityRef.current.validity.valid) {
-      setCityError(showAddressError(cityRef.current)?.message);
-      return;
-    }
-    if (!postalCodeRef.current.validity.valid) {
-      setPostalCodeError(showAddressError(postalCodeRef.current)?.message);
-      return;
-    }
-    console.log("Submit?");
+    // submit
+    // Server Action
+    contactGeneralInquiry(formData);
   }
 
   return (
-    <form noValidate onSubmit={handleSubmit}>
-      <Text
-        label="First name"
-        name="firstName"
-        id="first-name"
-        error={firstNameError}
-        setError={setFirstNameError}
-        textEl={firstNameRef}
-        onInputChange={(event) =>
-          validateInput(event.target, setFirstNameError, validateName)
-        }
-      />
+    <form
+      className={`${className} grid grid-cols-1 grid-rows-[max-content_max-content_max-content_1fr] gap-3 md:grid-cols-3 md:grid-rows-[max-content_1fr]`}
+      noValidate
+      // onSubmit={handleSubmit}
+      action={handleSubmit}
+      // action={contactGeneralInquiry}
+    >
       <Text
         label="Last name"
         name="lastName"
@@ -81,51 +57,21 @@ function ContactForm({ className }) {
           validateInput(event.target, setEmailError, validateEmail)
         }
       />
-      <fieldset className="address-fieldset">
-        <legend>Address Details</legend>
-        <Address
-          label="Street Address:"
-          name="streetAddress"
-          id="street-address"
-          pattern="[a-zA-Z0-9\s,.\-]+"
-          dataPattern="street"
-          error={streetAddressError}
-          setError={setStreetAddressError}
-          addressEl={streetAddressRef}
-          onInputChange={(event) =>
-            validateInput(event.target, setStreetAddressError, validateAddress)
-          }
-        />
-        <Address
-          label="City:"
-          name="city"
-          id="city"
-          pattern="[a-zA-Z0-9\s,.\-]+"
-          dataPattern="city"
-          error={cityError}
-          setError={setCityError}
-          addressEl={cityRef}
-          onInputChange={(event) =>
-            validateInput(event.target, setCityError, validateAddress)
-          }
-        />
-        <Address
-          label="Postal Code:"
-          name="postalCode"
-          id="postal-code"
-          minLength="6"
-          maxLength="8"
-          pattern="[A-Z0-9 ]{6,8}"
-          dataPattern="postalCode"
-          title="Please enter a valid UK postal code."
-          error={postalCodeError}
-          setError={setPostalCodeError}
-          addressEl={postalCodeRef}
-          onInputChange={(event) =>
-            validateInput(event.target, setPostalCodeError, validateAddress)
-          }
-        />
-      </fieldset>
+      <Phone
+        phoneEl={phoneRef}
+        error={phoneError}
+        setError={setPhoneError}
+        onInputChange={(event) =>
+          validateInput(event.target, setPhoneError, validatePhone)
+        }
+      />
+      <Textarea
+        className="md:col-span-3"
+        id="contact-message"
+        name="contactMessage"
+        rows="5"
+        cols="33"
+      />
       <button>Submit</button>
     </form>
   );

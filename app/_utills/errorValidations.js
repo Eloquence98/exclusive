@@ -5,19 +5,27 @@ export function validateEmail(email) {
     case email.validity.valueMissing:
       return {
         error: email.validity.valueMissing,
-        message: "You need to enter an e-mail address.",
+        message: "You need to enter an email address.",
       };
 
     case email.validity.typeMismatch:
       return {
         error: email.validity.typeMismatch,
-        message: "Entered value needs to be an e-mail address.",
+        message:
+          "Entered value needs to be a valid email address (e.g., 'example@domain.com').",
       };
 
-    case email.validity.tooShort:
+    case email.validity.patternMismatch:
       return {
-        error: email.validity.tooShort,
-        message: `Email should be at least ${email.minLength} characters; you entered ${email.value.length}.`,
+        error: email.validity.patternMismatch,
+        message:
+          "Email address should be in the format 'user@domain.com' and may include special characters like '.' or '-' but should not exceed 320 characters.",
+      };
+
+    case email.validity.tooLong:
+      return {
+        error: email.validity.tooLong,
+        message: "Email address should be no more than 320 characters long.",
       };
 
     default:
@@ -58,6 +66,45 @@ export function validateName(name) {
         error: name.validity.patternMismatch,
         message:
           "Name should contain only letters and numbers (no special characters).",
+      };
+
+    default:
+      return null;
+  }
+}
+
+export function validatePhone(phoneNumber) {
+  if (!phoneNumber?.validity) return null;
+
+  switch (true) {
+    case phoneNumber.validity.valueMissing:
+      return {
+        error: phoneNumber.validity.valueMissing,
+        message: "You need to enter a phone number.",
+      };
+
+    case phoneNumber.validity.typeMismatch:
+      return {
+        error: phoneNumber.validity.typeMismatch,
+        message: "Entered value needs to be a valid phone number.",
+      };
+
+    case phoneNumber.validity.tooShort:
+      return {
+        error: phoneNumber.validity.tooShort,
+        message: `Number should be at least ${phoneNumber.minLength} characters; you entered ${phoneNumber.value.length}.`,
+      };
+
+    case phoneNumber.validity.tooLong:
+      return {
+        error: phoneNumber.validity.tooLong,
+        message: `Number should be no more than ${phoneNumber.maxLength} characters; you entered ${phoneNumber.value.length}.`,
+      };
+
+    case phoneNumber.validity.patternMismatch:
+      return {
+        error: phoneNumber.validity.patternMismatch,
+        message: "Enter a phone number in the format: 123-456-7890",
       };
 
     default:

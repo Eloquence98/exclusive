@@ -11,8 +11,9 @@ export function Text({
   error,
   setError,
   textEl,
+  required = true,
   onInputChange,
-  className,
+  className = "",
 }) {
   const ref = useOutsideClick(clearError);
   function clearError() {
@@ -21,7 +22,17 @@ export function Text({
   return (
     <p className="" ref={ref}>
       <label className="relative w-full" htmlFor={id}>
-        {label ? <span> {label} </span> : null}
+        {label ? (
+          <span>
+            {label}{" "}
+            {required && (
+              <span className="relative -left-1 -top-1 text-red-700">
+                {" "}
+                &#42;{" "}
+              </span>
+            )}
+          </span>
+        ) : null}
         <input
           ref={textEl}
           className={`${className} ${baseStyles}`}
@@ -29,17 +40,14 @@ export function Text({
           id={id}
           name={name}
           autoComplete="off"
-          required
+          required={required}
           pattern="[a-zA-Z0-9]+"
           title="Please enter only letters and numbers (no special characters)."
           minLength="2"
           maxLength="30"
           onInput={onInputChange}
         />
-        <FormRowError
-          error={error}
-          tempError="Entered value needs to be a name."
-        />
+        <FormRowError error={error} tempError="You need to enter a name." />
       </label>
     </p>
   );
@@ -50,8 +58,12 @@ export function Email({
   error,
   setError,
   emailEl,
+  pattern = "^[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]{1,255}.[a-zA-Z]{2,63}$",
+  title = "Please enter a valid email address (e.g., 'example@domain.com').",
+  maxLength = "320",
+  required = true,
   onInputChange,
-  className,
+  className = "",
 }) {
   const ref = useOutsideClick(clearError);
   function clearError() {
@@ -60,22 +72,138 @@ export function Email({
   return (
     <p className="" ref={ref}>
       <label className="relative w-full" htmlFor="mail">
-        {label ? <span> {label} </span> : null}
+        {label ? (
+          <span>
+            {label}{" "}
+            {required && (
+              <span className="relative -left-1 -top-1 text-red-700">
+                {" "}
+                &#42;{" "}
+              </span>
+            )}
+          </span>
+        ) : null}
         <input
           ref={emailEl}
           className={`${className} ${baseStyles}`}
           type="email"
           id="mail"
-          name="mail"
+          name="email"
           autoComplete="off"
-          required
-          minLength="8"
-          maxLength="50"
+          pattern={pattern}
+          title={title}
+          required={required}
+          maxLength={maxLength}
           onInput={onInputChange}
         />
         <FormRowError
           error={error}
           tempError="Entered value needs to be an e-mail."
+        />
+      </label>
+    </p>
+  );
+}
+
+export function Phone({
+  label = "Phone",
+  name = "phone",
+  id = "phone",
+  required = true,
+  error,
+  setError,
+  phoneEl,
+  onInputChange,
+  className = "",
+}) {
+  const ref = useOutsideClick(clearError);
+  function clearError() {
+    setError("");
+  }
+  return (
+    <p className="" ref={ref}>
+      <label className="relative w-full" htmlFor={id}>
+        {label ? (
+          <span>
+            {label}{" "}
+            {required && (
+              <span className="relative -left-1 -top-1 text-red-700">
+                {" "}
+                &#42;{" "}
+              </span>
+            )}
+          </span>
+        ) : null}
+        <input
+          ref={phoneEl}
+          className={`${className} ${baseStyles}`}
+          type="tel"
+          id={id}
+          name={name}
+          pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+          required={required}
+          title="Enter a phone number in the format: 123-456-7890"
+          size="20"
+          minLength="9"
+          maxLength="14"
+          onInput={onInputChange}
+        />
+        <FormRowError
+          error={error}
+          tempError="Enter a phone number in the format: 123-456-7890"
+        />
+      </label>
+    </p>
+  );
+}
+
+export function Textarea({
+  id = "contact-message",
+  name = "contactMessage",
+  rows = "5",
+  cols = "33",
+  label = "Your message",
+  required = false,
+  error,
+  setError,
+  textareaEl,
+  className = "",
+  onInputChange,
+}) {
+  const ref = useOutsideClick(clearError);
+  function clearError() {
+    setError("");
+  }
+  return (
+    <p ref={textareaEl} className={`${className} ""`}>
+      <label className="relative w-full" htmlFor={id}>
+        {label ? (
+          <span>
+            {label}{" "}
+            {required && (
+              <span className="relative -left-1 -top-1 text-red-700">
+                {" "}
+                &#42;{" "}
+              </span>
+            )}
+          </span>
+        ) : null}
+
+        <textarea
+          className={`${baseStyles} resize-none`}
+          id={id}
+          name={name}
+          rows={rows}
+          cols={cols}
+          required={required}
+          maxLength="300"
+          onInput={onInputChange}
+        >
+          It was a dark and stormy night...
+        </textarea>
+        <FormRowError
+          error={error}
+          tempError="This is a error message for the text area set it when it's required"
         />
       </label>
     </p>
@@ -95,7 +223,7 @@ export function Address({
   setError,
   addressEl,
   onInputChange,
-  className,
+  className = "",
 }) {
   const ref = useOutsideClick(clearError);
 
