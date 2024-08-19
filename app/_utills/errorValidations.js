@@ -125,14 +125,27 @@ export function validateAddress(address) {
 }
 
 export function validateInput(
-  event = {},
-  setError = () => console.log("pass in a error state setter function"),
-  validationFunction = () => console.log("pass in a error validation function"),
+  inputElement = document.createElement("input"),
+  setError = () => console.log("pass in an error state setter function"),
+  validationFunction = () =>
+    console.log("pass in an error validation function"),
 ) {
-  const input = event.target;
-  if (input.validity.valid) {
+  if (inputElement.validity.valid) {
     setError("");
   } else {
-    setError(validationFunction(input)?.message);
+    setError(validationFunction(inputElement)?.message);
   }
 }
+
+// export function validateInput(
+//   event = {},
+//   setError = () => console.log("pass in a error state setter function"),
+//   validationFunction = () => console.log("pass in a error validation function"),
+// ) {
+//   const input = event.target;
+//   if (input.validity.valid) {
+//     setError("");
+//   } else {
+//     setError(validationFunction(input)?.message);
+//   }
+// }

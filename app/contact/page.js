@@ -31,9 +31,7 @@ function page() {
           </div>
         </div>
 
-        <div className="form p-6 shadow-sm">
-          <ContactForm />
-        </div>
+        <ContactForm className="form p-6 shadow-sm" />
       </div>
     </LayoutPadding>
   );

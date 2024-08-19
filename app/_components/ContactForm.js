@@ -8,7 +8,7 @@ import {
 import { useError } from "../_utills/useError";
 import { Address, Email, Text } from "./Input";
 
-function ContactForm() {
+function ContactForm({ className }) {
   const [emailError, setEmailError, emailRef] = useError();
   const [firstNameError, setFirstNameError, firstNameRef] = useError();
   const [lastNameError, setLastNameError, lastNameRef] = useError();
@@ -58,7 +58,7 @@ function ContactForm() {
         setError={setFirstNameError}
         textEl={firstNameRef}
         onInputChange={(event) =>
-          validateInput(event, setFirstNameError, validateName)
+          validateInput(event.target, setFirstNameError, validateName)
         }
       />
       <Text
@@ -69,7 +69,7 @@ function ContactForm() {
         setError={setLastNameError}
         textEl={lastNameRef}
         onInputChange={(event) =>
-          validateInput(event, setLastNameError, validateName)
+          validateInput(event.target, setLastNameError, validateName)
         }
       />
       <Email
@@ -78,7 +78,7 @@ function ContactForm() {
         error={emailError}
         setError={setEmailError}
         onInputChange={(event) =>
-          validateInput(event, setEmailError, validateEmail)
+          validateInput(event.target, setEmailError, validateEmail)
         }
       />
       <fieldset className="address-fieldset">
@@ -93,7 +93,7 @@ function ContactForm() {
           setError={setStreetAddressError}
           addressEl={streetAddressRef}
           onInputChange={(event) =>
-            validateInput(event, setStreetAddressError, validateAddress)
+            validateInput(event.target, setStreetAddressError, validateAddress)
           }
         />
         <Address
@@ -106,7 +106,7 @@ function ContactForm() {
           setError={setCityError}
           addressEl={cityRef}
           onInputChange={(event) =>
-            validateInput(event, setCityError, validateAddress)
+            validateInput(event.target, setCityError, validateAddress)
           }
         />
         <Address
@@ -122,7 +122,7 @@ function ContactForm() {
           setError={setPostalCodeError}
           addressEl={postalCodeRef}
           onInputChange={(event) =>
-            validateInput(event, setPostalCodeError, validateAddress)
+            validateInput(event.target, setPostalCodeError, validateAddress)
           }
         />
       </fieldset>
