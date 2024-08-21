@@ -13,12 +13,9 @@ export async function contactGeneralInquiry(formData) {
     );
   }
 
-  if (
-    !/^[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]{1,255}\.[a-zA-Z]{2,63}$/.test(email)
-  // if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-  ) {
+  if (!/^[a-z0-9._%+\-]+@[a-z0-9.-]+\.[a-z]{2,63}$/.test(email)) {
     throw new Error(
-      "Please enter a valid email address (e.g., 'example@domain.com'). The email address should not exceed 320 characters and must follow the format: 'user@domain.com'.",
+      "Please enter a valid email address (e.g., 'example@domain.com'). The email should follow the format 'user@domain.com', only contain valid characters, and must not exceed 320 characters.",
     );
   }
 

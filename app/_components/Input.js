@@ -58,7 +58,7 @@ export function Email({
   error,
   setError,
   emailEl,
-  pattern = "^[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]{1,255}.[a-zA-Z]{2,63}$",
+  pattern = "^[a-z0-9._%+\\-]+@[a-z0-9.-]+\\.[a-z]{2,63}$",
   title = "Please enter a valid email address (e.g., 'example@domain.com').",
   maxLength = "320",
   required = true,
@@ -90,6 +90,7 @@ export function Email({
           id="mail"
           name="email"
           autoComplete="off"
+          placeholder="example@domain.com"
           pattern={pattern}
           title={title}
           required={required}
@@ -144,6 +145,7 @@ export function Phone({
           required={required}
           title="Enter a phone number in the format: 123-456-7890"
           size="20"
+          placeholder="XXX-XXX-XXXX"
           minLength="9"
           maxLength="14"
           onInput={onInputChange}
@@ -196,11 +198,10 @@ export function Textarea({
           rows={rows}
           cols={cols}
           required={required}
+          defaultValue="It was a dark and stormy night..."
           maxLength="300"
           onInput={onInputChange}
-        >
-          It was a dark and stormy night...
-        </textarea>
+        ></textarea>
         <FormRowError
           error={error}
           tempError="This is a error message for the text area set it when it's required"

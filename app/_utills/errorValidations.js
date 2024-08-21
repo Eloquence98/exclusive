@@ -5,27 +5,26 @@ export function validateEmail(email) {
     case email.validity.valueMissing:
       return {
         error: email.validity.valueMissing,
-        message: "You need to enter an email address.",
+        message: "Please enter your email address.",
       };
 
     case email.validity.typeMismatch:
       return {
         error: email.validity.typeMismatch,
-        message:
-          "Entered value needs to be a valid email address (e.g., 'example@domain.com').",
+        message: "This doesn't look like a valid email address.",
       };
 
     case email.validity.patternMismatch:
       return {
         error: email.validity.patternMismatch,
         message:
-          "Email address should be in the format 'user@domain.com' and may include special characters like '.' or '-' but should not exceed 320 characters.",
+          "Email should be in the format 'user@domain.com' and should include only valid characters.",
       };
 
     case email.validity.tooLong:
       return {
         error: email.validity.tooLong,
-        message: "Email address should be no more than 320 characters long.",
+        message: "Email address must be 320 characters or less.",
       };
 
     default:
