@@ -5,7 +5,7 @@ import Hr from "@/app/_components/Hr";
 import NewArival from "@/app/_components/NewArival";
 import ProductSlider from "@/app/_components/ProductSlider";
 import Showcase from "@/app/_components/Showcase";
-import OurServices from "./_components/OurServices";
+import InformationPanel from "./_components/InformationPanel";
 
 export default function Home() {
   return (
@@ -29,7 +29,7 @@ export default function Home() {
         <NewArival />
       </section>
       <section className="our-services mt-15">
-        <OurServices />
+        <InformationPanel />
       </section>
     </>
   );
