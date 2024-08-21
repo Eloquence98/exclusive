@@ -11,6 +11,7 @@ const OverflowStyles = `.swiper {
 function ProductSlider() {
   return (
     <SliderSection
+      className="!overflow-x-hidden"
       subHeading="today's"
       heading="flash sales"
       href={`/products?section=${encodeURIComponent("flash sales")}`}

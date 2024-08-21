@@ -11,6 +11,7 @@ const inter = Inter({
 });
 
 function SliderSection({
+  className = "",
   subHeading = "Today's",
   heading = "Flash Sales",
   countDown = { isNeeded: false, props: null },
@@ -23,7 +24,7 @@ function SliderSection({
 }) {
   return (
     <LayoutPadding>
-      <div className="reuse-slider-section">
+      <div className={`${className} reuse-slider-section`}>
         <div className="section-stats mb-10 flex min-h-25 gap-22">
           <div className="headings flex flex-col justify-between capitalize">
             <h3 className="text-regular relative pl-9 font-semibold leading-9 text-primary">
