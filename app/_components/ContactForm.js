@@ -7,6 +7,7 @@ import {
   validatePhone,
 } from "../_utills/errorValidations";
 import { useError } from "../_utills/useError";
+import Button from "./Button";
 import { Email, Phone, Text, Textarea } from "./Input";
 
 function ContactForm({ className }) {
@@ -31,7 +32,7 @@ function ContactForm({ className }) {
 
   return (
     <form
-      className={`${className} grid grid-cols-1 grid-rows-[max-content_max-content_max-content_1fr] gap-3 md:grid-cols-3 md:grid-rows-[max-content_1fr]`}
+      className={`${className} grid grid-cols-1 grid-rows-[max-content_max-content_max-content_1fr_max-content] gap-3 md:grid-cols-3 md:grid-rows-[max-content_1fr_max-content]`}
       noValidate
       // onSubmit={handleSubmit}
       action={handleSubmit}
@@ -72,7 +73,9 @@ function ContactForm({ className }) {
         rows="5"
         cols="33"
       />
-      <button>Submit</button>
+      <div className="text-right md:col-span-3">
+        <Button>Send Massage</Button>
+      </div>
     </form>
   );
 }

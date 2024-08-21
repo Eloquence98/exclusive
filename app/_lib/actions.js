@@ -13,7 +13,7 @@ export async function contactGeneralInquiry(formData) {
     );
   }
 
-  if (!/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$/.test(email)) {
+  if (!/^[a-z0-9._%+\-]+@[a-z0-9.-]+\.[a-z]{2,63}$/.test(email)) {
     throw new Error(
       "Please enter a valid email address (e.g., 'example@domain.com'). The email should follow the format 'user@domain.com', only contain valid characters, and must not exceed 320 characters.",
     );
