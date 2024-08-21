@@ -9,5 +9,5 @@ export function middleware(request) {
 export const middleware = auth;
 
 export const config = {
-  matcher: ["/about"],
+  matcher: ["/account"],
 };
