@@ -111,6 +111,8 @@ export function validatePhone(phoneNumber) {
   }
 }
 
+// Follow the following pattern for other input validation functions or might leave it as it is for readability
+
 export function validateAddress(address) {
   if (!address?.validity) return null;
 
