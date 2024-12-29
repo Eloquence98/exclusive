@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { auth } from "../_lib/auth";
 import GuestArea from "./GuestArea";
 import LayoutPadding from "./LayoutPadding";
@@ -37,7 +38,9 @@ function Header() {
             ))}
           </div>
           <div className="ml-4">
-            <Search />
+            <Suspense fallback={<p>Loading</p>}>
+              <Search />
+            </Suspense>
           </div>
           <GuestArea className="ml-5" />
         </nav>
