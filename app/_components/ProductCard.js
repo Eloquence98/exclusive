@@ -3,7 +3,7 @@ import Image from "next/image";
 import StarRating from "./StarRating";
 import { formatCurrency } from "@/app/_utills/utility";
 
-function ProductCard({ product }) {
+function ProductCard({ className, product }) {
   const { image, title, price, discount, ratings } = product;
   const discountedPrice = price - discount;
   const percentOff = (discount / price) * 100;
@@ -11,7 +11,7 @@ function ProductCard({ product }) {
 
   return (
     // <div className="card space-y-2">
-    <div className="card space-y-2">
+    <div className={`${className} card space-y-2`}>
       <div className="image relative flex h-[15.625rem] w-full items-center justify-center rounded bg-secondary">
         <div className="image relative h-48 w-44">
           <Image
