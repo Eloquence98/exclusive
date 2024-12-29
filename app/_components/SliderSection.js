@@ -4,6 +4,7 @@ import LayoutPadding from "@/app/_components/LayoutPadding";
 import Swiper from "@/app/_components/Swiper";
 import { Inter } from "next/font/google";
 import PropTypes from "prop-types";
+import SectionLabel from "./SectionLabel";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -27,10 +28,7 @@ function SliderSection({
       <div className={`${className} reuse-slider-section`}>
         <div className="section-stats mb-10 flex min-h-25 gap-22">
           <div className="headings flex flex-col justify-between capitalize">
-            <h3 className="text-regular relative pl-9 font-semibold leading-9 text-primary">
-              <span className="absolute left-0 top-0 inline-block h-full w-5 rounded bg-primary"></span>
-              {subHeading}
-            </h3>
+            <SectionLabel> {subHeading} </SectionLabel>
             <h2
               className={`${inter.className} text-nowrap text-4xl font-semibold`}
             >

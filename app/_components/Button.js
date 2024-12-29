@@ -1,17 +1,37 @@
 import Link from "next/link";
 
-function Button({ as = "button", href = "/", className, children, ...rest }) {
+function Button({
+  as = "button",
+  variant = "primary",
+  href = "/",
+  className,
+  children,
+  secondary = false,
+  ...rest
+}) {
   const commonClasses =
-    "bg-primary hover:bg-primary-hover transition-colors duration-300 ease-in-out active:bg-primary-hover focus:outline-none focus:ring focus:ring-offset-2 focus:ring-primary-hover text-base font-medium text-white py-4 px-12 rounded";
+    "transition-colors border duration-300 ease-in-out focus:outline-none focus:ring focus:ring-offset-2 text-base font-medium py-4 px-12 rounded";
+
+  const styles = {
+    primary:
+      "bg-primary border-transparent hover:bg-primary-hover active:bg-primary-hover focus:ring-primary-hover text-white",
+    secondary: "border-discount bg-transparent text-black hover:bg-secondary",
+  };
 
   if (as === "link")
     return (
-      <Link href={href} className={`${commonClasses} ${className}`}>
+      <Link
+        href={href}
+        className={`${commonClasses} ${styles[variant]} ${className}`}
+      >
         {children}
       </Link>
     );
   return (
-    <button {...rest} className={`${commonClasses} ${className}`}>
+    <button
+      {...rest}
+      className={`${commonClasses} ${styles[variant]} ${className}`}
+    >
       {children}
     </button>
   );
