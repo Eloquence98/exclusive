@@ -1,11 +1,16 @@
+import CartTable from "@/app/_components/CartTable";
+import LayoutPadding from "../_components/LayoutPadding";
+
 export const metadata = {
   title: "Cart",
 };
 function page() {
   return (
-    <div>
-      <h1>Cart Page</h1>
-    </div>
+    <LayoutPadding>
+      <div className="mt-15">
+        <CartTable />
+      </div>
+    </LayoutPadding>
   );
 }
 
