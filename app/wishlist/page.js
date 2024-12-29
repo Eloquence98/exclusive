@@ -1,6 +1,6 @@
 import Button from "../_components/Button";
+import JustForYou from "../_components/JustForYou";
 import LayoutPadding from "../_components/LayoutPadding";
-import SectionLabel from "../_components/SectionLabel";
 
 export const metadata = {
   title: "Wishlist",
@@ -26,12 +26,7 @@ function page() {
           <div className="wishlist-body">them items goes here</div>
         </div>
 
-        <div styleName="for-you">
-          <div className="for-you-head">
-            <SectionLabel className="capitalize"> just for you </SectionLabel>
-          </div>
-          <div className="for-you-body"> them items goes here</div>
-        </div>
+        <JustForYou />
       </div>
     </LayoutPadding>
   );
