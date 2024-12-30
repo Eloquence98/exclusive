@@ -40,7 +40,7 @@ const services = [
 
 function page() {
   return (
-    <div className="px-layout md:px-layout-md lg:px-layout-lg">
+    <LayoutPadding>
       <div className="mt-15 space-y-15">
         <div className="grid grid-cols-1 grid-rows-[max-content_15rem] items-center justify-center gap-5 md:grid-cols-[0.8fr_1fr] md:grid-rows-[20rem]">
           <div className="item-1 space-y-2 sm:w-4/5 md:w-[unset]">
@@ -66,7 +66,7 @@ function page() {
         <OurTeam />
         <InformationPanel className="!px-[unset] md:!px-[unset] lg:!px-[unset]" />
       </div>
-    </div>
+    </LayoutPadding>
   );
 }
 
