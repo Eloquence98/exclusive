@@ -28,7 +28,7 @@ function Signup() {
         Already have an account?{" "}
         <Link
           href="/login"
-          class="text-primary hover:text-primary-hover hover:underline"
+          className="text-primary hover:text-primary-hover hover:underline"
         >
           Log in
         </Link>
