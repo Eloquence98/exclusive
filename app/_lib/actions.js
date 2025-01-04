@@ -46,3 +46,18 @@ export async function signOutAction() {
   //   await signOut({ redirectTo: "/" });
   await signOut();
 }
+
+export async function couponAction(formData) {
+  const coupon = formData.get("coupon");
+
+  if (!/^[A-Z0-9]{6,12}$/.test(coupon)) {
+    return {
+      error:
+        "Invalid coupon. Use 6-12 uppercase letters or numbers (e.g., SAVE20).",
+    };
+  }
+
+  // Proceed with processing the data (e.g., save to the database)
+  // e.g., await saveToDatabase({ coupon });
+  return { success: "Coupon code applied!" };
+}
