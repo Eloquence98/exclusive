@@ -258,3 +258,53 @@ export function Address({
     </p>
   );
 }
+
+export function CouponInput({
+  label,
+  error,
+  setError,
+  couponEl,
+  pattern = "^[A-Z0-9]{6,12}$",
+  title = "Coupon code must be 6-12 characters, uppercase letters, and numbers only (e.g., SAVE20)",
+  maxLength = "12",
+  required = true,
+  onInputChange,
+  className = "",
+}) {
+  const ref = useOutsideClick(clearError);
+  function clearError() {
+    setError("");
+  }
+  return (
+    <p className="" ref={ref}>
+      <label className="relative w-full" htmlFor="coupon">
+        {label ? (
+          <span>
+            {label}{" "}
+            {required && (
+              <span className="relative -left-1 -top-1 text-red-700">
+                {" "}
+                &#42;{" "}
+              </span>
+            )}
+          </span>
+        ) : null}
+        <input
+          ref={couponEl}
+          className={`${className} ${baseStyles}`}
+          type="coupon"
+          id="coupon"
+          name="coupon"
+          autoComplete="off"
+          placeholder="SAVE20"
+          pattern={pattern}
+          title={title}
+          required={required}
+          maxLength={maxLength}
+          onInput={onInputChange}
+        />
+        <FormRowError error={error} tempError="Invalid coupon code." />
+      </label>
+    </p>
+  );
+}

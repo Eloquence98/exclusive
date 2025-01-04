@@ -5,27 +5,19 @@ const TableContext = createContext();
 function Table({ columns, children }) {
   return (
     <TableContext.Provider value={{ columns }}>
-      <table className="w-full border-collapse border-spacing-0 overflow-hidden">
-        {children}
-      </table>
+      <div className="space-y-10 overflow-hidden">{children}</div>
     </TableContext.Provider>
   );
 }
 
-function Header({ tableRows }) {
+function Header({ children }) {
   const { columns } = useContext(TableContext);
   return (
-    <thead className="block px-10 py-6 shadow-md">
-      <tr
-        className={`grid-cols-[${columns}] ${columns} py-4.5 grid w-full items-center gap-4 text-sm font-medium capitalize tracking-wider text-gray-800`}
-      >
-        {tableRows.map((th) => (
-          <th key={th} scope="col" className="">
-            {th}
-          </th>
-        ))}
-      </tr>
-    </thead>
+    <div
+      className={`rounded-4xl grid items-center border border-slate-300 px-10 py-6 text-sm font-medium capitalize tracking-wider text-black ${columns} py-4.5 gap-4 px-6`}
+    >
+      {children}
+    </div>
   );
 }
 
@@ -34,28 +26,17 @@ function Row({ children, onClick = () => {} }) {
   return (
     <div
       onClick={onClick}
-      className={`grid items-center capitalize tracking-wider grid-cols-[${columns}] ${columns} group items-center gap-4 px-6 py-3 text-sm font-bold tracking-tight text-black transition-all duration-200 hover:bg-white`}
+      className={`rounded-4xl grid border border-slate-300 px-10 py-6 text-sm font-medium capitalize tracking-wider text-black ${columns} group gap-4 py-3 font-bold tracking-tight transition-all duration-200 hover:bg-white`}
     >
       {children}
     </div>
   );
 }
 
-function Body({ data, render }) {
-  if (!data?.length)
-    return (
-      <tbody>
-        <tr>
-          <th scope="row">No data to show at the moment</th>
-        </tr>
-      </tbody>
-    );
+function Body({ data, render, error }) {
+  if (!data?.length) return <p>{error || "No data to show at the moment"}</p>;
 
-  return (
-    <tbody className="divide-dashboard-border divide-y-[1px]">
-      {data?.map(render)}
-    </tbody>
-  );
+  return <div className="space-y-10">{data?.map(render)}</div>;
 }
 
 Table.Header = Header;

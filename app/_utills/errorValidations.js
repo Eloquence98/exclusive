@@ -197,3 +197,43 @@ export function validateInput(
 //     setError(validationFunction(input)?.message);
 //   }
 // }
+
+export function validateCoupon(coupon) {
+  if (!coupon?.validity) return null;
+
+  switch (true) {
+    case coupon.validity.valueMissing:
+      return {
+        error: coupon.validity.valueMissing,
+        message: "Please enter a coupon code.",
+      };
+
+    case coupon.validity.typeMismatch:
+      return {
+        error: coupon.validity.typeMismatch,
+        message: "Invalid input. Enter a valid coupon name.",
+      };
+
+    case coupon.validity.tooShort:
+      return {
+        error: coupon.validity.tooShort,
+        message: `Too short. Minimum ${coupon.minLength} characters required.`,
+      };
+
+    case coupon.validity.tooLong:
+      return {
+        error: coupon.validity.tooLong,
+        message: `Too long. Maximum ${coupon.maxLength} characters allowed.`,
+      };
+
+    case coupon.validity.patternMismatch:
+      return {
+        error: coupon.validity.patternMismatch,
+        message:
+          "Invalid code. Use 6-12 uppercase letters or numbers (e.g., SAVE20).",
+      };
+
+    default:
+      return null;
+  }
+}
