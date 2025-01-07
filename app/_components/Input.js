@@ -17,7 +17,7 @@ export function Text({
 }) {
   const ref = useOutsideClick(clearError);
   function clearError() {
-    setError("");
+    setError?.("");
   }
   return (
     <p className="" ref={ref}>
@@ -229,7 +229,7 @@ export function Address({
   const ref = useOutsideClick(clearError);
 
   function clearError() {
-    setError("");
+    setError?.("");
   }
 
   return (
@@ -273,7 +273,7 @@ export function CouponInput({
 }) {
   const ref = useOutsideClick(clearError);
   function clearError() {
-    setError("");
+    setError?.("");
   }
   return (
     <p className="" ref={ref}>
