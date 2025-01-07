@@ -10,7 +10,7 @@ function Button({
   ...rest
 }) {
   const commonClasses =
-    "transition-colors border duration-300 ease-in-out focus:outline-none focus:ring focus:ring-offset-2 text-base font-medium py-4 px-12 rounded";
+    "transition-colors capitalize border duration-300 ease-in-out focus:outline-none focus:ring focus:ring-offset-2 text-base font-medium py-4 px-12 rounded";
 
   const styles = {
     primary:
@@ -22,7 +22,7 @@ function Button({
     return (
       <Link
         href={href}
-        className={`${commonClasses} ${styles[variant]} ${className}`}
+        className={` ${commonClasses} ${styles[variant]} ${className}`}
       >
         {children}
       </Link>

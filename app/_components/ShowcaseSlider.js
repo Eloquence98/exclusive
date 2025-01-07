@@ -48,7 +48,7 @@ export default function ShowcaseSlider() {
       pagination={{
         clickable: true,
         renderBullet: function (index, className) {
-          return '<span class="' + className + '">' + index + "</span>";
+          return '<span className="' + className + '">' + index + "</span>";
         },
       }}
       initialSlide={2}

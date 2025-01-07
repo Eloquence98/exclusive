@@ -9,7 +9,7 @@ function NotFound() {
       </h1>
       <p>
         You may go back to all{" "}
-        <Link href="/" class="text-primary hover:underline">
+        <Link href="/" className="text-primary hover:underline">
           products
         </Link>
         .

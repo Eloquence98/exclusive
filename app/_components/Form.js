@@ -25,7 +25,7 @@ function Form() {
 
       <p className="mt-4 text-center">
         Already have an account?{" "}
-        <Link href="/login" class="text-primary hover:underline">
+        <Link href="/login" className="text-primary hover:underline">
           Log in
         </Link>
       </p>
