@@ -30,7 +30,7 @@ function CouponForm() {
         name="coupon"
         id="coupon"
         placeholder="Coupon code"
-        className="!w-[18.75rem] !p-4"
+        className="!p-4 lg:!w-[17.75rem]"
         error={couponError}
         setError={setCouponError}
         couponEl={couponRef}
