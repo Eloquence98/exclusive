@@ -14,10 +14,7 @@ function CouponForm() {
       setCouponError(validateCoupon(couponRef.current)?.message);
       return;
     }
-    // submit
-    // Server Action
     const { success, error } = await couponAction(formData);
-    // Try
     if (error) throw new Error(error);
 
     console.log("success?", success);
@@ -27,13 +24,13 @@ function CouponForm() {
     <form
       noValidate
       action={handleSubmit}
-      className="flex items-start justify-start gap-4"
+      className="flex flex-wrap items-start justify-start gap-4"
     >
       <CouponInput
         name="coupon"
         id="coupon"
         placeholder="Coupon code"
-        className="w-[18.75rem] !p-4"
+        className="!w-[18.75rem] !p-4"
         error={couponError}
         setError={setCouponError}
         couponEl={couponRef}
@@ -41,7 +38,7 @@ function CouponForm() {
           validateInput(event.target, setCouponError, validateCoupon);
         }}
       />
-      <Button>apply coupon</Button>
+      <Button className="!text-nowrap">apply coupon</Button>
     </form>
   );
 }
