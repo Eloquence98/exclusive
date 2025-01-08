@@ -1,7 +1,9 @@
 "use client";
 import {
   validateAddress,
+  validateEmail,
   validateInput,
+  validateName,
   validatePhone,
 } from "../_utills/errorValidations";
 import { useError } from "../_utills/useError";
@@ -16,7 +18,7 @@ function BillingDetailsForm() {
   const [phoneError, setPhoneError, phoneRef] = useError();
 
   return (
-    <form className="billing-details-form">
+    <form className="billing-details-form space-y-6">
       <Text
         name="name"
         label="Name"
@@ -44,7 +46,7 @@ function BillingDetailsForm() {
         required={false}
       />
 
-      <fieldset className="address-fieldset">
+      <fieldset className="address-fieldset space-y-5">
         <Address
           label="City:"
           name="city"
