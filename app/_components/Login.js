@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Button from "./Button";
 import FormInput from "./FormInput";
 import GoogleSignIn from "./GoogleSignIn";
@@ -13,9 +14,13 @@ function Login() {
             Login
           </Button> */}
           <Button>Login</Button>
-          <span className="cursor-pointer text-primary hover:text-primary-hover hover:underline">
-            forgot password
-          </span>
+          <Button
+            as="link"
+            href="/login"
+            className="cursor-pointer !bg-transparent !p-[unset] !text-primary hover:!text-primary-hover hover:!underline"
+          >
+            Forgot password
+          </Button>
         </div>
       </form>
       <GoogleSignIn />
