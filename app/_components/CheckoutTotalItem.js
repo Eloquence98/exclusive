@@ -1,24 +1,7 @@
 import Image from "next/image";
 import { formatCurrency } from "../_utills/utility";
 
-const listItems = [
-  { name: "HTC Combat gear", image: "/controller.png", price: 230 },
-  { name: "CPU & GPU Combat", image: "/controller.png", price: 2300 },
-];
-
-function ItemsOnCheckOut() {
-  return (
-    <div className="items-on-check-out">
-      {listItems.map((item, index) => (
-        <OneItemOnCheckOut key={item?.name} item={item} />
-      ))}
-    </div>
-  );
-}
-
-export default ItemsOnCheckOut;
-
-function OneItemOnCheckOut({ item }) {
+function CheckoutTotalItem({ item }) {
   return (
     <div
       key={item?.name}
@@ -36,3 +19,5 @@ function OneItemOnCheckOut({ item }) {
     </div>
   );
 }
+
+export default CheckoutTotalItem;

@@ -5,3 +5,11 @@ export function formatCurrency(price) {
   });
   return formater.format(price);
 }
+
+export function getTotalPrice(arrayToReduce = []) {
+  const totalPrice = arrayToReduce.reduce((acc, cur) => {
+    return acc + cur?.price || 0;
+  }, 0);
+
+  return totalPrice;
+}
