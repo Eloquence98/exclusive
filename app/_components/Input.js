@@ -2,7 +2,7 @@
 import { useOutsideClick } from "../_utills/useOutsideClick";
 import FormRowError from "./FormRowError";
 
-const baseStyles = `w-full border-[1.5px] border-transparent p-4 px-3 py-2 valid:border-green-400 valid:bg-green-50 invalid:required:border-red-400 invalid:required:bg-red-50 focus:outline-none`;
+const baseStyles = `w-full border-[1.5px] border-transparent p-4 px-3 py-2 border-green-400 bg-green-50 valid:border-green-400 valid:bg-green-50 invalid:required:border-red-400 invalid:required:bg-red-50 focus:outline-none`;
 
 export function Text({
   label,
