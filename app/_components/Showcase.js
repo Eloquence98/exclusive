@@ -1,8 +1,8 @@
-import { Suspense } from "react";
 import LayoutPadding from "@/app/_components/LayoutPadding";
 import ShowcaseSlider from "@/app/_components/ShowcaseSlider";
 import Spinner from "@/app/_components/Spinner";
 import Link from "next/link";
+import { Suspense } from "react";
 import { productCategories } from "../_lib/productCategories";
 
 export const sideNavigationItem = productCategories || [];
@@ -10,9 +10,16 @@ export const sideNavigationItem = productCategories || [];
 function SideNavigation() {
   return (
     <ul className="space-y-4">
-      {sideNavigationItem.map(({ name, href, query, icon }) => (
+      {sideNavigationItem.map(({ name, pathname, query, icon }) => (
         <li key={name} className="font-regular capitalize">
-          <Link href={href}>{name}</Link>
+          <Link
+            href={{
+              pathname,
+              query: { category: query },
+            }}
+          >
+            {name}
+          </Link>
         </li>
       ))}
     </ul>
