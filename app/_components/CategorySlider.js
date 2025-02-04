@@ -1,8 +1,10 @@
 "use client";
 import SliderSection from "@/app/_components/SliderSection";
 import Swiper from "@/app/_components/Swiper";
-import { sideNavigationItem } from "./Showcase";
+import { productCategories } from "../_lib/productCategories";
 import CategoryCard from "./CategoryCard";
+
+export const sideNavigationItem = productCategories || [];
 
 function CategorySlider() {
   return (

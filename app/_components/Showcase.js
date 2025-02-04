@@ -3,41 +3,16 @@ import LayoutPadding from "@/app/_components/LayoutPadding";
 import ShowcaseSlider from "@/app/_components/ShowcaseSlider";
 import Spinner from "@/app/_components/Spinner";
 import Link from "next/link";
-import {
-  GiShirt,
-  GiPoloShirt,
-  GiShorts,
-  GiTrousers,
-  GiBallerinaShoes,
-  GiSonicShoes,
-  GiUnderwearShorts,
-  GiUnderwear,
-  GiFragrance,
-  GiSunglasses,
-  GiSocks,
-} from "react-icons/gi";
-import { PiPantsFill, PiTShirtFill } from "react-icons/pi";
+import { productCategories } from "../_lib/productCategories";
 
-export const sideNavigationItem = [
-  { name: "T-Shirts", icon: <PiTShirtFill /> },
-  { name: "Shirts", icon: <GiShirt /> },
-  { name: "Polos", icon: <GiPoloShirt /> },
-  { name: "Jeans", icon: <PiPantsFill /> },
-  { name: "Shorts", icon: <GiShorts /> },
-  { name: "Trousers", icon: <GiTrousers /> },
-  { name: "Activewear", icon: <GiUnderwearShorts /> },
-  { name: "Fragrances", icon: <GiFragrance /> },
-  { name: "Shoes", icon: <GiSonicShoes /> },
-  { name: "Accessories", icon: <GiSunglasses /> },
-  { name: "Underwear", icon: <GiUnderwear /> },
-];
+export const sideNavigationItem = productCategories || [];
 
 function SideNavigation() {
   return (
     <ul className="space-y-4">
-      {sideNavigationItem.map(({ name, icon }) => (
+      {sideNavigationItem.map(({ name, href, query, icon }) => (
         <li key={name} className="font-regular capitalize">
-          <Link href="/">{name}</Link>
+          <Link href={href}>{name}</Link>
         </li>
       ))}
     </ul>
