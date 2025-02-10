@@ -34,9 +34,7 @@ function ContactForm({ className }) {
     <form
       className={`${className} grid grid-cols-1 grid-rows-[max-content_max-content_max-content_1fr_max-content] gap-3 md:grid-cols-3 md:grid-rows-[max-content_1fr_max-content]`}
       noValidate
-      // onSubmit={handleSubmit}
       action={handleSubmit}
-      // action={contactGeneralInquiry}
     >
       <Text
         label="Last name"

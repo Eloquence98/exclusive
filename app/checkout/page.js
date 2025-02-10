@@ -17,11 +17,15 @@ function page() {
     <LayoutPadding>
       <div className="mt-15">
         <Heading className="mb-9">Billing Details</Heading>
-        <div className="grid grid-cols-[29.375rem_1fr]">
+        <div className="grid grid-cols-[25rem_1fr]">
           <BillingDetailsForm />
+<<<<<<< Updated upstream
           <div className="h-99">
             <CheckoutTotal checkOutItems={listItems} />
           </div>
+=======
+          <CheckoutTotal checkOutItems={listItems} />
+>>>>>>> Stashed changes
         </div>
       </div>
     </LayoutPadding>

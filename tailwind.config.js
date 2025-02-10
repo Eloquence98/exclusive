@@ -1,9 +1,12 @@
 /** @type {import('tailwindcss').Config} */
+import { heroui } from "@heroui/react";
+
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -85,16 +88,16 @@ module.exports = {
         47: "11.875rem",
       },
       height: {
+        screen: "100dvh",
+        "screen-2": "calc(100dvh - 200px)",
         view: "calc(100vh - 7.25em)",
         23: "5.875rem",
-        screen: {
-          2: "calc(100dvh - 200px)",
-        },
       },
       borderRadius: {
         smd: "0.25rem",
       },
     },
   },
-  plugins: [],
+  darkMode: "class",
+  plugins: [heroui()],
 };

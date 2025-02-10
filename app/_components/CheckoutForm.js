@@ -1,10 +1,38 @@
 "use client";
 
-function CheckoutForm({ className = "" }) {
-  function handleCheckoutForm(formData) {
-    console.log(formData);
+import { useError } from "@/app/_utills/useError";
+import bkashImage from "@/public/icons/bkash.png";
+import mastercardImage from "@/public/icons/mastercard.png";
+import nagadImage from "@/public/icons/nagad.png";
+import visaImage from "@/public/icons/visa.png";
+import { Form } from "@heroui/form";
+import { Radio, RadioGroup } from "@heroui/react";
+import Button from "./Button";
+
+const bankIcons = [
+  { src: bkashImage, name: "Bkash" },
+  { src: visaImage, name: "Visa" },
+  { src: mastercardImage, name: "Mastercard" },
+  { src: nagadImage, name: "Bkash" },
+];
+
+function CheckoutForm({ className = "", data = {} }) {
+  const [paymentMethodError, setPaymentMethodError, setPaymentMethodRef] =
+    useError("");
+
+  function handleSubmit(formData) {
+    const paymentMethod = formData.get("paymentMethod");
+    console.log("Payment M", paymentMethod);
+    if (!paymentMethod) {
+      setPaymentMethodError("Please select a payment method");
+      return;
+    }
+
+    console.log("Selected Payment Method:", paymentMethod);
   }
+
   return (
+<<<<<<< Updated upstream
     <form
       className={`${className} checkout-form`}
       noValidate
@@ -13,6 +41,45 @@ function CheckoutForm({ className = "" }) {
       form
       {/* <RadioGroup /> */}
     </form>
+=======
+    <Form className={`${className} checkout-form w-full`} action={handleSubmit}>
+      <RadioGroup
+        color="primary"
+        // label="Payment Method"
+        name="paymentMethod"
+        className="w-full"
+        isRequired
+        errorMessage={paymentMethodError}
+      >
+        <Radio
+          value="bank"
+          classNames={{
+            label: "!w-full flex items-center justify-between",
+          }}
+        >
+          Bank
+          {/* <div className="flex items-center gap-3">
+            {bankIcons.map((bank, index) => (
+              <NextImage
+                key={`${bank.name}-${index}`}
+                src={bank.src}
+                as={NextImage}
+                alt={`${bank.name} Icon`}
+                height={28}
+                width={42}
+              />
+            ))}
+            <Avatar name="Junior" />
+          </div> */}
+        </Radio>
+        <Radio value="cash-on-delivery">Cash on Delivery</Radio>
+      </RadioGroup>
+
+      <Button type="submit" className="mt-4">
+        Place order
+      </Button>
+    </Form>
+>>>>>>> Stashed changes
   );
 }
 
