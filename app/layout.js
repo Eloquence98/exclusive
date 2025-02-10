@@ -1,7 +1,8 @@
-import { Poppins } from "next/font/google";
-import Header from "./_components/Header";
 import "@/app/_styles/globals.css";
+import Providers from "@/app/providers";
+import { Poppins } from "next/font/google";
 import Footer from "./_components/Footer";
+import Header from "./_components/Header";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -22,10 +23,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${poppins.className} mx-auto max-w-8xl bg-white`}>
-        <Header />
-        {/* <main className="mb-24 min-h-[calc(100dvh-4.625rem)] overflow-x-hidden"> */}
-        <main className="mb-24 min-h-[calc(100dvh-4.625rem)]">{children}</main>
-        <Footer />
+        <Providers>
+          <Header />
+          <main className="mb-24 min-h-[calc(100dvh-4.625rem)]">
+            {children}
+          </main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
