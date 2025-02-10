@@ -30,13 +30,6 @@ export default function RootLayout({ children }) {
           </main>
           <Footer />
         </Providers>
-        <Providers>
-          <Header />
-          <main className="mb-24 min-h-[calc(100dvh-4.625rem)]">
-            {children}
-          </main>
-          <Footer />
-        </Providers>
       </body>
     </html>
   );
