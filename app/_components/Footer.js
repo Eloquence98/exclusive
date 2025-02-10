@@ -41,7 +41,10 @@ function Footer() {
             <FooterParagraph>+88015-88888-9999</FooterParagraph>
           </div>
           {footerLinksContent.map((linksContent, i) => (
-            <FooterContent key={i} content={linksContent} />
+            <FooterContent
+              key={`${linksContent.heading}-${i}`}
+              content={linksContent}
+            />
           ))}
           <div className="download min-w-max flex-1">
             <FooterHeading>Download</FooterHeading>
@@ -68,10 +71,9 @@ function FooterContent({ content }) {
           <Link
             className="text-xs capitalize text-text-one"
             href={item?.href}
-            key={i}
+            key={`${item?.href}-${i}`}
           >
-            {" "}
-            {item.name}{" "}
+            {item.name}
           </Link>
         </>
       ))}

@@ -19,7 +19,7 @@ function page() {
         <Heading className="mb-9">Billing Details</Heading>
         <div className="grid grid-cols-[29.375rem_1fr]">
           <BillingDetailsForm />
-          <div className="h-99 bg-green-600">
+          <div className="h-99">
             <CheckoutTotal checkOutItems={listItems} />
           </div>
         </div>
