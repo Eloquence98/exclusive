@@ -71,11 +71,7 @@ function FooterContent({ content }) {
           <Link
             className="text-xs capitalize text-text-one"
             href={item?.href}
-<<<<<<< Updated upstream
-            key={`${item?.href}-${i}`}
-=======
             key={`${item.name}-${i}`}
->>>>>>> Stashed changes
           >
             {item.name}
           </Link>

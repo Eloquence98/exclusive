@@ -19,13 +19,7 @@ function page() {
         <Heading className="mb-9">Billing Details</Heading>
         <div className="grid grid-cols-[25rem_1fr]">
           <BillingDetailsForm />
-<<<<<<< Updated upstream
-          <div className="h-99">
-            <CheckoutTotal checkOutItems={listItems} />
-          </div>
-=======
           <CheckoutTotal checkOutItems={listItems} />
->>>>>>> Stashed changes
         </div>
       </div>
     </LayoutPadding>

@@ -32,16 +32,6 @@ function CheckoutForm({ className = "", data = {} }) {
   }
 
   return (
-<<<<<<< Updated upstream
-    <form
-      className={`${className} checkout-form`}
-      noValidate
-      action={handleCheckoutForm}
-    >
-      form
-      {/* <RadioGroup /> */}
-    </form>
-=======
     <Form className={`${className} checkout-form w-full`} action={handleSubmit}>
       <RadioGroup
         color="primary"
@@ -79,7 +69,6 @@ function CheckoutForm({ className = "", data = {} }) {
         Place order
       </Button>
     </Form>
->>>>>>> Stashed changes
   );
 }
 
