@@ -17,7 +17,7 @@ function page() {
     <LayoutPadding>
       <div className="mt-15">
         <Heading className="mb-9">Billing Details</Heading>
-        <div className="grid grid-cols-[25rem_1fr]">
+        <div className="grid grid-cols-1 grid-rows-2 gap-4 lg:grid-cols-[25rem_1fr]">
           <BillingDetailsForm />
           <CheckoutTotal checkOutItems={listItems} />
         </div>

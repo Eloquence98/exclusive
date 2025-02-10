@@ -1,4 +1,5 @@
 "use client";
+import { Checkbox } from "@heroui/react";
 import {
   validateAddress,
   validateEmail,
@@ -17,8 +18,14 @@ function BillingDetailsForm() {
     useError();
   const [phoneError, setPhoneError, phoneRef] = useError();
 
+  function handleSubmit(formData) {
+    const BillingInfo = formData.get("save-billing-information");
+
+    console.log("save-billing-information", BillingInfo);
+  }
+
   return (
-    <form className="billing-details-form space-y-6">
+    <form className="billing-details-form space-y-6" onSubmit={handleSubmit}>
       <Text
         name="name"
         label="Name"
@@ -86,6 +93,9 @@ function BillingDetailsForm() {
           validateInput(event.target, setPhoneError, validatePhone)
         }
       />
+      <Checkbox name="save-billing-information" size="sm" className="text-xs">
+        Save this information for faster check-out next time
+      </Checkbox>
     </form>
   );
 }
