@@ -1,4 +1,9 @@
-// route handlers export the handlers
-export { /* @next-codemod-error `GET` export is re-exported. Check if this component uses `params` or `searchParams`*/
-GET, /* @next-codemod-error `POST` export is re-exported. Check if this component uses `params` or `searchParams`*/
-POST } from "@/app/_lib/auth";
+import { handlers } from "@/app/_lib/auth";
+
+export function GET(req, context) {
+  return handlers.GET(req, context);
+}
+
+export function POST(req, context) {
+  return handlers.POST(req, context);
+}

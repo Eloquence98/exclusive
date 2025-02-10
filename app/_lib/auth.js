@@ -28,13 +28,20 @@ const authConfig = {
     },
   },
   pages: {
-    signIn: "/login"
-  }
+    signIn: "/login",
+  },
 };
 
-export const {
-  handlers: { GET, POST },
-  auth,
-  signIn,
-  signOut,
-} = NextAuth(authConfig);
+// export const {
+//   handlers: { GET, POST },
+//   auth,
+//   signIn,
+//   signOut,
+// } = NextAuth(authConfig);
+
+const nextAuthInstance = NextAuth(authConfig);
+
+export const auth = nextAuthInstance.auth;
+export const signIn = nextAuthInstance.signIn;
+export const signOut = nextAuthInstance.signOut;
+export const handlers = nextAuthInstance.handlers;
