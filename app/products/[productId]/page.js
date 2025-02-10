@@ -1,7 +1,8 @@
 import { getProductById, getProducts } from "@/app/_lib/data-service";
 
 //  dynamic metadeta for dynamic routes
-export async function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   const { title } = await getProductById(params.productId);
   return { title: `Product ${title}` };
 }
@@ -13,7 +14,8 @@ export async function generateStaticParams() {
   return ids;
 }
 
-async function Page({ params }) {
+async function Page(props) {
+  const params = await props.params;
   // Todo Get Product
   const product = await getProductById(params.productId);
 

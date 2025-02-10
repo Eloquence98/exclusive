@@ -2,7 +2,8 @@ export const metadata = {
   title: "Explore Exclusive",
 };
 
-function Page({ searchParams }) {
+async function Page(props) {
+  const searchParams = await props.searchParams;
   const query = searchParams?.q;
   console.log(`Query on search page ${query}`);
   return (

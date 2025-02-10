@@ -6,7 +6,8 @@ export const metadata = {
   title: "Products",
 };
 
-function Page({ searchParams }) {
+async function Page(props) {
+  const searchParams = await props.searchParams;
   const section = searchParams?.section ?? "explore our products";
 
   return (
