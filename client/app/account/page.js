@@ -1,11 +1,18 @@
+import LayoutPadding from "@/app/_components/LayoutPadding";
+import AccountSettings from "@/app/_components/account-settings";
+
 export const metadata = {
   title: "Account",
 };
+
 function page() {
   return (
-    <div>
-      <h1>Account Page</h1>
-    </div>
+    <LayoutPadding>
+      <div className="mt-15">
+        {/* <Heading className="mb-9">Account</Heading> */}
+        <AccountSettings />
+      </div>
+    </LayoutPadding>
   );
 }
 

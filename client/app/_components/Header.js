@@ -29,7 +29,7 @@ function Header() {
       <header className="flex h-23 items-end border-b border-border pb-4">
         <nav className="flex w-full items-center justify-between gap-4">
           <Logo />
-          <div className="ml-8 mr-auto xl:hidden"> [Menu]</div>
+          <div className="mr-auto xl:hidden"> [Menu]</div>
           <div className="hidden items-center justify-center gap-12 xl:flex">
             {navLinks.map((navItem) => (
               <StyledLink key={navItem.name} item={navItem} />
@@ -38,7 +38,7 @@ function Header() {
           <div className="ml-auto">
             <Search />
           </div>
-          <GuestArea className="ml-5" />
+          <GuestArea />
         </nav>
       </header>
     </LayoutPadding>

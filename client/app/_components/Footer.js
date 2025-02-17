@@ -43,6 +43,7 @@ function Footer() {
           {footerLinksContent.map((linksContent, i) => (
             <FooterContent
               key={`${linksContent.heading}-${i}`}
+              myKey={`${linksContent.heading}-${i}`}
               content={linksContent}
             />
           ))}
@@ -61,10 +62,13 @@ function Footer() {
 
 export default Footer;
 
-function FooterContent({ content }) {
+function FooterContent({ content, myKey }) {
   const { heading, items } = content;
   return (
-    <div className="flex min-w-max flex-1 flex-col items-start justify-center space-y-2">
+    <div
+      key={myKey}
+      className="flex min-w-max flex-1 flex-col items-start justify-center space-y-2"
+    >
       <FooterHeading> {heading} </FooterHeading>
       {items.map((item, i) => (
         <>

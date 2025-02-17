@@ -1,6 +1,7 @@
 import { HiOutlineHeart, HiOutlineShoppingCart } from "react-icons/hi2";
 import { auth } from "../_lib/auth";
 const { default: Link } = require("next/link");
+import { Button } from "@heroui/button";
 
 export default async function GuestArea({ className = "" }) {
   // this will makee the route dynamic it's reading the headers and currently the header is being used in every route so all the routes are dynamic
@@ -49,7 +50,9 @@ export default async function GuestArea({ className = "" }) {
             href="/account"
             className="hover:text-accent-400 transition-colors"
           >
-            Guest area
+            <Button radius="sm" color="primary">
+              Account
+            </Button>
           </Link>
         </li>
       )}
