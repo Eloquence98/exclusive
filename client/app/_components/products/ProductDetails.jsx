@@ -3,10 +3,11 @@ import { Button } from "@heroui/button";
 import { Chip } from "@heroui/chip";
 import { Divider } from "@heroui/divider";
 import { Input } from "@heroui/input";
-import { Radio, RadioGroup } from "@heroui/radio";
-import Image from "next/image";
 import { useState } from "react";
 import { HiHeart, HiMinus, HiPlus } from "react-icons/hi2";
+import ProductColors from "./ProductColors";
+import ProductImages from "./ProductImages";
+import ProductSizes from "./ProductSizes";
 
 export default function ProductDetails({ product }) {
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
@@ -21,57 +22,11 @@ export default function ProductDetails({ product }) {
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
           {/* Image gallery */}
-          <div className="flex flex-col-reverse">
-            <div className="mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none">
-              <div
-                className="grid grid-cols-4 gap-6"
-                aria-orientation="horizontal"
-                role="tablist"
-              >
-                {product.colors.map((color) => (
-                  <Button
-                    key={color.name}
-                    aria-controls={`tabs-${color.name}-panel`}
-                    role="tab"
-                    onClick={() => setSelectedColor(color)}
-                    className={`hover:bg-background relative flex h-24 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-foreground focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4 ${
-                      selectedColor.name === color.name
-                        ? "ring-2 ring-primary"
-                        : ""
-                    }`}
-                  >
-                    <span className="sr-only">{color.name}</span>
-                    <span className="absolute inset-0 overflow-hidden rounded-md">
-                      <Image
-                        src={product.images[color.name] || "/placeholder.svg"}
-                        alt=""
-                        className="h-full w-full object-cover object-center"
-                        width={200}
-                        height={200}
-                      />
-                    </span>
-                  </Button>
-                ))}
-              </div>
-            </div>
-
-            <div className="aspect-h-1 aspect-w-1 w-full">
-              <div
-                id={`tabs-${selectedColor.name}-panel`}
-                aria-labelledby={`tabs-${selectedColor.name}-tab`}
-                role="tabpanel"
-                tabIndex={0}
-              >
-                <Image
-                  src={product.images[selectedColor.name] || "/placeholder.svg"}
-                  alt={product.name}
-                  className="h-full w-full object-cover object-center sm:rounded-lg"
-                  width={600}
-                  height={600}
-                />
-              </div>
-            </div>
-          </div>
+          <ProductImages
+            product={product}
+            selectedColor={selectedColor}
+            setSelectedColor={setSelectedColor}
+          />
 
           {/* Product info */}
           <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
@@ -129,73 +84,18 @@ export default function ProductDetails({ product }) {
 
             <form className="mt-6">
               {/* Colors */}
-              <div>
-                <h3 className="text-sm font-medium text-foreground">Color</h3>
-                <RadioGroup
-                  orientation="horizontal"
-                  value={selectedColor.name}
-                  onValueChange={(value) =>
-                    setSelectedColor(
-                      product.colors.find((c) => c.name === value),
-                    )
-                  }
-                  className="mt-2 gap-3"
-                >
-                  {product.colors.map((color) => (
-                    <Radio
-                      key={color.name}
-                      value={color.name}
-                      className="group p-0"
-                      classNames={{
-                        base: "m-0",
-                        wrapper: "hidden",
-                      }}
-                    >
-                      <div className="relative h-8 w-8 cursor-pointer rounded-full p-0.5">
-                        <span
-                          className={`block h-full w-full rounded-full ${color.class} shadow-sm group-hover:ring-2 group-hover:ring-primary/50 ${selectedColor.name === color.name ? "ring-2 ring-primary" : "ring-1 ring-gray-200"} `}
-                        />
-                        <span className="sr-only">{color.name}</span>
-                      </div>
-                      <span className="mt-1 block text-center text-xs text-gray-600">
-                        {color.name}
-                      </span>
-                    </Radio>
-                  ))}
-                </RadioGroup>
-              </div>
+              <ProductColors
+                product={product}
+                selectedColor={selectedColor}
+                setSelectedColor={setSelectedColor}
+              />
 
               {/* Sizes */}
-              <div className="mt-8">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-medium text-foreground">Size</h3>
-                  <Button
-                    href="#"
-                    variant="light"
-                    className="text-sm font-medium text-primary"
-                  >
-                    Size guide
-                  </Button>
-                </div>
-
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {product.sizes.map((size) => (
-                    <Button
-                      key={size}
-                      size="sm"
-                      variant={selectedSize === size ? "solid" : "bordered"}
-                      onPress={() => setSelectedSize(size)}
-                      className={`group relative flex h-10 w-10 items-center justify-center border text-xs font-medium uppercase focus:outline-none ${
-                        selectedSize === size
-                          ? "bg-primary text-white"
-                          : "bg-white text-black"
-                      }`}
-                    >
-                      <span>{size}</span>
-                    </Button>
-                  ))}
-                </div>
-              </div>
+              <ProductSizes
+                product={product}
+                selectedSize={selectedSize}
+                setSelectedSize={setSelectedSize}
+              />
 
               <div className="mt-8 flex items-center">
                 <div className="mr-4 flex items-center">

@@ -1,4 +1,4 @@
-import ProductDetails from "@/app/_components/ProductDetails";
+import ProductDetails from "@/app/_components/products/ProductDetails";
 import { getProductById, getProducts } from "@/app/_lib/data-service";
 import { mockProduct } from "@/app/_lib/tempData";
 
