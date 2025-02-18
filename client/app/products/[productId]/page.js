@@ -1,4 +1,6 @@
+import ProductDetails from "@/app/_components/ProductDetails";
 import { getProductById, getProducts } from "@/app/_lib/data-service";
+import { mockProduct } from "@/app/_lib/tempData";
 
 //  dynamic metadeta for dynamic routes
 export async function generateMetadata(props) {
@@ -21,7 +23,7 @@ async function Page(props) {
 
   return (
     <div>
-      <h1>Product {params.productId} </h1>
+      <ProductDetails product={mockProduct} />
     </div>
   );
 }

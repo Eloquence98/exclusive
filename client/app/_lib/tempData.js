@@ -90,3 +90,24 @@ export const tempProducts = [
     ratings: { dislikes: 12, total: 430 },
   },
 ];
+
+export const mockProduct = {
+  id: "1",
+  name: "Basic Tee",
+  description: "A comfortable and stylish basic tee that goes with everything.",
+  price: 35,
+  rating: 4,
+  reviewCount: 117,
+  colors: [
+    { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
+    { name: "Gray", class: "bg-gray-200", selectedClass: "ring-gray-400" },
+    { name: "Black", class: "bg-gray-900", selectedClass: "ring-gray-900" },
+  ],
+  sizes: ["XS", "S", "M", "L", "XL"],
+  images: {
+    White: "/placeholder.svg?height=600&width=600",
+    Gray: "/placeholder.svg?height=600&width=600",
+    Black: "/placeholder.svg?height=600&width=600",
+  },
+  inStock: true,
+};
