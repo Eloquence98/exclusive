@@ -99,5 +99,24 @@ module.exports = {
     },
   },
   darkMode: "class",
-  plugins: [heroui()],
+  plugins: [
+    heroui({
+      themes: {
+        light: {
+          layout: {
+            radius: {
+              small: "0.375rem",
+            },
+          },
+        },
+        dark: {
+          layout: {
+            radius: {
+              small: "0.375rem",
+            },
+          },
+        },
+      },
+    }),
+  ],
 };
