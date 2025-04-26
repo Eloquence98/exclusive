@@ -66,9 +66,9 @@ export default function AccountSettings() {
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
         <div className="lg:col-span-1">
-          {navigationSections.map((section) => (
+          {navigationSections.map((section, i) => (
             <NavSection
-              key={section.title}
+              key={section.title + `-${i + 1}`}
               title={section.title}
               items={section.items}
               activeTab={activeTab}
