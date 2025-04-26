@@ -1,5 +1,7 @@
 import { HiOutlineHeart, HiOutlineShoppingCart } from "react-icons/hi2";
 import { auth } from "../_lib/auth";
+import { Avatar } from "@heroui/avatar";
+
 const { default: Link } = require("next/link");
 import { Button } from "@heroui/button";
 
@@ -35,11 +37,18 @@ export default async function GuestArea({ className = "" }) {
               className="hover:text-accent-400 flex items-center gap-4 transition-colors"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              {/* <img
                 className="h-8 rounded-full"
                 src={session.user.image}
                 alt={session.user.name}
                 referrerPolicy="no-referrer"
+                /> */}
+              <Avatar
+                isBordered
+                // src="https://i.pravatar.cc/150?u=a04258114e29026708c"
+                src={session.user.image}
+                alt={session.user.name}
+                size="sm"
               />
             </Link>
           </li>
