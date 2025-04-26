@@ -1,5 +1,5 @@
 import LayoutPadding from "@/app/_components/LayoutPadding";
-import AccountSettings from "@/app/_components/account-settings";
+import AccountSettings from "@/app/_components/AccountSettings";
 
 export const metadata = {
   title: "Account",
