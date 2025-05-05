@@ -51,7 +51,7 @@ A modern e-commerce platform built with the latest web technologies, offering a 
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/luxe-clothing.git
+git clone https://github.com/Eloquence98/exclusive.git
 
 # Install dependencies
 pnpm install

@@ -29,10 +29,7 @@ export default function ProfileSection() {
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
-            <label
-              htmlFor="firstName"
-              className="mb-1 block text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="firstName" className="mb-1 block text-sm font-medium text-gray-700">
               First Name
             </label>
             <Input
@@ -46,10 +43,7 @@ export default function ProfileSection() {
             />
           </div>
           <div>
-            <label
-              htmlFor="lastName"
-              className="mb-1 block text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="lastName" className="mb-1 block text-sm font-medium text-gray-700">
               Last Name
             </label>
             <Input
@@ -65,10 +59,7 @@ export default function ProfileSection() {
         </div>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
-            <label
-              htmlFor="email"
-              className="mb-1 block text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="email" className="mb-1 block text-sm font-medium text-gray-700">
               Email
             </label>
             <Input
@@ -82,10 +73,7 @@ export default function ProfileSection() {
             />
           </div>
           <div>
-            <label
-              htmlFor="address"
-              className="mb-1 block text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="address" className="mb-1 block text-sm font-medium text-gray-700">
               Address
             </label>
             <Input

@@ -1,19 +1,13 @@
 import { Radio, RadioGroup } from "@heroui/radio";
 
-export default function ProductColors({
-  product,
-  selectedColor,
-  setSelectedColor,
-}) {
+export default function ProductColors({ product, selectedColor, setSelectedColor }) {
   return (
     <div>
       <h3 className="text-sm font-medium text-foreground">Color</h3>
       <RadioGroup
         orientation="horizontal"
         value={selectedColor.name}
-        onValueChange={(value) =>
-          setSelectedColor(product.colors.find((c) => c.name === value))
-        }
+        onValueChange={(value) => setSelectedColor(product.colors.find((c) => c.name === value))}
         className="mt-2 gap-3"
       >
         {product.colors.map((color) => (
@@ -32,9 +26,7 @@ export default function ProductColors({
               />
               <span className="sr-only">{color.name}</span>
             </div>
-            <span className="mt-1 block text-center text-xs text-gray-600">
-              {color.name}
-            </span>
+            <span className="mt-1 block text-center text-xs text-gray-600">{color.name}</span>
           </Radio>
         ))}
       </RadioGroup>
