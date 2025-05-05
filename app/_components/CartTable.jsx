@@ -28,10 +28,7 @@ function CartTable() {
         <div className="quantity">Quantity</div>
         <div className="subtotal">Subtotal</div>
       </Table.Header>
-      <Table.Body
-        data={items}
-        render={(item, i) => <CartTableRow item={item} key={i} />}
-      />
+      <Table.Body data={items} render={(item, i) => <CartTableRow item={item} key={i} />} />
     </Table>
   );
 }

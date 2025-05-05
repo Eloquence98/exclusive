@@ -9,14 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import { HiMagnifyingGlass, HiXMark, HiClock, HiTag } from "react-icons/hi2";
 
 // Quick search suggestions for fashion
-const FASHION_SUGGESTIONS = [
-  "Dresses",
-  "Tops",
-  "Jeans",
-  "Summer",
-  "Sale",
-  "New Arrivals"
-];
+const FASHION_SUGGESTIONS = ["Dresses", "Tops", "Jeans", "Summer", "Sale", "New Arrivals"];
 
 export default function SearchBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -49,7 +42,7 @@ export default function SearchBar() {
     const trimmed = query.trim();
     if (!trimmed) return;
 
-    const updated = [trimmed, ...recentSearches.filter(item => item !== trimmed)].slice(0, 3);
+    const updated = [trimmed, ...recentSearches.filter((item) => item !== trimmed)].slice(0, 3);
     setRecentSearches(updated);
     localStorage.setItem("recentSearches", JSON.stringify(updated));
   };
@@ -89,14 +82,15 @@ export default function SearchBar() {
           <HiMagnifyingGlass className="text-default-500" size={20} />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-80 p-0 rounded-lg border border-default-200 shadow-md overflow-hidden">
+      <PopoverContent className="w-80 overflow-hidden rounded-lg border border-default-200 p-0 shadow-md">
         <div className="bg-background">
           <form onSubmit={handleSubmit} className="w-full">
             <Input
               ref={inputRef}
               classNames={{
                 base: "w-full",
-                inputWrapper: "h-12 bg-default-50 shadow-none rounded-none border-b border-default-100",
+                inputWrapper:
+                  "h-12 bg-default-50 shadow-none rounded-none border-b border-default-100",
               }}
               placeholder="Search for clothes, accessories..."
               size="sm"
@@ -108,7 +102,13 @@ export default function SearchBar() {
               }
               endContent={
                 searchQuery && (
-                  <Button isIconOnly size="sm" variant="light" onPress={handleClear} className="p-0">
+                  <Button
+                    isIconOnly
+                    size="sm"
+                    variant="light"
+                    onPress={handleClear}
+                    className="p-0"
+                  >
                     <HiXMark className="text-default-400" size={18} />
                   </Button>
                 )
@@ -133,7 +133,7 @@ export default function SearchBar() {
           >
             {recentSearches.length > 0 && (
               <div className="mb-4">
-                <div className="flex items-center gap-1.5 mb-3">
+                <div className="mb-3 flex items-center gap-1.5">
                   <HiClock className="text-default-400" size={16} />
                   <p className="text-xs font-medium text-default-600">Recent Searches</p>
                 </div>
@@ -142,7 +142,7 @@ export default function SearchBar() {
                     <div
                       key={i}
                       onClick={() => handleSuggestionClick(term)}
-                      className="px-3 py-1.5 bg-default-100 rounded-full text-xs font-medium text-default-700 cursor-pointer hover:bg-default-200 transition-colors flex items-center"
+                      className="flex cursor-pointer items-center rounded-full bg-default-100 px-3 py-1.5 text-xs font-medium text-default-700 transition-colors hover:bg-default-200"
                     >
                       {term}
                     </div>
@@ -152,7 +152,7 @@ export default function SearchBar() {
             )}
 
             <div>
-              <div className="flex items-center gap-1.5 mb-3">
+              <div className="mb-3 flex items-center gap-1.5">
                 <HiTag className="text-primary-400" size={16} />
                 <p className="text-xs font-medium text-default-600">Popular Categories</p>
               </div>
@@ -161,7 +161,7 @@ export default function SearchBar() {
                   <div
                     key={i}
                     onClick={() => handleSuggestionClick(suggestion)}
-                    className="px-3 py-1.5 bg-primary-50 rounded-full text-xs font-medium text-primary-500 cursor-pointer hover:bg-primary-100 transition-colors flex items-center"
+                    className="flex cursor-pointer items-center rounded-full bg-primary-50 px-3 py-1.5 text-xs font-medium text-primary-500 transition-colors hover:bg-primary-100"
                   >
                     {suggestion}
                   </div>

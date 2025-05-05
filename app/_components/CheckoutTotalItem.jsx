@@ -3,10 +3,7 @@ import { formatCurrency } from "../_utills/utility";
 
 function CheckoutTotalItem({ item }) {
   return (
-    <div
-      key={item?.name}
-      className="on-check-out-item flex items-center justify-start gap-6"
-    >
+    <div key={item?.name} className="on-check-out-item flex items-center justify-start gap-6">
       <Image
         className="size-12"
         src={item?.image || "/controller.png"}

@@ -8,12 +8,7 @@ function Form() {
       <form className="mx-auto mt-8 w-full max-w-sm">
         <FormInput type="text" name="name" placeholder="Name" required />
         <FormInput type="text" name="email" placeholder="Email" required />
-        <FormInput
-          type="password"
-          name="password"
-          placeholder="Password"
-          required
-        />
+        <FormInput type="password" name="password" placeholder="Password" required />
 
         {/* <Button type="submit" primary>
         Create Account
@@ -54,10 +49,7 @@ const FormInput = ({ label, type, name, placeholder, required }) => {
   return (
     <div className="mb-4">
       {label ? (
-        <label
-          className="mb-2 block text-sm font-bold text-gray-700"
-          htmlFor={name}
-        >
+        <label className="mb-2 block text-sm font-bold text-gray-700" htmlFor={name}>
           {label}
         </label>
       ) : null}

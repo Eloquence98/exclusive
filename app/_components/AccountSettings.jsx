@@ -1,8 +1,8 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
-import ProfileSection from "./account/ProfileSection";
 import ChangePasswordSection from "./account/ChangePasswordSection";
 import { NavSection } from "./account/Navigation";
+import ProfileSection from "./account/ProfileSection";
 
 const PlaceholderSection = ({ title }) => (
   <div className="space-y-6">
@@ -77,9 +77,8 @@ export default function AccountSettings() {
           ))}
 
           <button
-            className={`block w-full text-left text-base font-medium ${
-              activeTab === passwordSection.id ? "text-primary" : ""
-            }`}
+            className={`block w-full text-left text-base font-medium ${activeTab === passwordSection.id ? "text-primary" : ""
+              }`}
             onClick={() => handleTabChange(passwordSection.id)}
           >
             {passwordSection.label}

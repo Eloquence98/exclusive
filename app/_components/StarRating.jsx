@@ -9,11 +9,7 @@ function StarRating({ totalStars = 5, ratings = 87 }) {
       {[...Array(totalStars)].map((_, index) => (
         <StarIcon
           key={index}
-          className={
-            index < averageRating
-              ? "fill-rating-rated"
-              : "fill-rating-not-rated"
-          }
+          className={index < averageRating ? "fill-rating-rated" : "fill-rating-not-rated"}
         />
       ))}
       <p className="text-sm font-semibold text-discount">({ratings.total})</p>

@@ -29,11 +29,7 @@ function SliderSection({
         <div className="section-stats mb-10 flex min-h-25 gap-22">
           <div className="headings flex flex-col justify-between capitalize">
             <SectionLabel> {subHeading} </SectionLabel>
-            <h2
-              className={`${inter.className} text-nowrap text-4xl font-semibold`}
-            >
-              {heading}
-            </h2>
+            <h2 className={`${inter.className} text-nowrap text-4xl font-semibold`}>{heading}</h2>
           </div>
           <div className="mt-auto">
             {countDown.isNeeded ? <Countdown {...countDown.props} /> : null}
@@ -41,12 +37,8 @@ function SliderSection({
           <div className="ml-auto mt-auto flex items-center justify-center gap-2">
             {navigateButtons ? (
               <>
-                <Swiper.Prev
-                  className={`${sliderProps.navigation?.prevEl.replace(".", "")}`}
-                />
-                <Swiper.Next
-                  className={`${sliderProps.navigation?.nextEl.replace(".", "")}`}
-                />
+                <Swiper.Prev className={`${sliderProps.navigation?.prevEl.replace(".", "")}`} />
+                <Swiper.Next className={`${sliderProps.navigation?.nextEl.replace(".", "")}`} />
               </>
             ) : (
               <DoINeedViewAllButton href={href} />
@@ -55,10 +47,7 @@ function SliderSection({
         </div>
 
         <div className="section-slider flex gap-7 overflow-x-visible">
-          <Swiper
-            {...sliderProps}
-            className="h-full max-h-full w-full max-w-full"
-          >
+          <Swiper {...sliderProps} className="h-full max-h-full w-full max-w-full">
             {data.map(render)}
           </Swiper>
         </div>

@@ -63,8 +63,7 @@ export function validateName(name) {
     case name.validity.patternMismatch:
       return {
         error: name.validity.patternMismatch,
-        message:
-          "Name should contain only letters and numbers (no special characters).",
+        message: "Name should contain only letters and numbers (no special characters).",
       };
 
     default:
@@ -128,8 +127,7 @@ export function validateAddress(address) {
       valueMissing: "You need to enter a City: London.",
       tooShort: `City name should be at least ${address.minLength} characters; you entered ${address.value.length}.`,
       tooLong: `City name should be no more than ${address.maxLength} characters; you entered ${address.value.length}.`,
-      patternMismatch:
-        "City name should contain only letters and spaces: Liverpool",
+      patternMismatch: "City name should contain only letters and spaces: Liverpool",
     },
     postalCode: {
       valueMissing: "You need to enter a Postal Code: NW1 6XE.",
@@ -175,8 +173,7 @@ export function validateAddress(address) {
 export function validateInput(
   inputElement = document.createElement("input"),
   setError = () => console.log("pass in an error state setter function"),
-  validationFunction = () =>
-    console.log("pass in an error validation function"),
+  validationFunction = () => console.log("pass in an error validation function"),
 ) {
   if (inputElement.validity.valid) {
     setError("");
@@ -229,8 +226,7 @@ export function validateCoupon(coupon) {
     case coupon.validity.patternMismatch:
       return {
         error: coupon.validity.patternMismatch,
-        message:
-          "Invalid code. Use 6-12 uppercase letters or numbers (e.g., SAVE20).",
+        message: "Invalid code. Use 6-12 uppercase letters or numbers (e.g., SAVE20).",
       };
 
     default:

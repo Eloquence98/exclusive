@@ -8,9 +8,7 @@ export function Providers({ children }) {
   return (
     <HeroUIProvider>
       <CartProvider>
-        <WishlistProvider>
-          {children}
-        </WishlistProvider>
+        <WishlistProvider>{children}</WishlistProvider>
       </CartProvider>
     </HeroUIProvider>
   );

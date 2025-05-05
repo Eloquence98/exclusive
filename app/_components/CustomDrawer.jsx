@@ -24,10 +24,7 @@ const items = [
 export default function CustomDrawer({ isOpen, onOpen, onOpenChange, title }) {
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-  const totalAmount = cart?.items.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0,
-  );
+  const totalAmount = cart?.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
   const router = useRouter();
   const handleRemoveItem = (itemId) => {
     dispatch(removeItem(itemId));
@@ -44,9 +41,7 @@ export default function CustomDrawer({ isOpen, onOpen, onOpenChange, title }) {
           <>
             <DrawerHeader className="flex justify-between gap-1 text-black">
               <div>Cart Summary</div>
-              <div className="pr-3 text-[15px] font-thin">
-                My Items: {cart?.items?.length}
-              </div>
+              <div className="pr-3 text-[15px] font-thin">My Items: {cart?.items?.length}</div>
             </DrawerHeader>
             <DrawerBody>
               {cart?.items.map((item, index) => (
@@ -55,6 +50,7 @@ export default function CustomDrawer({ isOpen, onOpen, onOpenChange, title }) {
                   className="flex h-36 items-center justify-between rounded border p-4 text-black"
                 >
                   <div className="flex items-center gap-3">
+                    {/*  eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={`${process.env.NEXT_PUBLIC_API_REMOTE_URL}/v1/media/products/${item?.main_image}`}
                       className="h-[100px] w-[6.25rem] self-center"
@@ -65,24 +61,14 @@ export default function CustomDrawer({ isOpen, onOpen, onOpenChange, title }) {
                       <div>Rs. {item?.price}</div>
                       <div className="flex items-center gap-2">
                         <button
-                          onClick={() =>
-                            handleQuantityChange(
-                              item.product_id,
-                              item.quantity - 1,
-                            )
-                          }
+                          onClick={() => handleQuantityChange(item.product_id, item.quantity - 1)}
                           className="rounded border px-2 py-1"
                         >
                           -
                         </button>
                         <div>Quantity: {item?.quantity}</div>
                         <button
-                          onClick={() =>
-                            handleQuantityChange(
-                              item.product_id,
-                              item.quantity + 1,
-                            )
-                          }
+                          onClick={() => handleQuantityChange(item.product_id, item.quantity + 1)}
                           className="rounded border px-2 py-1"
                         >
                           +
@@ -102,10 +88,7 @@ export default function CustomDrawer({ isOpen, onOpen, onOpenChange, title }) {
             <DrawerFooter className="items-center justify-between text-black">
               <p className="font-bold">Total: </p>
               <p>Rs. {totalAmount}</p>
-              <Button
-                className="bg-black text-white"
-                onPress={() => router?.push("/checkout")}
-              >
+              <Button className="bg-black text-white" onPress={() => router?.push("/checkout")}>
                 Checkout
               </Button>
             </DrawerFooter>

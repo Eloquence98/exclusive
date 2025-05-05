@@ -52,8 +52,7 @@ export async function couponAction(formData) {
 
   if (!/^[A-Z0-9]{6,12}$/.test(coupon)) {
     return {
-      error:
-        "Invalid coupon. Use 6-12 uppercase letters or numbers (e.g., SAVE20).",
+      error: "Invalid coupon. Use 6-12 uppercase letters or numbers (e.g., SAVE20).",
     };
   }
 

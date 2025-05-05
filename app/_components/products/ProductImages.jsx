@@ -1,19 +1,11 @@
 import { Button } from "@heroui/button";
 import Image from "next/image";
 
-export default function ProductImages({
-  product,
-  selectedColor,
-  setSelectedColor,
-}) {
+export default function ProductImages({ product, selectedColor, setSelectedColor }) {
   return (
     <div className="flex flex-col-reverse">
       <div className="mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none">
-        <div
-          className="grid grid-cols-4 gap-6"
-          aria-orientation="horizontal"
-          role="tablist"
-        >
+        <div className="grid grid-cols-4 gap-6" aria-orientation="horizontal" role="tablist">
           {product.colors.map((color) => (
             <Button
               key={color.name}

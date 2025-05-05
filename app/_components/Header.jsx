@@ -1,8 +1,12 @@
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle } from "@heroui/navbar";
+import { Suspense } from "react";
+import ActiveLink from "./ActiveLink";
 import GuestArea from "./GuestArea";
-import LayoutPadding from "./LayoutPadding";
+import GuestAreaFallback from "./GuestAreaFallback";
 import Logo from "./Logo";
-import Search from "./Search";
-import StyledLink from "./StyledLink";
+import MobileMenu from "./MobileMenu";
+import NavbarClientItems from "./NavbarClientItems";
+import SearchBar from "./SearchBar";
 
 const navLinks = [
   {
@@ -18,31 +22,56 @@ const navLinks = [
     href: "/about",
   },
   {
-    name: "Login",
-    href: "/login",
+    name: "Products",
+    href: "/products",
   },
 ];
 
-function Header() {
+export default function Header() {
   return (
-    <LayoutPadding>
-      <header className="flex h-23 items-end border-b border-border pb-4">
-        <nav className="flex w-full items-center justify-between gap-4">
+    <Navbar isBordered maxWidth="xl" position="sticky" className="h-20">
+      {/* Mobile menu toggle - client component */}
+      <NavbarContent className="sm:hidden" justify="start">
+        <NavbarClientItems>
+          <NavbarMenuToggle aria-label="Menu" />
+        </NavbarClientItems>
+      </NavbarContent>
+
+      {/* Brand logo - server component */}
+      <NavbarContent justify="start">
+        <NavbarBrand>
           <Logo />
-          <div className="mr-auto xl:hidden"> [Menu]</div>
-          <div className="hidden items-center justify-center gap-12 xl:flex">
-            {navLinks.map((navItem) => (
-              <StyledLink key={navItem.name} item={navItem} />
-            ))}
-          </div>
-          <div className="ml-auto">
-            <Search />
-          </div>
-          <GuestArea />
-        </nav>
-      </header>
-    </LayoutPadding>
+        </NavbarBrand>
+      </NavbarContent>
+
+      {/* Navigation links - server component with client ActiveLink */}
+      <NavbarContent className="hidden gap-4 sm:flex" justify="center">
+        {navLinks.map((item) => (
+          <NavbarItem key={item.name}>
+            <NavbarClientItems>
+              <ActiveLink href={item.href} className="text-sm">
+                {item.name}
+              </ActiveLink>
+            </NavbarClientItems>
+          </NavbarItem>
+        ))}
+      </NavbarContent>
+
+      {/* Search and guest area - mixed */}
+      <NavbarContent justify="end">
+        {/* Server-side authentication with client-side fallback */}
+        <NavbarItem className="flex items-center gap-2">
+          <NavbarClientItems>
+            <SearchBar />
+          </NavbarClientItems>
+          <Suspense fallback={<GuestAreaFallback />}>
+            <GuestArea />
+          </Suspense>
+        </NavbarItem>
+      </NavbarContent>
+
+      {/* Mobile menu - client component */}
+      <MobileMenu navLinks={navLinks} />
+    </Navbar>
   );
 }
-
-export default Header;

@@ -29,8 +29,8 @@ function InformationPanel({ className, information = defaultInformation }) {
         <div className={`${className} guide`}>
           <h3>Developer Guide:</h3>
           <p>
-            Please provide an array of information objects as a prop. Each
-            object should have the following structure:
+            Please provide an array of information objects as a prop. Each object should have the
+            following structure:
           </p>
           <div className="rounded-lg bg-gray-900 p-4 font-mono text-green-400 shadow-lg">
             <pre className="whitespace-pre-wrap text-xs">
@@ -50,9 +50,7 @@ function InformationPanel({ className, information = defaultInformation }) {
 
   return (
     <LayoutPadding>
-      <div
-        className={`${className} our-services flex flex-wrap items-center justify-center gap-5`}
-      >
+      <div className={`${className} our-services flex flex-wrap items-center justify-center gap-5`}>
         {information.map((service, i) => (
           <InformationCard service={service} key={i} />
         ))}

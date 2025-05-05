@@ -30,15 +30,11 @@ export default function ProductDetails({ product }) {
 
           {/* Product info */}
           <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
-            <h1 className="text-3xl font-bold tracking-tight text-foreground">
-              {product.name}
-            </h1>
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">{product.name}</h1>
 
             <div className="mt-3">
               <h2 className="sr-only">Product information</h2>
-              <p className="text-3xl tracking-tight text-foreground">
-                ${product.price}
-              </p>
+              <p className="text-3xl tracking-tight text-foreground">${product.price}</p>
             </div>
 
             {/* Reviews and Stock Status */}
@@ -48,9 +44,7 @@ export default function ProductDetails({ product }) {
                   <svg
                     key={rating}
                     className={`${
-                      product.rating > rating
-                        ? "text-yellow-400"
-                        : "text-gray-300"
+                      product.rating > rating ? "text-yellow-400" : "text-gray-300"
                     } h-5 w-5 flex-shrink-0`}
                     fill="currentColor"
                     viewBox="0 0 20 20"
@@ -61,18 +55,11 @@ export default function ProductDetails({ product }) {
                 ))}
               </div>
               <p className="sr-only">{product.rating} out of 5 stars</p>
-              <Button
-                href="#"
-                variant="light"
-                className="ml-3 text-sm font-medium text-primary"
-              >
+              <Button href="#" variant="light" className="ml-3 text-sm font-medium text-primary">
                 {product.reviewCount} reviews
               </Button>
               <Divider orientation="vertical" className="mx-2 h-4" />
-              <Chip
-                color={product.inStock ? "success" : "danger"}
-                variant="flat"
-              >
+              <Chip color={product.inStock ? "success" : "danger"} variant="flat">
                 {product.inStock ? "In Stock" : "Out of Stock"}
               </Chip>
             </div>
@@ -99,12 +86,7 @@ export default function ProductDetails({ product }) {
 
               <div className="mt-8 flex items-center">
                 <div className="mr-4 flex items-center">
-                  <Button
-                    size="sm"
-                    isIconOnly
-                    onPress={decreaseQuantity}
-                    variant="bordered"
-                  >
+                  <Button size="sm" isIconOnly onPress={decreaseQuantity} variant="bordered">
                     <HiMinus className="h-4 w-4" />
                   </Button>
                   <Input
@@ -114,23 +96,13 @@ export default function ProductDetails({ product }) {
                     className="mx-2 w-16 appearance-none text-center"
                     style={{ textAlign: "center" }}
                   />
-                  <Button
-                    size="sm"
-                    isIconOnly
-                    onPress={increaseQuantity}
-                    variant="bordered"
-                  >
+                  <Button size="sm" isIconOnly onPress={increaseQuantity} variant="bordered">
                     <HiPlus className="h-4 w-4" />
                   </Button>
                 </div>
 
                 {/* Buy now button */}
-                <Button
-                  type="submit"
-                  color="primary"
-                  size="lg"
-                  className="flex-1"
-                >
+                <Button type="submit" color="primary" size="lg" className="flex-1">
                   Buy now
                 </Button>
 
@@ -150,22 +122,16 @@ export default function ProductDetails({ product }) {
 
             {/* Delivery and return policy */}
             <div className="mt-8 border-t border-gray-200 pt-8">
-              <h3 className="text-sm font-medium text-foreground">
-                Delivery Policy
-              </h3>
+              <h3 className="text-sm font-medium text-foreground">Delivery Policy</h3>
               <p className="mt-2 text-sm text-gray-500">
-                Free shipping on orders over $100. Delivery within 3-5 business
-                days.
+                Free shipping on orders over $100. Delivery within 3-5 business days.
               </p>
             </div>
 
             <div className="mt-8 border-t border-gray-200 pt-8">
-              <h3 className="text-sm font-medium text-foreground">
-                Return Policy
-              </h3>
+              <h3 className="text-sm font-medium text-foreground">Return Policy</h3>
               <p className="mt-2 text-sm text-gray-500">
-                Easy returns within 30 days of purchase. See our full return
-                policy for details.
+                Easy returns within 30 days of purchase. See our full return policy for details.
               </p>
             </div>
           </div>

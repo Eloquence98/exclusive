@@ -49,10 +49,7 @@ export default function ChangePasswordSection() {
             />
           </div>
           <div>
-            <label
-              htmlFor="newPassword"
-              className="mb-1 block text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="newPassword" className="mb-1 block text-sm font-medium text-gray-700">
               New Password
             </label>
             <Input
@@ -67,10 +64,7 @@ export default function ChangePasswordSection() {
           </div>
         </div>
         <div className="mt-4">
-          <label
-            htmlFor="confirmPassword"
-            className="mb-1 block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="confirmPassword" className="mb-1 block text-sm font-medium text-gray-700">
             Confirm New Password
           </label>
           <Input

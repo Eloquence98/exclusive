@@ -25,12 +25,7 @@ export function Text({
         {label ? (
           <span>
             {label}{" "}
-            {required && (
-              <span className="relative -left-1 -top-1 text-red-700">
-                {" "}
-                &#42;{" "}
-              </span>
-            )}
+            {required && <span className="relative -left-1 -top-1 text-red-700"> &#42; </span>}
           </span>
         ) : null}
         <input
@@ -75,12 +70,7 @@ export function Email({
         {label ? (
           <span>
             {label}{" "}
-            {required && (
-              <span className="relative -left-1 -top-1 text-red-700">
-                {" "}
-                &#42;{" "}
-              </span>
-            )}
+            {required && <span className="relative -left-1 -top-1 text-red-700"> &#42; </span>}
           </span>
         ) : null}
         <input
@@ -97,10 +87,7 @@ export function Email({
           maxLength={maxLength}
           onInput={onInputChange}
         />
-        <FormRowError
-          error={error}
-          tempError="Entered value needs to be an e-mail."
-        />
+        <FormRowError error={error} tempError="Entered value needs to be an e-mail." />
       </label>
     </p>
   );
@@ -127,12 +114,7 @@ export function Phone({
         {label ? (
           <span>
             {label}{" "}
-            {required && (
-              <span className="relative -left-1 -top-1 text-red-700">
-                {" "}
-                &#42;{" "}
-              </span>
-            )}
+            {required && <span className="relative -left-1 -top-1 text-red-700"> &#42; </span>}
           </span>
         ) : null}
         <input
@@ -150,10 +132,7 @@ export function Phone({
           maxLength="14"
           onInput={onInputChange}
         />
-        <FormRowError
-          error={error}
-          tempError="Enter a phone number in the format: 123-456-7890"
-        />
+        <FormRowError error={error} tempError="Enter a phone number in the format: 123-456-7890" />
       </label>
     </p>
   );
@@ -182,12 +161,7 @@ export function Textarea({
         {label ? (
           <span>
             {label}{" "}
-            {required && (
-              <span className="relative -left-1 -top-1 text-red-700">
-                {" "}
-                &#42;{" "}
-              </span>
-            )}
+            {required && <span className="relative -left-1 -top-1 text-red-700"> &#42; </span>}
           </span>
         ) : null}
 
@@ -250,10 +224,7 @@ export function Address({
           title={title}
           data-pattern={dataPattern}
         />
-        <FormRowError
-          error={error}
-          tempError="Entered value needs to be a valid UK address."
-        />
+        <FormRowError error={error} tempError="Entered value needs to be a valid UK address." />
       </label>
     </p>
   );
@@ -281,12 +252,7 @@ export function CouponInput({
         {label ? (
           <span>
             {label}{" "}
-            {required && (
-              <span className="relative -left-1 -top-1 text-red-700">
-                {" "}
-                &#42;{" "}
-              </span>
-            )}
+            {required && <span className="relative -left-1 -top-1 text-red-700"> &#42; </span>}
           </span>
         ) : null}
         <input

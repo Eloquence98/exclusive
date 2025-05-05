@@ -1,13 +1,12 @@
-'use client';
+"use client";
 
-import { createContext, useContext } from 'react';
-import { useLocalStorage } from '@/app/_hooks/useLocalStorage';
-
+import { useLocalStorage } from "@/app/_hooks/useLocalStorage";
+import { createContext, useContext } from "react";
 
 const WishlistContext = createContext();
 
 export function WishlistProvider({ children }) {
-  const [wishlist, setWishlist] = useLocalStorage('wishlist', []);
+  const [wishlist, setWishlist] = useLocalStorage("wishlist", []);
 
   const addToWishlist = (item) => {
     setWishlist((prevWishlist) => {
@@ -27,7 +26,9 @@ export function WishlistProvider({ children }) {
   };
 
   return (
-    <WishlistContext.Provider value={{ wishlist, addToWishlist, removeFromWishlist, clearWishlist }}>
+    <WishlistContext.Provider
+      value={{ wishlist, addToWishlist, removeFromWishlist, clearWishlist }}
+    >
       {children}
     </WishlistContext.Provider>
   );
@@ -36,7 +37,7 @@ export function WishlistProvider({ children }) {
 export function useWishlist() {
   const context = useContext(WishlistContext);
   if (!context) {
-    throw new Error('useWishlist must be used within a WishlistProvider');
+    throw new Error("useWishlist must be used within a WishlistProvider");
   }
   return context;
 }

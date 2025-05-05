@@ -10,12 +10,7 @@ function JustForYou() {
     <>
       <div className="for-you-head mb-10 flex items-center justify-between">
         <SectionLabel className="capitalize"> just for you </SectionLabel>
-        <Button
-          as="link"
-          href="/cart"
-          variant="secondary"
-          className="float-right capitalize"
-        >
+        <Button as="link" href="/cart" variant="secondary" className="float-right capitalize">
           view all
         </Button>
       </div>

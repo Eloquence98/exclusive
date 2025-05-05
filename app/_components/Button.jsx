@@ -20,18 +20,12 @@ function Button({
 
   if (as === "link")
     return (
-      <Link
-        href={href}
-        className={` ${commonClasses} ${styles[variant]} ${className}`}
-      >
+      <Link href={href} className={` ${commonClasses} ${styles[variant]} ${className}`}>
         {children}
       </Link>
     );
   return (
-    <button
-      {...rest}
-      className={`${commonClasses} ${styles[variant]} ${className}`}
-    >
+    <button {...rest} className={`${commonClasses} ${styles[variant]} ${className}`}>
       {children}
     </button>
   );

@@ -7,9 +7,7 @@ const inter = Inter({
 
 function Heading({ className = "", children }) {
   return (
-    <h1
-      className={`${inter.className} ${className} text-nowrap text-4xl font-semibold`}
-    >
+    <h1 className={`${inter.className} ${className} text-nowrap text-4xl font-semibold`}>
       {children}
     </h1>
   );

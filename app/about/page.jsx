@@ -46,13 +46,12 @@ function page() {
           <div className="item-1 space-y-2 sm:w-4/5 md:w-[unset]">
             <Heading>Our Story</Heading>
             <p className="">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Reprehenderit, nesciunt. Soluta, eum laudantium. Iusto nobis
-              nostrum laboriosam soluta itaque error! Repudiandae.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, nesciunt.
+              Soluta, eum laudantium. Iusto nobis nostrum laboriosam soluta itaque error!
+              Repudiandae.
             </p>
             <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Placeat,
-              necessitatibus.
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Placeat, necessitatibus.
             </p>
           </div>
           <div className="relative size-full">

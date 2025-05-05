@@ -41,10 +41,7 @@ function ProductCard({ className, product }) {
         {formatCurrency(discountedPrice)} {"   "}
         {isDiscount && (
           <>
-            <span className="ml-2 text-discount line-through">
-              {" "}
-              {formatCurrency(price)}{" "}
-            </span>{" "}
+            <span className="ml-2 text-discount line-through"> {formatCurrency(price)} </span>{" "}
           </>
         )}
       </p>

@@ -37,39 +37,22 @@ const Countdown = ({ hours: forHours }) => {
     <div className="hidden space-x-9 text-black xl:flex">
       <div className="relative flex flex-col items-start">
         <span className="text-sm">Days</span>
-        <span className="text-4xl font-bold">
-          {String(days).padStart(2, "0")}
-        </span>
-        <span className="loading-none absolute -right-5 bottom-1 text-3xl text-primary">
-          {" "}
-          :{" "}
-        </span>
+        <span className="text-4xl font-bold">{String(days).padStart(2, "0")}</span>
+        <span className="loading-none absolute -right-5 bottom-1 text-3xl text-primary"> : </span>
       </div>
       <div className="relative flex flex-col items-start">
         <span className="text-sm">Hours</span>
-        <span className="text-4xl font-bold">
-          {String(hours).padStart(2, "0")}
-        </span>
-        <span className="loading-none absolute -right-5 bottom-1 text-3xl text-primary">
-          {" "}
-          :{" "}
-        </span>
+        <span className="text-4xl font-bold">{String(hours).padStart(2, "0")}</span>
+        <span className="loading-none absolute -right-5 bottom-1 text-3xl text-primary"> : </span>
       </div>
       <div className="relative flex flex-col items-start">
         <span className="text-sm">Minutes</span>
-        <span className="text-4xl font-bold">
-          {String(minutes).padStart(2, "0")}
-        </span>
-        <span className="loading-none absolute -right-5 bottom-1 text-3xl text-primary">
-          {" "}
-          :{" "}
-        </span>
+        <span className="text-4xl font-bold">{String(minutes).padStart(2, "0")}</span>
+        <span className="loading-none absolute -right-5 bottom-1 text-3xl text-primary"> : </span>
       </div>
       <div className="flex flex-col items-start">
         <span className="text-sm">Seconds</span>
-        <span className="text-4xl font-bold">
-          {String(seconds).padStart(2, "0")}
-        </span>
+        <span className="text-4xl font-bold">{String(seconds).padStart(2, "0")}</span>
       </div>
     </div>
   );

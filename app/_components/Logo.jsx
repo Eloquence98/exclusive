@@ -8,10 +8,7 @@ const inter = Inter({
 
 function Logo() {
   return (
-    <Link
-      href="/"
-      className={`${inter.className} font-bold  text-2xl text-black`}
-    >
+    <Link href="/" className={`${inter.className} text-2xl font-bold text-inherit`}>
       Exclusive
     </Link>
   );

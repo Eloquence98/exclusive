@@ -11,9 +11,7 @@ function CartCheckoutStats({ className = "", stats = {} }) {
       </p>
       <p className="py-4">
         Shipping{" "}
-        <span className="float-right">
-          {shipping === 0 ? "Free" : formatCurrency(shipping)}
-        </span>
+        <span className="float-right">{shipping === 0 ? "Free" : formatCurrency(shipping)}</span>
       </p>
       <p className="py-4">
         Total <span className="float-right">{formatCurrency(total)}</span>

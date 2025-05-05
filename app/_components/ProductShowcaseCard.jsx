@@ -5,10 +5,7 @@ const ProductShowcaseCard = ({ className, product }) => {
   const { title, description, id, image } = product;
   return (
     <div className={`${className} group relative overflow-hidden`}>
-      <ImageCssBg
-        className="transition-transform duration-500 group-hover:scale-105"
-        src={image}
-      />
+      <ImageCssBg className="transition-transform duration-500 group-hover:scale-105" src={image} />
       <div
         className="content textShadow-sm absolute bottom-8 left-8 text-white"
         // style={{ textShadow: "#FC0 1px 0 10px" }}

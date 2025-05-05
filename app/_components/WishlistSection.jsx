@@ -20,12 +20,7 @@ function WishlistSection() {
         <h3 className="text-regular relative leading-9 text-black">
           Wishlist ({wishedItems.length})
         </h3>
-        <Button
-          as="link"
-          href="/cart"
-          variant="secondary"
-          className="float-right capitalize"
-        >
+        <Button as="link" href="/cart" variant="secondary" className="float-right capitalize">
           Move all to bag
         </Button>
       </div>

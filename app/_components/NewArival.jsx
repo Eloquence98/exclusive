@@ -44,8 +44,7 @@ function NewArival() {
 
   const product5 = {
     title: "Samsung Galaxy S23",
-    description:
-      "The newest Galaxy phone with cutting-edge features and design.",
+    description: "The newest Galaxy phone with cutting-edge features and design.",
     id: 5,
     image: imageFour,
   };
@@ -56,23 +55,13 @@ function NewArival() {
         <div className="section-stats mb-10 flex min-h-25 gap-22">
           <div className="headings flex flex-col justify-between capitalize">
             <SectionLabel>featured</SectionLabel>
-            <h2
-              className={`${inter.className} text-nowrap text-4xl font-semibold`}
-            >
-              new arival
-            </h2>
+            <h2 className={`${inter.className} text-nowrap text-4xl font-semibold`}>new arival</h2>
           </div>
         </div>
 
         <div className="grid grid-cols-1 grid-rows-[repeat(2,_300px)] gap-8 md:grid-cols-2 md:grid-rows-[repeat(2,_400px)] lg:h-[600px] lg:grid-cols-[1fr_0.5fr_0.5fr] lg:grid-rows-2 xl:grid-cols-[1fr_0.5fr_0.5fr] xl:grid-rows-2">
-          <ProductShowcaseCard
-            className="lg:row-span-2 xl:row-span-2"
-            product={product1}
-          />
-          <ProductShowcaseCard
-            className="lg:col-span-2 xl:col-span-2"
-            product={product2}
-          />
+          <ProductShowcaseCard className="lg:row-span-2 xl:row-span-2" product={product1} />
+          <ProductShowcaseCard className="lg:col-span-2 xl:col-span-2" product={product2} />
           <ProductShowcaseCard
             className="hidden md:col-span-2 md:block xl:col-span-1"
             product={product3}

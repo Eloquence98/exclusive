@@ -86,12 +86,7 @@ function FooterContent({ content, myKey }) {
 }
 
 function FooterHeading({ children, className }) {
-  return (
-    <h2 className={`${className} text-lg font-medium capitalize`}>
-      {" "}
-      {children}{" "}
-    </h2>
-  );
+  return <h2 className={`${className} text-lg font-medium capitalize`}> {children} </h2>;
 }
 
 function FooterParagraph({ children, className }) {

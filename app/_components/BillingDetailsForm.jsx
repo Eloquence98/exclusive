@@ -14,8 +14,7 @@ function BillingDetailsForm() {
   const [nameError, setNameError, nameRef] = useError();
   const [emailError, setEmailError, emailRef] = useError();
   const [cityError, setCityError, cityRef] = useError();
-  const [streetAddressError, setStreetAddressError, streetAddressRef] =
-    useError();
+  const [streetAddressError, setStreetAddressError, streetAddressRef] = useError();
   const [phoneError, setPhoneError, phoneRef] = useError();
 
   function handleSubmit(formData) {
@@ -33,25 +32,16 @@ function BillingDetailsForm() {
         error={nameError}
         setError={setNameError}
         textEl={nameRef}
-        onInputChange={(event) =>
-          validateInput(event.target, setNameError, validateName)
-        }
+        onInputChange={(event) => validateInput(event.target, setNameError, validateName)}
       />
       <Email
         emailEl={emailRef}
         label="Email:"
         error={emailError}
         setError={setEmailError}
-        onInputChange={(event) =>
-          validateInput(event.target, setEmailError, validateEmail)
-        }
+        onInputChange={(event) => validateInput(event.target, setEmailError, validateEmail)}
       />
-      <Text
-        name="companyName"
-        label="Company Name"
-        id="company-name"
-        required={false}
-      />
+      <Text name="companyName" label="Company Name" id="company-name" required={false} />
 
       <fieldset className="address-fieldset space-y-5">
         <Address
@@ -63,9 +53,7 @@ function BillingDetailsForm() {
           error={cityError}
           setError={setCityError}
           addressEl={cityRef}
-          onInputChange={(event) =>
-            validateInput(event.target, setCityError, validateAddress)
-          }
+          onInputChange={(event) => validateInput(event.target, setCityError, validateAddress)}
         />
         <Address
           label="Street Address:"
@@ -89,9 +77,7 @@ function BillingDetailsForm() {
         error={phoneError}
         setError={setPhoneError}
         textEl={phoneRef}
-        onInputChange={(event) =>
-          validateInput(event.target, setPhoneError, validatePhone)
-        }
+        onInputChange={(event) => validateInput(event.target, setPhoneError, validatePhone)}
       />
       <Checkbox name="save-billing-information" size="sm" className="text-xs">
         Save this information for faster check-out next time

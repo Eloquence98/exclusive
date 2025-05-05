@@ -17,8 +17,7 @@ const bankIcons = [
 ];
 
 function CheckoutForm({ className = "", data = {} }) {
-  const [paymentMethodError, setPaymentMethodError, setPaymentMethodRef] =
-    useError("");
+  const [paymentMethodError, setPaymentMethodError, setPaymentMethodRef] = useError("");
 
   function handleSubmit(formData) {
     const paymentMethod = formData.get("paymentMethod");

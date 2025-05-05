@@ -1,70 +1,49 @@
+import { Badge } from "@heroui/badge";
+import { Button } from "@heroui/button";
+import Link from "next/link";
 import { HiOutlineHeart, HiOutlineShoppingCart } from "react-icons/hi2";
 import { auth } from "../_lib/auth";
-import { Avatar } from "@heroui/avatar";
+import UserDropdownMenu from "./UserDropdownMenu";
 
-const { default: Link } = require("next/link");
-import { Button } from "@heroui/button";
-
-export default async function GuestArea({ className = "" }) {
-  // this will makee the route dynamic it's reading the headers and currently the header is being used in every route so all the routes are dynamic
+export default async function GuestArea() {
+  // Server-side authentication check
   const session = await auth();
 
   return (
-    <ul
-      className={`guest-area flex items-center justify-center gap-4 ${className}`}
-    >
-      {session?.user?.image ? (
-        <>
-          <li>
-            <Link
-              href="/wishlist"
-              className="hover:text-accent-400 flex items-center gap-4 transition-colors"
-            >
-              <HiOutlineHeart />
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/cart"
-              className="hover:text-accent-400 flex items-center gap-4 transition-colors"
-            >
-              <HiOutlineShoppingCart />
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/account"
-              className="hover:text-accent-400 flex items-center gap-4 transition-colors"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              {/* <img
-                className="h-8 rounded-full"
-                src={session.user.image}
-                alt={session.user.name}
-                referrerPolicy="no-referrer"
-                /> */}
-              <Avatar
-                isBordered
-                // src="https://i.pravatar.cc/150?u=a04258114e29026708c"
-                src={session.user.image}
-                alt={session.user.name}
-                size="sm"
-              />
-            </Link>
-          </li>
-        </>
-      ) : (
-        <li>
-          <Link
-            href="/account"
-            className="hover:text-accent-400 transition-colors"
+    <div className="flex items-center gap-4">
+      <div className="cart-wishlist-icons flex items-center gap-2">
+        <Link href="/wishlist" className="relative">
+          <Badge
+            content="0"
+            color="danger"
+            size="sm"
+            className="hidden"
+            showOutline={false}
+            data-wishlist-count
           >
-            <Button radius="sm" color="primary">
-              Account
+            <Button isIconOnly size="sm" variant="light" aria-label="Wishlist">
+              <HiOutlineHeart className="text-default-500" size={20} />
             </Button>
-          </Link>
-        </li>
-      )}
-    </ul>
+          </Badge>
+        </Link>
+
+        <Link href="/cart" className="relative">
+          <Badge
+            content="0"
+            color="primary"
+            size="sm"
+            className="hidden"
+            showOutline={false}
+            data-cart-count
+          >
+            <Button isIconOnly size="sm" variant="light" aria-label="Cart">
+              <HiOutlineShoppingCart className="text-default-500" size={20} />
+            </Button>
+          </Badge>
+        </Link>
+      </div>
+
+      <UserDropdownMenu user={session?.user} />
+    </div>
   );
 }

@@ -2,8 +2,7 @@ import { useError } from "@/app/_utills/useError";
 import { Address, Text } from "./Input";
 
 function Examples() {
-  const [streetAddressError, setStreetAddressError, streetAddressRef] =
-    useError();
+  const [streetAddressError, setStreetAddressError, streetAddressRef] = useError();
   const [cityError, setCityError, cityRef] = useError();
   const [postalCodeError, setPostalCodeError, postalCodeRef] = useError();
   const [firstNameError, setFirstNameError, firstNameRef] = useError();
@@ -17,9 +16,7 @@ function Examples() {
           error={firstNameError}
           setError={setFirstNameError}
           textEl={firstNameRef}
-          onInputChange={(event) =>
-            validateInput(event.target, setFirstNameError, validateName)
-          }
+          onInputChange={(event) => validateInput(event.target, setFirstNameError, validateName)}
         />
         <fieldset className="address-fieldset">
           <legend>Address Details</legend>
@@ -33,11 +30,7 @@ function Examples() {
             setError={setStreetAddressError}
             addressEl={streetAddressRef}
             onInputChange={(event) =>
-              validateInput(
-                event.target,
-                setStreetAddressError,
-                validateAddress,
-              )
+              validateInput(event.target, setStreetAddressError, validateAddress)
             }
           />
           <Address
@@ -49,9 +42,7 @@ function Examples() {
             error={cityError}
             setError={setCityError}
             addressEl={cityRef}
-            onInputChange={(event) =>
-              validateInput(event.target, setCityError, validateAddress)
-            }
+            onInputChange={(event) => validateInput(event.target, setCityError, validateAddress)}
           />
           <Address
             label="Postal Code:"

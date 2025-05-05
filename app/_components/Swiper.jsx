@@ -64,9 +64,7 @@ function PrevButton({ className }) {
 }
 
 function NextButton({ className }) {
-  return (
-    <SliderNavigationButton next classes={`swiper-button-next ${className}`} />
-  );
+  return <SliderNavigationButton next classes={`swiper-button-next ${className}`} />;
 }
 
 Swiper.Slide = Slide;

@@ -43,26 +43,20 @@ function ContactForm({ className }) {
         error={lastNameError}
         setError={setLastNameError}
         textEl={lastNameRef}
-        onInputChange={(event) =>
-          validateInput(event.target, setLastNameError, validateName)
-        }
+        onInputChange={(event) => validateInput(event.target, setLastNameError, validateName)}
       />
       <Email
         emailEl={emailRef}
         label="Email:"
         error={emailError}
         setError={setEmailError}
-        onInputChange={(event) =>
-          validateInput(event.target, setEmailError, validateEmail)
-        }
+        onInputChange={(event) => validateInput(event.target, setEmailError, validateEmail)}
       />
       <Phone
         phoneEl={phoneRef}
         error={phoneError}
         setError={setPhoneError}
-        onInputChange={(event) =>
-          validateInput(event.target, setPhoneError, validatePhone)
-        }
+        onInputChange={(event) => validateInput(event.target, setPhoneError, validatePhone)}
       />
       <Textarea
         className="md:col-span-3"
