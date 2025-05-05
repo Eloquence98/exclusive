@@ -14,6 +14,29 @@ A modern e-commerce platform built with the latest web technologies, offering a 
 - **Payments:** Cash on Delivery + Stripe
 - **Deployment:** Netlify
 
+## 📂 Project Structure
+
+The project follows the Next.js 15 App Router structure, organizing code by route segments and route groups.
+
+```
+luxe-clothing-store/
+├── src/                    # Source code directory
+│   ├── app/                # Next.js App Router
+│   │   ├── (auth)/         # Authentication route group
+│   │   ├── (main)/         # Main content route group
+│   │   ├── (shop)/         # Shopping-related route group
+│   │   └── api/            # API route handlers
+│   ├── components/         # Reusable UI components
+│   ├── lib/                # Data and service functions
+│   ├── hooks/              # Custom React hooks
+│   ├── styles/             # Global styles
+│   └── utils/              # Utility functions and helpers
+├── public/                 # Static assets
+└── ...configuration files
+```
+
+For a detailed breakdown of the project structure, see [Project Structure](project-structure.md).
+
 ## ✨ Key Features
 
 ### Performance & Data Handling
