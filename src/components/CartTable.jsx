@@ -1,25 +1,16 @@
 "use client";
+import { useCart } from "@/hooks/CartProvider";
 import CartTableRow from "./CartTableRow";
+import EmptyState from "./EmptyState";
 import Table from "./Table";
 
-const items = [
-  {
-    image: "image-url",
-    title: "LCD Monitor",
-    price: 650,
-    quantity: 1,
-    subtotal: 100,
-  },
-  {
-    image: "image-url",
-    title: "H1 Gamepad",
-    price: 550,
-    quantity: 1,
-    subtotal: 100,
-  },
-];
-
 function CartTable() {
+  const { cart } = useCart();
+
+  if (!cart || cart.length === 0) {
+    return <EmptyState type="cart" />;
+  }
+
   return (
     <Table columns="grid-cols-[1fr_1fr_1fr_1fr]">
       <Table.Header>
@@ -29,8 +20,8 @@ function CartTable() {
         <div className="subtotal">Subtotal</div>
       </Table.Header>
       <Table.Body
-        data={items}
-        render={(item, i) => <CartTableRow item={item} key={i} />}
+        data={cart}
+        render={(item) => <CartTableRow key={item.id} item={item} />}
       />
     </Table>
   );

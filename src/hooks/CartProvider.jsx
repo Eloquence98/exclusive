@@ -14,16 +14,24 @@ export function CartProvider({ children }) {
       if (existingItem) {
         return prevCart.map((ci) =>
           ci.id === item.id
-            ? { ...ci, quantity: ci.quantity + item.quantity }
+            ? { ...ci, quantity: (ci.quantity || 1) + (item.quantity || 1) }
             : ci,
         );
       }
-      return [...prevCart, item];
+      return [...prevCart, { ...item, quantity: item.quantity || 1 }];
     });
   };
 
   const removeFromCart = (id) => {
     setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+  };
+
+  const updateQuantity = (id, quantity) => {
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item.id === id ? { ...item, quantity } : item
+      )
+    );
   };
 
   const clearCart = () => {
@@ -32,7 +40,7 @@ export function CartProvider({ children }) {
 
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, removeFromCart, clearCart }}
+      value={{ cart, addToCart, removeFromCart, updateQuantity, clearCart }}
     >
       {children}
     </CartContext.Provider>

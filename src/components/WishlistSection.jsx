@@ -1,37 +1,42 @@
 "use client";
-import { tempProducts } from "@/lib/tempData";
-import Button from "./Button";
+import { useCart } from "@/hooks/CartProvider";
+import { useWishlist } from "@/hooks/WishlistProvider";
+import { Button } from "@heroui/button";
+import EmptyState from "./EmptyState";
 import ProductCard from "./ProductCard";
-import { useEffect, useState } from "react";
 
 function WishlistSection() {
-  const [isMounted, setIsMounted] = useState(false);
-  const randomInt = Math.floor(Math.random() * 3) + 2;
-  const wishedItems = tempProducts.slice(0, randomInt);
+  const { wishlist } = useWishlist();
+  const { addToCart } = useCart();
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-  if (!isMounted) return null;
+  const handleMoveAllToBag = () => {
+    wishlist.forEach(item => {
+      addToCart(item);
+    });
+  };
+
+  if (!wishlist || wishlist.length === 0) {
+    return <EmptyState type="wishlist" />;
+  }
 
   return (
     <>
       <div className="wishlist-head mb-10 flex items-center justify-between">
         <h3 className="text-regular relative leading-9 text-black">
-          Wishlist ({wishedItems.length})
+          Wishlist ({wishlist.length})
         </h3>
         <Button
-          as="link"
-          href="/cart"
-          variant="secondary"
+          color="primary"
+          variant="flat"
           className="float-right capitalize"
+          onClick={handleMoveAllToBag}
         >
           Move all to bag
         </Button>
       </div>
       <div className="wishlist-body grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] justify-items-start gap-4">
-        {wishedItems.map((product) => (
-          <ProductCard className="w-full" key={product?.id} product={product} />
+        {wishlist.map((product) => (
+          <ProductCard className="w-full" key={product.id} product={product} />
         ))}
       </div>
     </>

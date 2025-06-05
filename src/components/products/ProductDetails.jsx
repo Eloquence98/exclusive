@@ -1,10 +1,13 @@
 "use client";
+import { useCart } from "@/hooks/CartProvider";
+import { useWishlist } from "@/hooks/WishlistProvider";
 import { Button } from "@heroui/button";
 import { Chip } from "@heroui/chip";
 import { Divider } from "@heroui/divider";
 import { Input } from "@heroui/input";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { HiHeart, HiMinus, HiPlus } from "react-icons/hi2";
+import { HiHeart, HiMinus, HiPlus, HiShoppingCart } from "react-icons/hi2";
 import ProductColors from "./ProductColors";
 import ProductImages from "./ProductImages";
 import ProductSizes from "./ProductSizes";
@@ -13,9 +16,38 @@ export default function ProductDetails({ product }) {
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
   const [quantity, setQuantity] = useState(1);
+  
+  const router = useRouter();
+  const { addToCart } = useCart();
+  const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
+  
+  const isInWishlist = wishlist.some((item) => item.id === product.id);
 
   const decreaseQuantity = () => setQuantity((prev) => Math.max(1, prev - 1));
   const increaseQuantity = () => setQuantity((prev) => prev + 1);
+
+  const handleAddToCart = () => {
+    const cartItem = {
+      ...product,
+      quantity,
+      selectedColor: selectedColor.name,
+      selectedSize: selectedSize.name
+    };
+    addToCart(cartItem);
+  };
+
+  const handleBuyNow = () => {
+    handleAddToCart();
+    router.push("/cart");
+  };
+
+  const handleWishlistToggle = () => {
+    if (isInWishlist) {
+      removeFromWishlist(product.id);
+    } else {
+      addToWishlist(product);
+    }
+  };
 
   return (
     <div className="bg-background">
@@ -30,9 +62,19 @@ export default function ProductDetails({ product }) {
 
           {/* Product info */}
           <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
-            <h1 className="text-3xl font-bold tracking-tight text-foreground">
-              {product.name}
-            </h1>
+            <div className="flex items-center justify-between">
+              <h1 className="text-3xl font-bold tracking-tight text-foreground">
+                {product.name}
+              </h1>
+              <Button
+                isIconOnly
+                variant="light"
+                className={isInWishlist ? "text-danger" : "text-default-500"}
+                onClick={handleWishlistToggle}
+              >
+                <HiHeart className="h-6 w-6" />
+              </Button>
+            </div>
 
             <div className="mt-3">
               <h2 className="sr-only">Product information</h2>
@@ -82,7 +124,7 @@ export default function ProductDetails({ product }) {
               <p className="text-base text-foreground">{product.description}</p>
             </div>
 
-            <form className="mt-6">
+            <div className="mt-6">
               {/* Colors */}
               <ProductColors
                 product={product}
@@ -108,11 +150,14 @@ export default function ProductDetails({ product }) {
                     <HiMinus className="h-4 w-4" />
                   </Button>
                   <Input
-                    type="text"
+                    type="number"
                     value={quantity}
-                    readOnly
+                    onChange={(e) => {
+                      const val = parseInt(e.target.value);
+                      if (val >= 1) setQuantity(val);
+                    }}
                     className="mx-2 w-16 appearance-none text-center"
-                    style={{ textAlign: "center" }}
+                    min="1"
                   />
                   <Button
                     size="sm"
@@ -124,49 +169,48 @@ export default function ProductDetails({ product }) {
                   </Button>
                 </div>
 
-                {/* Buy now button */}
-                <Button
-                  type="submit"
-                  color="primary"
-                  size="lg"
-                  className="flex-1"
-                >
-                  Buy now
-                </Button>
-
-                {/* Updated Add to favorite button */}
-                <Button
-                  type="button"
-                  variant="bordered"
-                  size="lg"
-                  isIconOnly
-                  className="ml-4"
-                  aria-label="Add to favorites"
-                >
-                  <HiHeart className="size-8" />
-                </Button>
+                <div className="flex flex-1 gap-4">
+                  <Button
+                    onClick={handleAddToCart}
+                    variant="flat"
+                    color="primary"
+                    startContent={<HiShoppingCart className="h-5 w-5" />}
+                    className="flex-1"
+                  >
+                    Add to Cart
+                  </Button>
+                  <Button
+                    onClick={handleBuyNow}
+                    color="primary"
+                    className="flex-1"
+                  >
+                    Buy Now
+                  </Button>
+                </div>
               </div>
-            </form>
-
-            {/* Delivery and return policy */}
-            <div className="mt-8 border-t border-gray-200 pt-8">
-              <h3 className="text-sm font-medium text-foreground">
-                Delivery Policy
-              </h3>
-              <p className="mt-2 text-sm text-gray-500">
-                Free shipping on orders over $100. Delivery within 3-5 business
-                days.
-              </p>
             </div>
 
-            <div className="mt-8 border-t border-gray-200 pt-8">
-              <h3 className="text-sm font-medium text-foreground">
-                Return Policy
-              </h3>
-              <p className="mt-2 text-sm text-gray-500">
-                Easy returns within 30 days of purchase. See our full return
-                policy for details.
-              </p>
+            {/* Delivery and return policy */}
+            <div className="mt-8 space-y-6 border-t border-gray-200 pt-8">
+              <div>
+                <h3 className="text-sm font-medium text-foreground">
+                  Delivery Policy
+                </h3>
+                <p className="mt-2 text-sm text-gray-500">
+                  Free shipping on orders over $100. Delivery within 3-5 business
+                  days.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-medium text-foreground">
+                  Return Policy
+                </h3>
+                <p className="mt-2 text-sm text-gray-500">
+                  Easy returns within 30 days of purchase. See our full return
+                  policy for details.
+                </p>
+              </div>
             </div>
           </div>
         </div>
