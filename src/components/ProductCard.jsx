@@ -1,7 +1,12 @@
+"use client";
 import { useCart } from "@/hooks/CartProvider";
 import { useWishlist } from "@/hooks/WishlistProvider";
 import { formatCurrency } from "@/utils/utility";
-import { EyeIcon, HeartIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
+import {
+  EyeIcon,
+  HeartIcon,
+  ShoppingCartIcon,
+} from "@heroicons/react/24/outline";
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -16,7 +21,7 @@ function ProductCard({ className, product }) {
   const router = useRouter();
   const { addToCart } = useCart();
   const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
-  
+
   const isInWishlist = wishlist.some((item) => item.id === id);
 
   const handleWishlistToggle = () => {
@@ -36,8 +41,8 @@ function ProductCard({ className, product }) {
   };
 
   return (
-    <div className={`${className} card space-y-2 group`}>
-      <div className="image relative flex h-[15.625rem] w-full items-center justify-center rounded bg-secondary overflow-hidden">
+    <div className={`${className} card group space-y-2`}>
+      <div className="image relative flex h-[15.625rem] w-full items-center justify-center overflow-hidden rounded bg-secondary">
         <div className="image relative h-48 w-44">
           <Image
             src={image}
@@ -53,9 +58,9 @@ function ProductCard({ className, product }) {
           </div>
         )}
         <div className="absolute right-3 top-3 space-y-2">
-          <button 
+          <button
             onClick={handleWishlistToggle}
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-black hover:text-primary transition-colors"
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-black transition-colors hover:text-primary"
           >
             {isInWishlist ? (
               <HeartIconSolid className="h-5 w-5 text-primary" />
@@ -63,9 +68,9 @@ function ProductCard({ className, product }) {
               <HeartIcon className="h-5 w-5" />
             )}
           </button>
-          <button 
+          <button
             onClick={handleViewProduct}
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-black hover:text-primary transition-colors"
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-black transition-colors hover:text-primary"
           >
             <EyeIcon className="h-5 w-5" />
           </button>
@@ -73,9 +78,9 @@ function ProductCard({ className, product }) {
         {/* Add to Cart Button - Shows on hover */}
         <button
           onClick={handleAddToCart}
-          className="absolute bottom-0 left-0 w-full bg-black bg-opacity-80 py-3 text-white opacity-0 transition-opacity group-hover:opacity-100 flex items-center justify-center"
+          className="absolute bottom-0 left-0 flex w-full items-center justify-center bg-black bg-opacity-80 py-3 text-white opacity-0 transition-opacity group-hover:opacity-100"
         >
-          <ShoppingCartIcon className="h-5 w-5 mr-2" />
+          <ShoppingCartIcon className="mr-2 h-5 w-5" />
           Add To Cart
         </button>
       </div>
