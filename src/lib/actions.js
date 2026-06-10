@@ -47,6 +47,51 @@ export async function signOutAction() {
   await signOut();
 }
 
+export async function credentialsSignIn(email, password) {
+  try {
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+    return { success: true, data: result };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
+
+export async function signUpAction(formData) {
+  try {
+    const res = await fetch(`${API_URL}/users/signup`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        passwordConfirm: formData.passwordConfirm,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      return { success: false, error: data.message };
+    }
+
+    // After successful signup, sign them in
+    await signIn("credentials", {
+      email: formData.email,
+      password: formData.password,
+      redirect: false,
+    });
+
+    return { success: true, data: data.data };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
+
 export async function couponAction(formData) {
   const coupon = formData.get("coupon");
 
