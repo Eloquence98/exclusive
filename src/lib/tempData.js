@@ -1,3 +1,7 @@
+// src/lib/tempData.js
+// This file is now used only as a fallback when backend is unavailable
+// and for the structure reference
+
 export const tempProducts = [
   {
     id: 1,
