@@ -1,29 +1,39 @@
+"use client";
+
 import BillingDetailsForm from "@/components/BillingDetailsForm";
+import CheckoutTotal from "@/components/CheckoutTotal";
+import EmptyState from "@/components/EmptyState";
 import Heading from "@/components/Heading";
 import LayoutPadding from "@/components/LayoutPadding";
-import CheckoutTotal from "@/components/CheckoutTotal";
+import { useCart } from "@/hooks/CartProvider";
+import { useState } from "react";
 
-export const metadata = {
-  title: "Checkout",
-};
+export default function CheckoutPage() {
+  const { cart } = useCart();
+  const [shippingAddress, setShippingAddress] = useState(null);
 
-const listItems = [
-  { name: "HTC Combat gear", image: "/controller.png", price: 230 },
-  { name: "CPU & GPU Combat", image: "/side-image.png", price: 2300 },
-];
+  if (!cart || cart.length === 0) {
+    return (
+      <LayoutPadding>
+        <div className="mt-15">
+          <EmptyState type="cart" />
+        </div>
+      </LayoutPadding>
+    );
+  }
 
-function page() {
   return (
     <LayoutPadding>
       <div className="mt-15">
         <Heading className="mb-9">Billing Details</Heading>
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-[25rem_1fr]">
-          <BillingDetailsForm />
-          <CheckoutTotal checkOutItems={listItems} />
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[25rem_1fr]">
+          <BillingDetailsForm onDataChange={setShippingAddress} />
+          <CheckoutTotal
+            checkOutItems={cart}
+            shippingAddress={shippingAddress}
+          />
         </div>
       </div>
     </LayoutPadding>
   );
 }
-
-export default page;

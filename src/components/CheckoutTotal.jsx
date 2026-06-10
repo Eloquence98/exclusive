@@ -1,23 +1,25 @@
-import { getTotalPrice } from "@/utils/utility";
 import CartCheckoutStats from "./CartCheckoutStats";
 import CheckoutForm from "./CheckoutForm";
 import CheckoutTotalItem from "./CheckoutTotalItem";
-import CouponForm from "./CouponForm";
 
-function CheckoutTotal({ checkOutItems = [] }) {
-  const subTotal = getTotalPrice(checkOutItems || []);
+function CheckoutTotal({ checkOutItems = [], shippingAddress }) {
+  const subTotal = checkOutItems.reduce((total, item) => {
+    const price = item.currentPrice || item.price;
+    return total + price * (item.quantity || 1);
+  }, 0);
+
   const stats = { subTotal, shipping: 0 };
 
   return (
     <div className="items-on-check-out space-y-8 lg:ml-auto lg:max-w-[32.5rem]">
-      {checkOutItems.map(
-        ({ name = "Unknown Item", image = "", price = 0 }, index) => (
-          <CheckoutTotalItem key={name} item={{ name, image, price }} />
-        ),
-      )}
+      <h4 className="text-xl font-medium text-black">Order Summary</h4>
+      
+      {checkOutItems.map((item) => (
+        <CheckoutTotalItem key={item.id} item={item} />
+      ))}
+      
       <CartCheckoutStats stats={stats} />
-      <CheckoutForm />
-      <CouponForm />
+      <CheckoutForm shippingAddress={shippingAddress} />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 "use server";
-import { signIn, signOut } from "@/lib/auth";
+import { auth, signIn, signOut } from "@/lib/auth";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -145,4 +145,88 @@ export async function couponAction(formData) {
   // Proceed with processing the data (e.g., save to the database)
   // e.g., await saveToDatabase({ coupon });
   return { success: "Coupon code applied!" };
+}
+
+// Create Order
+export async function createOrderAction(formData) {
+  const paymentMethod = formData.get("paymentMethod");
+  const cartData = formData.get("cartData");
+  const shippingData = formData.get("shippingData");
+
+  // Parse JSON strings
+  const cart = JSON.parse(cartData);
+  const shippingAddress = JSON.parse(shippingData);
+
+  // Validation
+  if (!paymentMethod) {
+    throw new Error("Please select a payment method");
+  }
+
+  if (!cart || cart.length === 0) {
+    throw new Error("Your cart is empty");
+  }
+
+  if (!shippingAddress.name || !shippingAddress.email || !shippingAddress.phone) {
+    throw new Error("Please fill in all required shipping information");
+  }
+
+  try {
+    // Get session to check if user is logged in
+    const session = await auth();
+
+    // Prepare order data
+    const orderData = {
+      products: cart.map((item) => ({
+        product: item.id,
+        quantity: item.quantity || 1,
+      })),
+      shippingAddress: {
+        name: shippingAddress.name,
+        phone: shippingAddress.phone,
+        addressLine1: shippingAddress.streetAddress,
+        addressLine2: shippingAddress.addressLine2 || "",
+        city: shippingAddress.city,
+        zipCode: shippingAddress.zipCode || "00000",
+        country: shippingAddress.country || "USA",
+      },
+      paymentMethod: "cash_on_delivery",
+    };
+
+    // If user is not logged in, add guest info
+    if (!session?.user) {
+      orderData.guestInfo = {
+        name: shippingAddress.name,
+        email: shippingAddress.email,
+      };
+    }
+
+    // Call backend API
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    // Add auth token if user is logged in
+    if (session?.backendToken) {
+      headers.Authorization = `Bearer ${session.backendToken}`;
+    }
+
+    const res = await fetch(`${API_URL}/orders`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(orderData),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || "Failed to create order");
+    }
+
+    return { 
+      success: true, 
+      orderNumber: data.data.orderNumber 
+    };
+  } catch (error) {
+    throw new Error(error.message || "Failed to create order. Please try again.");
+  }
 }
