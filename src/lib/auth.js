@@ -1,6 +1,6 @@
-// import NextAuth from "next-auth";
-// import Google from "next-auth/providers/google";
-// import Credentials from "next-auth/providers/credentials";
+import NextAuth from "next-auth";
+import Google from "next-auth/providers/google";
+import Credentials from "next-auth/providers/credentials";
 
 // const authConfig = {
 //   providers: [
