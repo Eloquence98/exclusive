@@ -237,3 +237,30 @@ export function validateCoupon(coupon) {
       return null;
   }
 }
+
+export function validatePassword(password) {
+  if (!password?.validity) return null;
+
+  switch (true) {
+    case password.validity.valueMissing:
+      return {
+        error: password.validity.valueMissing,
+        message: "You need to enter a password.",
+      };
+
+    case password.validity.tooShort:
+      return {
+        error: password.validity.tooShort,
+        message: `Password should be at least ${password.minLength} characters; you entered ${password.value.length}.`,
+      };
+
+    case password.validity.tooLong:
+      return {
+        error: password.validity.tooLong,
+        message: `Password should be no more than ${password.maxLength} characters; you entered ${password.value.length}.`,
+      };
+
+    default:
+      return null;
+  }
+}

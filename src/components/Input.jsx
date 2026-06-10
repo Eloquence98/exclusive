@@ -308,3 +308,53 @@ export function CouponInput({
     </p>
   );
 }
+
+export function Password({
+  label = "Password",
+  name = "password",
+  id = "password",
+  required = true,
+  error,
+  setError,
+  passwordEl,
+  onInputChange,
+  className = "",
+}) {
+  const ref = useOutsideClick(clearError);
+  function clearError() {
+    setError?.("");
+  }
+  return (
+    <p className="" ref={ref}>
+      <label className="relative w-full" htmlFor={id}>
+        {label ? (
+          <span>
+            {label}{" "}
+            {required && (
+              <span className="relative -left-1 -top-1 text-red-700">
+                {" "}
+                &#42;{" "}
+              </span>
+            )}
+          </span>
+        ) : null}
+        <input
+          ref={passwordEl}
+          className={`${className} ${baseStyles}`}
+          type="password"
+          id={id}
+          name={name}
+          autoComplete={name === "password" ? "current-password" : "new-password"}
+          required={required}
+          minLength="8"
+          maxLength="100"
+          onInput={onInputChange}
+        />
+        <FormRowError
+          error={error}
+          tempError="Password must be at least 8 characters."
+        />
+      </label>
+    </p>
+  );
+}
