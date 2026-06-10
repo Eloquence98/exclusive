@@ -1,6 +1,9 @@
 "use server";
 import { signIn, signOut } from "@/lib/auth";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+
 export async function contactGeneralInquiry(formData) {
   const lastName = formData.get("lastName");
   const email = formData.get("email");
