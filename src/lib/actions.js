@@ -43,52 +43,89 @@ export async function signInAction() {
 }
 
 export async function signOutAction() {
-  //   await signOut({ redirectTo: "/" });
   await signOut();
 }
 
-export async function credentialsSignIn(email, password) {
+// Login with credentials
+export async function loginAction(formData) {
+  const email = formData.get("email");
+  const password = formData.get("password");
+
+  // Server-side validation
+  if (!/^[a-z0-9._%+\-]+@[a-z0-9.-]+\.[a-z]{2,63}$/.test(email)) {
+    throw new Error("Please enter a valid email address.");
+  }
+
+  if (!password || password.length < 8) {
+    throw new Error("Password must be at least 8 characters.");
+  }
+
   try {
-    const result = await signIn("credentials", {
+    await signIn("credentials", {
       email,
       password,
       redirect: false,
     });
-    return { success: true, data: result };
+
+    return { success: true };
   } catch (error) {
-    return { success: false, error: error.message };
+    throw new Error("Invalid email or password");
   }
 }
 
+// Sign up new user
 export async function signUpAction(formData) {
+  const name = formData.get("name");
+  const email = formData.get("email");
+  const password = formData.get("password");
+  const passwordConfirm = formData.get("passwordConfirm");
+
+  // Server-side validation
+  if (!/^[a-zA-Z0-9]+$/.test(name)) {
+    throw new Error("Name should contain only letters and numbers.");
+  }
+
+  if (!/^[a-z0-9._%+\-]+@[a-z0-9.-]+\.[a-z]{2,63}$/.test(email)) {
+    throw new Error("Please enter a valid email address.");
+  }
+
+  if (!password || password.length < 8) {
+    throw new Error("Password must be at least 8 characters.");
+  }
+
+  if (password !== passwordConfirm) {
+    throw new Error("Passwords do not match.");
+  }
+
   try {
+    // Call backend signup API
     const res = await fetch(`${API_URL}/users/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-        passwordConfirm: formData.passwordConfirm,
+        name,
+        email,
+        password,
+        passwordConfirm,
       }),
     });
 
     const data = await res.json();
 
     if (!res.ok) {
-      return { success: false, error: data.message };
+      throw new Error(data.message || "Signup failed");
     }
 
     // After successful signup, sign them in
     await signIn("credentials", {
-      email: formData.email,
-      password: formData.password,
+      email,
+      password,
       redirect: false,
     });
 
-    return { success: true, data: data.data };
+    return { success: true };
   } catch (error) {
-    return { success: false, error: error.message };
+    throw new Error(error.message || "Failed to create account");
   }
 }
 
