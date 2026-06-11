@@ -1,30 +1,57 @@
 "use client";
-import React from "react";
+import { useEffect, useState } from "react";
+import { getProducts } from "@/lib/data-service";
 import ProductCard from "@/components/ProductCard";
 import SliderSection from "@/components/SliderSection";
 import Swiper from "@/components/Swiper";
-import { tempProducts } from "@/lib/tempData";
+import Spinner from "./Spinner";
 
-const increaseTempProducts = [...tempProducts, ...tempProducts];
 const exploreProductStyles = `.swiper {
     height: 50rem;
   }`;
 
 function ExploreOurProducts() {
-  // Split the data into two arrays
-  const half = Math.ceil(increaseTempProducts.length / 2);
-  const firstHalf = increaseTempProducts.slice(0, half);
-  const secondHalf = increaseTempProducts.slice(half);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getProducts({ limit: 16 })
+      .then((data) => {
+        setProducts(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Failed to load products:", error);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center p-8">
+        <Spinner />
+      </div>
+    );
+  }
+
+  if (products.length === 0) {
+    return null;
+  }
+
+  // Split the data into two arrays for grid layout
+  const half = Math.ceil(products.length / 2);
+  const firstHalf = products.slice(0, half);
+  const secondHalf = products.slice(half);
 
   return (
     <SliderSection
       subHeading="our products"
       heading="explore our products"
-      href={`/products?section=${encodeURIComponent("explore our products")}`}
+      href="/products"
       countDown={{ isNeeded: false, props: null }}
       category={false}
       navigateButtons={true}
-      data={firstHalf} // Pass the first array to the SliderSection
+      data={firstHalf}
       sliderProps={{
         injectStyles: [exploreProductStyles],
         navigation: {
@@ -53,9 +80,9 @@ function ExploreOurProducts() {
       }}
       render={(product, i) => (
         <Swiper.Slide key={product.id}>
-          <div className="grid h-full grid-cols-1">
+          <div className="grid h-full grid-cols-1 gap-4">
             <ProductCard product={product} />
-            {secondHalf[i] ? <ProductCard product={secondHalf[i]} /> : null}
+            {secondHalf[i] && <ProductCard product={secondHalf[i]} />}
           </div>
         </Swiper.Slide>
       )}

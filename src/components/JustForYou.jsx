@@ -1,18 +1,47 @@
 "use client";
 import Swiper from "@/components/Swiper";
-import { tempProducts } from "@/lib/tempData";
+import { getProducts } from "@/lib/data-service";
+import { useEffect, useState } from "react";
 import Button from "./Button";
 import ProductCard from "./ProductCard";
 import SectionLabel from "./SectionLabel";
+import Spinner from "./Spinner";
 
 function JustForYou() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getProducts({ limit: 4 })
+      .then((data) => {
+        setProducts(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Failed to load products:", error);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center p-8">
+        <Spinner />
+      </div>
+    );
+  }
+
+  if (products.length === 0) {
+    return null;
+  }
+
   return (
     <>
       <div className="for-you-head mb-10 flex items-center justify-between">
-        <SectionLabel className="capitalize"> just for you </SectionLabel>
+        <SectionLabel className="capitalize">just for you</SectionLabel>
         <Button
           as="link"
-          href="/cart"
+          href="/products"
           variant="secondary"
           className="float-right capitalize"
         >
@@ -42,8 +71,8 @@ function JustForYou() {
           }}
           className="h-full max-h-full w-full max-w-full"
         >
-          {tempProducts.map((product) => (
-            <Swiper.Slide key={product?.id}>
+          {products.map((product) => (
+            <Swiper.Slide key={product.id}>
               <ProductCard product={product} />
             </Swiper.Slide>
           ))}

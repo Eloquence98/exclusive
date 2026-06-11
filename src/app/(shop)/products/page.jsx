@@ -1,16 +1,36 @@
-import { Suspense } from "react";
+import LayoutPadding from "@/components/LayoutPadding";
+import ProductCard from "@/components/ProductCard";
 import Spinner from "@/components/Spinner";
 import { getProducts } from "@/lib/data-service";
 import { productCategories } from "@/lib/productCategories";
 import Link from "next/link";
-import ProductCard from "@/components/ProductCard";
+import { Suspense } from "react";
 
 export const metadata = {
   title: "Products | Exclusive",
   description: "Browse our collection of premium products",
 };
 
-async function ProductGrid({ products }) {
+async function ProductGrid({ category, onSale }) {
+  const filters = {};
+  
+  if (category) {
+    filters.category = category;
+  }
+  if (onSale) {
+    filters.onSale = true;
+  }
+
+  const products = await getProducts(filters);
+
+  if (products.length === 0) {
+    return (
+      <div className="py-12 text-center">
+        <p className="text-lg text-default-500">No products found</p>
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {products.map((product) => (
@@ -44,87 +64,62 @@ function SideNavigation() {
       </div>
 
       <div>
-        <h3 className="text-lg font-semibold text-foreground">Price Range</h3>
-        <div className="mt-4 space-y-2">
-          <div className="flex gap-4">
-            <input
-              type="number"
-              placeholder="From"
-              className="w-full rounded border border-border px-3 py-2 text-sm"
-            />
-            <input
-              type="number"
-              placeholder="To"
-              className="w-full rounded border border-border px-3 py-2 text-sm"
-            />
-          </div>
-          <button className="w-full rounded bg-primary px-4 py-2 text-sm text-white transition-colors hover:bg-primary/90">
-            Apply Filter
-          </button>
-        </div>
-      </div>
-
-      <div>
-        <h3 className="text-lg font-semibold text-foreground">Rating</h3>
-        <div className="mt-4 space-y-2">
-          {[5, 4, 3, 2, 1].map((rating) => (
-            <label key={rating} className="flex items-center gap-2">
-              <input type="checkbox" className="rounded text-primary" />
-              <span className="flex text-sm text-warning-500">
-                {"★".repeat(rating)}
-                {"☆".repeat(5 - rating)}
-              </span>
-              <span className="text-sm text-foreground">& Up</span>
-            </label>
-          ))}
-        </div>
+        <h3 className="text-lg font-semibold text-foreground">Filters</h3>
+        <ul className="mt-4 space-y-3">
+          <li>
+            <Link
+              href="/products?onSale=true"
+              className="text-sm transition-colors hover:text-primary"
+            >
+              On Sale
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/products"
+              className="text-sm transition-colors hover:text-primary"
+            >
+              All Products
+            </Link>
+          </li>
+        </ul>
       </div>
     </div>
   );
 }
 
-async function Page({ searchParams }) {
+export default async function Page(props) {
+  const searchParams = await props.searchParams;
   const category = searchParams?.category;
-  const section = searchParams?.section;
-  const products = await getProducts(section);
+  const onSale = searchParams?.onSale === 'true';
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="flex items-center justify-between border-b border-border pb-4">
-        <h1 className="text-2xl font-bold text-foreground">
-          {category
-            ? category.charAt(0).toUpperCase() + category.slice(1)
-            : "All Products"}
-        </h1>
-        <div className="flex items-center gap-4">
-          <select className="rounded border border-border px-3 py-2 text-sm">
-            <option value="featured">Featured</option>
-            <option value="newest">Newest</option>
-            <option value="price-low">Price: Low to High</option>
-            <option value="price-high">Price: High to Low</option>
-            <option value="rating">Best Rating</option>
-          </select>
-          <button className="rounded bg-primary px-4 py-2 text-sm text-white transition-colors hover:bg-primary/90">
-            Filter
-          </button>
+    <LayoutPadding>
+      <div className="mt-15">
+        <div className="mb-6 flex items-center justify-between border-b border-border pb-4">
+          <h1 className="text-2xl font-bold text-foreground">
+            {category
+              ? category.charAt(0).toUpperCase() + category.slice(1)
+              : onSale
+              ? "Sale Products"
+              : "All Products"}
+          </h1>
+        </div>
+
+        <div className="grid grid-cols-1 gap-x-8 lg:grid-cols-[240px,1fr]">
+          {/* Sidebar */}
+          <aside className="hidden lg:block">
+            <SideNavigation />
+          </aside>
+
+          {/* Product Grid */}
+          <main>
+            <Suspense fallback={<Spinner />}>
+              <ProductGrid category={category} onSale={onSale} />
+            </Suspense>
+          </main>
         </div>
       </div>
-
-      <div className="mt-6 grid grid-cols-1 gap-x-8 lg:grid-cols-[240px,1fr]">
-        {/* Sidebar */}
-        <aside className="hidden lg:block">
-          <SideNavigation />
-        </aside>
-
-        {/* Product Grid */}
-        <main>
-          <Suspense fallback={<Spinner />}>
-            <ProductGrid products={products} />
-          </Suspense>
-        </main>
-      </div>
-    </div>
+    </LayoutPadding>
   );
 }
-
-export default Page;

@@ -2,47 +2,10 @@
 import { notFound } from "next/navigation";
 import { fetchAPI } from "./api";
 
-export async function getProducts(category) {
-  try {
-    let endpoint = '/products';
-    
-    // Add query params if category exists
-    if (category) {
-      endpoint += `?category=${encodeURIComponent(category)}`;
-    }
-
-    const data = await fetchAPI(endpoint);
-    
-    // Transform backend data to match frontend structure
-    return data.data.data.map(transformProduct);
-  } catch (error) {
-    console.error('Failed to fetch products:', error);
-    throw new Error('Products could not be loaded');
-  }
-}
-
-export async function getProductById(id) {
-  try {
-    const data = await fetchAPI(`/products/${id}`);
-    return transformProduct(data.data.data);
-  } catch (error) {
-    console.error(`Failed to fetch product ${id}:`, error);
-    notFound();
-  }
-}
-
-export async function getProductBySlug(slug) {
-  try {
-    const data = await fetchAPI(`/products/${slug}`);
-    return transformProduct(data.data.data);
-  } catch (error) {
-    console.error(`Failed to fetch product ${slug}:`, error);
-    notFound();
-  }
-}
-
 // Transform backend product to frontend format
 function transformProduct(product) {
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL?.replace('/api/v1', '') || 'http://localhost:3000';
+  
   return {
     id: product._id || product.id,
     title: product.title,
@@ -57,12 +20,12 @@ function transformProduct(product) {
       : 0,
     stock: product.stock,
     image: product.imageCover 
-      ? `${process.env.NEXT_PUBLIC_API_URL?.replace('/api/v1', '')}/img/products/${product.imageCover}`
+      ? `${API_BASE}/img/products/${product.imageCover}`
       : '/placeholder.svg',
     imageCover: product.imageCover,
-    images: product.images?.map(img => 
-      `${process.env.NEXT_PUBLIC_API_URL?.replace('/api/v1', '')}/img/products/${img}`
-    ) || [],
+    images: product.images?.length > 0
+      ? product.images.map(img => `${API_BASE}/img/products/${img}`)
+      : [],
     category: product.category,
     size: product.size,
     brand: product.brand,
@@ -79,7 +42,7 @@ function transformProduct(product) {
       { name: "Default", class: "bg-gray-200", selectedClass: "ring-gray-400" }
     ],
     sizes: product.size ? [product.size] : ["S", "M", "L", "XL"],
-    // Ratings for star component
+    // For star rating
     ratings: {
       total: product.ratingsQuantity || 0,
       dislikes: Math.floor((product.ratingsQuantity || 0) * 0.1),
@@ -87,50 +50,83 @@ function transformProduct(product) {
   };
 }
 
-// import { notFound } from "next/navigation";
+export async function getProducts(filters = {}) {
+  try {
+    let endpoint = '/products';
+    const params = new URLSearchParams();
 
-// export async function getProductById(id) {
-//   try {
-//     const response = await fetch(`https://fakestoreapi.com/products/${id}`);
+    // Add filters
+    if (filters.category) {
+      params.append('category', filters.category);
+    }
+    if (filters.onSale) {
+      params.append('onSale', 'true');
+    }
+    if (filters.isFeatured) {
+      params.append('isFeatured', 'true');
+    }
+    if (filters.limit) {
+      params.append('limit', filters.limit);
+    }
+    if (filters.sort) {
+      params.append('sort', filters.sort);
+    }
 
-//     // For testing
-//     // await new Promise((res) => setTimeout(res, 5000));
+    const queryString = params.toString();
+    if (queryString) {
+      endpoint += `?${queryString}`;
+    }
 
-//     if (!response.ok) {
-//       throw new Error("Network response was not ok");
-//     }
-//     const product = await response.json();
-//     return product;
-//   } catch (error) {
-//     console.error(error);
-//     notFound();
-//   }
-// }
+    const data = await fetchAPI(endpoint);
+    
+    // Handle the nested data structure from your backend
+    const products = data.data?.data || data.data || [];
+    return products.map(transformProduct);
+  } catch (error) {
+    console.error('Failed to fetch products:', error);
+    // Return empty array instead of throwing to prevent page crashes
+    return [];
+  }
+}
 
-// export async function getProducts(section) {
-//   try {
-//     const response = await fetch("https://fakestoreapi.com/products");
+export async function getProductById(id) {
+  try {
+    const data = await fetchAPI(`/products/${id}`);
+    const product = data.data?.data || data.data;
+    return transformProduct(product);
+  } catch (error) {
+    console.error(`Failed to fetch product ${id}:`, error);
+    notFound();
+  }
+}
 
-//     // await new Promise((res) => setTimeout(res, 5000));
+export async function getProductBySlug(slug) {
+  try {
+    const data = await fetchAPI(`/products/${slug}`);
+    const product = data.data?.data || data.data;
+    return transformProduct(product);
+  } catch (error) {
+    console.error(`Failed to fetch product ${slug}:`, error);
+    notFound();
+  }
+}
 
-//     if (!response.ok) {
-//       throw new Error("Network response was not ok");
-//     }
+// Featured products (isFeatured = true)
+export async function getFeaturedProducts(limit = 8) {
+  return getProducts({ isFeatured: true, limit });
+}
 
-//     const products = await response.json();
+// Top rated products
+export async function getTopRatedProducts(limit = 5) {
+  return getProducts({ sort: '-ratingsAverage', limit });
+}
 
-//     if (!Array.isArray(products)) {
-//       throw new Error("Unexpected response format - products not an array");
-//     }
+// Products on sale
+export async function getSaleProducts(limit = 8) {
+  return getProducts({ onSale: true, limit });
+}
 
-//     return products;
-//   } catch (error) {
-//     // Handle different types of errors
-//     if (error instanceof TypeError && error.message === "Failed to fetch") {
-//       throw new Error("Network error - could not fetch products");
-//     } else {
-//       throw new Error("Products could not be loaded");
-//     }
-//   }
-// }
-
+// Best selling (most reviews)
+export async function getBestSellingProducts(limit = 4) {
+  return getProducts({ sort: '-ratingsQuantity', limit });
+}

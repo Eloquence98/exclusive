@@ -24,14 +24,18 @@ export default function ProductDetails({ product }) {
   const isInWishlist = wishlist.some((item) => item.id === product.id);
 
   const decreaseQuantity = () => setQuantity((prev) => Math.max(1, prev - 1));
-  const increaseQuantity = () => setQuantity((prev) => prev + 1);
+  const increaseQuantity = () => {
+    if (quantity < product.stock) {
+      setQuantity((prev) => prev + 1);
+    }
+  };
 
   const handleAddToCart = () => {
     const cartItem = {
       ...product,
       quantity,
       selectedColor: selectedColor.name,
-      selectedSize: selectedSize.name
+      selectedSize: selectedSize,
     };
     addToCart(cartItem);
   };
@@ -49,13 +53,30 @@ export default function ProductDetails({ product }) {
     }
   };
 
+  // Create images object for ProductImages component
+  const productImages = {
+    Default: product.image,
+    ...(product.images?.length > 0 && 
+      product.images.reduce((acc, img, idx) => {
+        acc[`Image ${idx + 1}`] = img;
+        return acc;
+      }, {})
+    ),
+  };
+
+  // Create enhanced product object with images
+  const enhancedProduct = {
+    ...product,
+    images: productImages,
+  };
+
   return (
     <div className="bg-background">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
           {/* Image gallery */}
           <ProductImages
-            product={product}
+            product={enhancedProduct}
             selectedColor={selectedColor}
             setSelectedColor={setSelectedColor}
           />
@@ -79,7 +100,12 @@ export default function ProductDetails({ product }) {
             <div className="mt-3">
               <h2 className="sr-only">Product information</h2>
               <p className="text-3xl tracking-tight text-foreground">
-                ${product.price}
+                ${product.currentPrice || product.price}
+                {product.onSale && product.price !== product.currentPrice && (
+                  <span className="ml-3 text-xl text-default-400 line-through">
+                    ${product.price}
+                  </span>
+                )}
               </p>
             </div>
 
@@ -102,20 +128,16 @@ export default function ProductDetails({ product }) {
                   </svg>
                 ))}
               </div>
-              <p className="sr-only">{product.rating} out of 5 stars</p>
-              <Button
-                href="#"
-                variant="light"
-                className="ml-3 text-sm font-medium text-primary"
-              >
+              <p className="ml-3 text-sm font-medium text-default-500">
                 {product.reviewCount} reviews
-              </Button>
+              </p>
               <Divider orientation="vertical" className="mx-2 h-4" />
               <Chip
                 color={product.inStock ? "success" : "danger"}
                 variant="flat"
+                size="sm"
               >
-                {product.inStock ? "In Stock" : "Out of Stock"}
+                {product.inStock ? `${product.stock} In Stock` : "Out of Stock"}
               </Chip>
             </div>
 
@@ -124,69 +146,77 @@ export default function ProductDetails({ product }) {
               <p className="text-base text-foreground">{product.description}</p>
             </div>
 
-            <div className="mt-6">
-              {/* Colors */}
-              <ProductColors
-                product={product}
-                selectedColor={selectedColor}
-                setSelectedColor={setSelectedColor}
-              />
+            {product.colors.length > 1 && (
+              <div className="mt-6">
+                <ProductColors
+                  product={product}
+                  selectedColor={selectedColor}
+                  setSelectedColor={setSelectedColor}
+                />
+              </div>
+            )}
 
-              {/* Sizes */}
-              <ProductSizes
-                product={product}
-                selectedSize={selectedSize}
-                setSelectedSize={setSelectedSize}
-              />
+            {product.sizes.length > 0 && (
+              <div className="mt-6">
+                <ProductSizes
+                  product={product}
+                  selectedSize={selectedSize}
+                  setSelectedSize={setSelectedSize}
+                />
+              </div>
+            )}
 
-              <div className="mt-8 flex items-center">
-                <div className="mr-4 flex items-center">
-                  <Button
-                    size="sm"
-                    isIconOnly
-                    onPress={decreaseQuantity}
-                    variant="bordered"
-                  >
-                    <HiMinus className="h-4 w-4" />
-                  </Button>
-                  <Input
-                    type="number"
-                    value={quantity}
-                    onChange={(e) => {
-                      const val = parseInt(e.target.value);
-                      if (val >= 1) setQuantity(val);
-                    }}
-                    className="mx-2 w-16 appearance-none text-center"
-                    min="1"
-                  />
-                  <Button
-                    size="sm"
-                    isIconOnly
-                    onPress={increaseQuantity}
-                    variant="bordered"
-                  >
-                    <HiPlus className="h-4 w-4" />
-                  </Button>
-                </div>
+            <div className="mt-8 flex items-center">
+              <div className="mr-4 flex items-center">
+                <Button
+                  size="sm"
+                  isIconOnly
+                  onPress={decreaseQuantity}
+                  variant="bordered"
+                >
+                  <HiMinus className="h-4 w-4" />
+                </Button>
+                <Input
+                  type="number"
+                  value={quantity}
+                  onChange={(e) => {
+                    const val = parseInt(e.target.value);
+                    if (val >= 1 && val <= product.stock) setQuantity(val);
+                  }}
+                  className="mx-2 w-16 text-center"
+                  min="1"
+                  max={product.stock}
+                />
+                <Button
+                  size="sm"
+                  isIconOnly
+                  onPress={increaseQuantity}
+                  variant="bordered"
+                  isDisabled={quantity >= product.stock}
+                >
+                  <HiPlus className="h-4 w-4" />
+                </Button>
+              </div>
 
-                <div className="flex flex-1 gap-4">
-                  <Button
-                    onClick={handleAddToCart}
-                    variant="flat"
-                    color="primary"
-                    startContent={<HiShoppingCart className="h-5 w-5" />}
-                    className="flex-1"
-                  >
-                    Add to Cart
-                  </Button>
-                  <Button
-                    onClick={handleBuyNow}
-                    color="primary"
-                    className="flex-1"
-                  >
-                    Buy Now
-                  </Button>
-                </div>
+              <div className="flex flex-1 gap-4">
+                <Button
+                  onClick={handleAddToCart}
+                  variant="flat"
+                  color="primary"
+                  startContent={<HiShoppingCart className="h-5 w-5" />}
+                  className="flex-1"
+                  isDisabled={!product.inStock}
+                >
+                  Add to Cart
+                </Button>
+                <Button
+                  onClick={handleBuyNow}
+                  color="primary"
+                  className="flex-1"
+                  isDisabled={!product.inStock}
+                >
+                  Buy Now
+                </Button>
               </div>
             </div>
 

@@ -1,24 +1,53 @@
 "use client";
-import { tempProducts } from "@/lib/tempData";
 import ProductCard from "@/components/ProductCard";
 import SliderSection from "@/components/SliderSection";
 import Swiper from "@/components/Swiper";
+import { getSaleProducts } from "@/lib/data-service";
+import { useEffect, useState } from "react";
+import Spinner from "./Spinner";
 
 const OverflowStyles = `.swiper {
   overflow: visible !important;
 }`;
 
 function ProductSlider() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getSaleProducts(8)
+      .then((data) => {
+        setProducts(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Failed to load products:", error);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center p-8">
+        <Spinner />
+      </div>
+    );
+  }
+
+  if (products.length === 0) {
+    return null;
+  }
+
   return (
     <SliderSection
       className="!overflow-x-hidden"
       subHeading="today's"
       heading="flash sales"
-      href={`/products?section=${encodeURIComponent("flash sales")}`}
+      href="/products?onSale=true"
       countDown={{ isNeeded: true, props: { hours: 25 } }}
       category={false}
       navigateButtons={true}
-      data={tempProducts}
+      data={products}
       sliderProps={{
         injectStyles: [OverflowStyles],
         navigation: {

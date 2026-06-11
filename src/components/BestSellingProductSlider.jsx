@@ -2,18 +2,47 @@
 import ProductCard from "@/components/ProductCard";
 import SliderSection from "@/components/SliderSection";
 import Swiper from "@/components/Swiper";
-import { tempProducts } from "@/lib/tempData";
+import { getBestSellingProducts } from "@/lib/data-service";
+import { useEffect, useState } from "react";
+import Spinner from "./Spinner";
 
 function BestSellingProductSlider() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getBestSellingProducts(4)
+      .then((data) => {
+        setProducts(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Failed to load products:", error);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center p-8">
+        <Spinner />
+      </div>
+    );
+  }
+
+  if (products.length === 0) {
+    return null;
+  }
+
   return (
     <SliderSection
       subHeading="this month"
       heading="best selling products"
-      href={`/products?section=${encodeURIComponent("best selling products")}`}
+      href="/products?sort=-ratingsQuantity"
       countDown={{ isNeeded: false, props: null }}
       category={false}
       navigateButtons={false}
-      data={tempProducts}
+      data={products}
       sliderProps={{
         slidesPerView: 1,
         spaceBetween: 10,
