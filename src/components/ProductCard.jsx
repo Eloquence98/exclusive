@@ -13,7 +13,8 @@ import { useRouter } from "next/navigation";
 import StarRating from "./StarRating";
 
 function ProductCard({ className, product }) {
-  const { image, title, price, discount, ratings, id } = product;
+  const { image, title, price, discount, ratings, id, imageCover } = product;
+  const cover = imageCover?.startsWith("http") ? imageCover : image;
   const discountedPrice = price - discount;
   const percentOff = (discount / price) * 100;
   const isDiscount = percentOff > 0 ? true : false;
@@ -45,7 +46,7 @@ function ProductCard({ className, product }) {
       <div className="image relative flex h-[15.625rem] w-full items-center justify-center overflow-hidden rounded bg-secondary">
         <div className="image relative h-48 w-44">
           <Image
-            src={image}
+            src={cover}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover"
