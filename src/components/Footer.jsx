@@ -1,12 +1,11 @@
 import Link from "next/link";
 import LayoutPadding from "./LayoutPadding";
-import StyledLink from "./StyledLink";
 
 const footerLinksContent = [
   {
     heading: "account",
     items: [
-      { href: "/account", name: "my account" },
+      { href: "/me", name: "my account" },
       { href: "/signup", name: "login / register" },
       { href: "/cart", name: "cart" },
       { href: "/wishlist", name: "shop" },

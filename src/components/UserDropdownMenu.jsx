@@ -80,10 +80,10 @@ export default function UserDropdownMenu({ user }) {
             {user.email || ""}
           </p>
         </DropdownItem>
-        <DropdownItem key="account" href="/account">
+        <DropdownItem key="account" href="/me">
           My Account
         </DropdownItem>
-        <DropdownItem key="orders" href="/account?tab=orders">
+        <DropdownItem key="orders" href="/me?tab=orders">
           My Orders
         </DropdownItem>
         <DropdownItem key="wishlist" href="/wishlist">
@@ -92,7 +92,7 @@ export default function UserDropdownMenu({ user }) {
         <DropdownItem key="cart" href="/cart">
           Cart
         </DropdownItem>
-        <DropdownItem key="settings" href="/account?tab=settings">
+        <DropdownItem key="settings" href="/me?tab=settings">
           Settings
         </DropdownItem>
         <DropdownItem key="logout" color="danger" onClick={handleSignOut}>

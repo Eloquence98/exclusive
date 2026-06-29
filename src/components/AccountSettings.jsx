@@ -17,7 +17,7 @@ export default function AccountSettings() {
   const activeTab = searchParams.get("tab") || "profile";
 
   const handleTabChange = (tab) => {
-    router.push(`/account?tab=${tab}`, { scroll: false });
+    router.push(`/me?tab=${tab}`, { scroll: false });
   };
 
   const navigationSections = [
