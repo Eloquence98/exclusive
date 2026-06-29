@@ -71,15 +71,13 @@ function FooterContent({ content, myKey }) {
     >
       <FooterHeading> {heading} </FooterHeading>
       {items.map((item, i) => (
-        <>
-          <Link
-            className="text-xs capitalize text-text-one"
-            href={item?.href}
-            key={`${item.name}-${i}`}
-          >
-            {item.name}
-          </Link>
-        </>
+        <Link
+          className="text-xs capitalize text-text-one"
+          href={item?.href}
+          key={`${item.name}-${i}`}
+        >
+          {item.name}
+        </Link>
       ))}
     </div>
   );

@@ -1,8 +1,9 @@
-import CartTable from "@/components/CartTable";
 import Button from "@/components/Button";
 import CartCheckoutStats from "@/components/CartCheckoutStats";
+import CartTable from "@/components/CartTable";
 import CouponForm from "@/components/CouponForm";
 import LayoutPadding from "@/components/LayoutPadding";
+import Link from "next/link";
 
 export const metadata = {
   title: "Cart",
@@ -26,8 +27,11 @@ function page() {
 
             <CartCheckoutStats stats={{ subtotal: 1850, shipping: 5 }} />
 
-            <div className="w-full text-center">
-              <Button>Process to Checkout</Button>
+            <div className="w-full pt-2 text-center">
+              {/* <Button>Process to Checkout</Button> */}
+              <Button as="link" href="./checkout">
+                Process to Checkout
+              </Button>
             </div>
           </div>
         </div>

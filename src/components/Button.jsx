@@ -22,7 +22,7 @@ function Button({
     return (
       <Link
         href={href}
-        className={` ${commonClasses} ${styles[variant]} ${className}`}
+        className={`inline-block ${commonClasses} ${styles[variant]} ${className}`}
       >
         {children}
       </Link>
