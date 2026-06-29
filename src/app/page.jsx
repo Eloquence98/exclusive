@@ -1,16 +1,17 @@
 import BestSellingProductSlider from "@/components/BestSellingProductSlider";
 import CategorySlider from "@/components/CategorySlider";
 import ExploreOurProducts from "@/components/ExploreOurProducts";
+import Hero from "@/components/Hero";
 import Hr from "@/components/Hr";
 import InformationPanel from "@/components/InformationPanel";
 import NewArival from "@/components/NewArival";
 import ProductSlider from "@/components/ProductSlider";
-import Showcase from "@/components/Showcase";
 
 export default function Home() {
   return (
     <>
-      <Showcase />
+      {/* <Showcase /> */}
+      <Hero />
       <section className="today's-sale mt-35">
         <ProductSlider />
       </section>

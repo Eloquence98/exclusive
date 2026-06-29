@@ -10,6 +10,14 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        cream: "#f6f1ea",
+        bone: "#ece4d8",
+        ink: "#141311",
+        charcoal: "#2a2825",
+        stone: "#8a8278",
+        sand: "#d9cfbf",
+        terracotta: "#b6623d",
+        moss: "#4e5a3f",
         primary: {
           DEFAULT: "#DB4444",
           hover: "#E07575",
@@ -82,6 +90,7 @@ module.exports = {
       },
       maxWidth: {
         "8xl": "90rem",
+        1920: "120em",
       },
       margin: {
         47: "11.875rem",

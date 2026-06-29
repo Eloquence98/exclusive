@@ -1,10 +1,10 @@
-import "@/styles/globals.css";
-import { Poppins } from "next/font/google";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import "@/styles/globals.css";
+import { Fraunces } from "next/font/google";
 import { Providers } from "./Providers";
 
-const poppins = Poppins({
+const fraunces = Fraunces({
   subsets: ["latin"],
   display: "swap",
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -21,8 +21,10 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={`${poppins.className} mx-auto max-w-8xl bg-white`}>
+    <html lang="en" className="bg-cream text-ink antialiased">
+      <body
+        className={`${fraunces.className} bg-cream text-ink max-w-1920 mx-auto antialiased`}
+      >
         <Providers>
           <Header />
           <main className="mb-24 min-h-[calc(100dvh-4.625rem)]">
