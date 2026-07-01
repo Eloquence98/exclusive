@@ -37,8 +37,8 @@ const authConfig = {
             id: data.data.user._id,
             email: data.data.user.email,
             name: data.data.user.name,
-            image: data.data.user.photo 
-              ? `${API_URL.replace('/api/v1', '')}/img/users/${data.data.user.photo}`
+            image: data.data.user.photo
+              ? `${API_URL.replace("/api/v1", "")}/img/users/${data.data.user.photo}`
               : null,
             role: data.data.user.role,
             backendToken: data.token,

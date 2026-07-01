@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className="bg-cream text-ink antialiased">
       <body
-        className={`${fraunces.className} bg-cream text-ink max-w-1920 mx-auto antialiased`}
+        className={`${fraunces.className} mx-auto max-w-1920 bg-cream text-ink antialiased`}
       >
         <Providers>
           <Header />
