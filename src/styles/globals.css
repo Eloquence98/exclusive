@@ -2,6 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    /* Quiet Luxury Palette - Mapped to Zinc */
+    --background: 0 0% 100%; /* bg-white */
+    --foreground: 240 10% 3.9%; /* text-zinc-950 */
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+
+    --primary: 240 10% 3.9%; /* bg-zinc-900 */
+    --primary-foreground: 0 0% 98%; /* text-white */
+
+    --secondary: 240 4.8% 95.9%; /* bg-zinc-100 */
+    --secondary-foreground: 240 5.9% 10%;
+
+    --muted: 240 4.8% 95.9%; /* bg-zinc-100 */
+    --muted-foreground: 240 3.8% 46.1%; /* text-zinc-500 */
+
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+
+    --destructive: 0 84.2% 60.2%; /* rose-500 */
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 5.9% 90%; /* border-zinc-200 */
+    --input: 240 5.9% 90%;
+    --ring: 240 10% 3.9%; /* focus ring zinc-900 */
+
+    /* Base radius for buttons/inputs (8px) */
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    /* Improve font rendering for a premium feel */
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
+  }
+}
+
 @layer components {
   .font-display {
     font-family: var(--font-serif);
@@ -29,7 +78,7 @@
     width: 60px;
     aspect-ratio: 1;
     border-radius: 50%;
-    border: 8px solid theme("colors.primary.hover");
+    border: 8px solid theme("colors.primary.DEFAULT");
     border-right-color: theme(colors.primary.DEFAULT);
     animation: rotate 1s infinite linear;
   }

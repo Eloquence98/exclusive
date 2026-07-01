@@ -1,15 +1,56 @@
-/** @type {import('tailwindcss').Config} */
 import { heroui } from "@heroui/react";
+import type { Config } from "tailwindcss";
 
-module.exports = {
+const config = {
   content: [
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    container: {
+      center: true,
+      padding: "1rem", // Blueprint: px-4 sm:px-6 lg:px-8 (handled via max-w-7xl mx-auto usually, but base padding is good)
+      screens: {
+        "2xl": "1400px", // Blueprint: max-w-7xl (1280px) is standard, 1400px gives breathing room
+      },
+    },
     extend: {
       colors: {
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+
         cream: "#f6f1ea",
         bone: "#ece4d8",
         ink: "#141311",
@@ -18,12 +59,6 @@ module.exports = {
         sand: "#d9cfbf",
         terracotta: "#b6623d",
         moss: "#4e5a3f",
-        primary: {
-          DEFAULT: "#DB4444",
-          hover: "#E07575",
-        },
-        secondary: "#F5F5F5",
-        accent: "#47B486",
         rating: {
           rated: "#FFAD33",
           "not-rated": "#BFBFBF",
@@ -31,10 +66,6 @@ module.exports = {
         placeholder: "#7B7B7B",
         discount: "#7F7F7F",
         "bullet-point": "#808080",
-        background: {
-          one: "#FFFFFF",
-          two: "#F5F5F5",
-        },
         text: {
           one: "#FAFAFA",
           two: "#7D8184",
@@ -75,7 +106,6 @@ module.exports = {
           800: "#9F1239",
           900: "#881337",
         },
-        border: "#B3B3B3",
       },
       spacing: {
         layout: "1rem",
@@ -102,12 +132,32 @@ module.exports = {
         23: "5.875rem",
       },
       borderRadius: {
+        lg: "var(--radius)", // 8px (Buttons/Inputs)
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+        xl: "calc(var(--radius) + 4px)",
+        "2xl": "calc(var(--radius) + 8px)", // 16px (Cards)
         smd: "0.25rem",
+      },
+      keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
   },
   darkMode: "class",
   plugins: [
+    require("tailwindcss-animate"),
     heroui({
       themes: {
         light: {
@@ -127,4 +177,6 @@ module.exports = {
       },
     }),
   ],
-};
+} satisfies Config;
+
+export default config;

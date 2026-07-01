@@ -1,8 +1,17 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import "@/styles/globals.css";
-import { Fraunces } from "next/font/google";
+import { cn } from "@/utils/utility";
+import { Metadata } from "next";
+import { Fraunces, Inter } from "next/font/google";
+import React from "react";
 import { Providers } from "./Providers";
+
+// Blueprint: Typography Scale (Geist or Inter Font)
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -10,7 +19,7 @@ const fraunces = Fraunces({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: {
     template: "%s / Exclusive",
     default: "Welcome / Exclusive",
@@ -19,11 +28,21 @@ export const metadata = {
     "Welcome to the official Exclusive's online store. Shop new arrivals & latest trends for men, women and juniors online.",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="en" className="bg-cream text-ink antialiased">
-      <body
+      {/* <body
         className={`${fraunces.className} mx-auto max-w-1920 bg-cream text-ink antialiased`}
+      > */}
+      <body
+        className={cn(
+          "bg-background mx-auto min-h-screen max-w-1920 font-sans antialiased",
+          inter.variable,
+        )}
       >
         <Providers>
           <Header />
