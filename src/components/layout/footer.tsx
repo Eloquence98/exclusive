@@ -86,7 +86,8 @@ export function Footer() {
               Subscribe for early access to new arrivals, exclusive offers, and
               styling inspiration.
             </p>
-            <form className="flex gap-2" onSubmit={(e) => e.preventDefault()}>
+            {/* <form className="flex gap-2" onSubmit={(e) => e.preventDefault()}> */}
+            <form className="flex gap-2">
               <Input
                 type="email"
                 placeholder="Your email address"
