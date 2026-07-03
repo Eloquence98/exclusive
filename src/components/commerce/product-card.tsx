@@ -45,7 +45,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
         {/* Badges (Featured / Sale) */}
         <div className="absolute left-3 top-3 flex flex-col gap-2">
           {product.isFeatured && (
-            <span className="rounded-full bg-zinc-900 px-3 py-1 text-xs font-medium text-white">
+            <span className="rounded-full bg-primary px-3 py-1 text-xs font-medium text-white">
               Featured
             </span>
           )}
@@ -80,7 +80,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
         {/* Out of Stock Overlay */}
         {!product.inStock && (
           <div className="absolute inset-0 flex items-center justify-center bg-white/60 backdrop-blur-[2px]">
-            <span className="rounded-full bg-zinc-900 px-4 py-2 text-sm font-medium text-white">
+            <span className="rounded-full bg-primary px-4 py-2 text-sm font-medium text-white">
               Out of Stock
             </span>
           </div>
@@ -142,7 +142,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
               </span>
             </>
           ) : (
-            <span className="text-sm font-medium text-zinc-900">
+            <span className="text-sm font-medium text-primary">
               ${product.price.toFixed(2)}
             </span>
           )}

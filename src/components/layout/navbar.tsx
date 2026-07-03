@@ -91,7 +91,7 @@ export function Navbar() {
               <Link href="/cart" aria-label="Shopping Cart">
                 <ShoppingBag className="h-5 w-5 text-zinc-600" />
                 {/* Badge placeholder for cart count */}
-                <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-zinc-900 text-[10px] font-medium text-white">
+                <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-white">
                   0
                 </span>
               </Link>

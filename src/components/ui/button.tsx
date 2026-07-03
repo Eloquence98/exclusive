@@ -18,13 +18,13 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-zinc-900 text-white hover:bg-zinc-800",
+        default: "bg-primary text-white hover:bg-zinc-800",
         outline:
-          "border border-zinc-200 bg-white hover:bg-zinc-50 hover:text-zinc-900",
-        secondary: "bg-zinc-100 text-zinc-900 hover:bg-zinc-200",
-        ghost: "hover:bg-zinc-100 hover:text-zinc-900",
-        link: "text-zinc-900 underline-offset-4 hover:underline",
-        icon: "h-10 w-10 p-0 rounded-full hover:bg-zinc-100 text-zinc-600 hover:text-zinc-900",
+          "border border-zinc-200 bg-white hover:bg-zinc-50 hover:text-primary",
+        secondary: "bg-zinc-100 text-primary hover:bg-zinc-200",
+        ghost: "hover:bg-zinc-100 hover:text-primary",
+        link: "text-primary underline-offset-4 hover:underline",
+        icon: "h-10 w-10 p-0 rounded-full hover:bg-zinc-100 text-zinc-600 hover:text-primary",
       },
       size: {
         default: "h-10 px-4 py-2",

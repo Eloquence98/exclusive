@@ -25,9 +25,9 @@ const Toaster = ({ ...props }: ToasterProps) => {
           title: "group-[.toast]:text-zinc-950 group-[.toast]:font-medium",
           description: "group-[.toast]:text-zinc-500 group-[.toast]:text-sm",
           actionButton:
-            "group-[.toast]:bg-zinc-900 group-[.toast]:text-white group-[.toast]:rounded-md",
+            "group-[.toast]:bg-primary group-[.toast]:text-white group-[.toast]:rounded-md",
           cancelButton:
-            "group-[.toast]:bg-zinc-100 group-[.toast]:text-zinc-900 group-[.toast]:rounded-md",
+            "group-[.toast]:bg-zinc-100 group-[.toast]:text-primary group-[.toast]:rounded-md",
           success: "group-[.toaster]:border-emerald-200",
           error: "group-[.toaster]:border-rose-200",
         },

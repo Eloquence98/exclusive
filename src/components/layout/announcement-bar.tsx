@@ -12,7 +12,7 @@ export function AnnouncementBar({
   return (
     <div
       className={cn(
-        "bg-zinc-900 px-4 py-2 text-center text-xs text-white",
+        "bg-primary px-4 py-2 text-center text-xs text-white",
         "font-medium tracking-wide",
         className,
       )}
