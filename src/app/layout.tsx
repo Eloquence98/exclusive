@@ -40,7 +40,7 @@ export default function RootLayout({
       > */}
       <body
         className={cn(
-          "bg-background mx-auto min-h-screen max-w-1920 font-sans antialiased",
+          "mx-auto min-h-screen max-w-1920 bg-background font-sans antialiased",
           inter.variable,
         )}
       >
