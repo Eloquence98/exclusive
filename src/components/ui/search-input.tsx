@@ -59,9 +59,7 @@ export function SearchInput({ className }: SearchInputProps) {
       <div
         className={cn(
           "absolute right-0 flex items-center overflow-hidden rounded-lg border bg-white transition-all duration-300 ease-in-out",
-          isExpanded
-            ? "w-64 border-zinc-200 shadow-sm"
-            : "w-0 border-transparent",
+          isExpanded ? "w-64 border-zinc-200 shadow-sm" : "w-0 border-none",
         )}
       >
         <div className="relative flex flex-1 items-center">

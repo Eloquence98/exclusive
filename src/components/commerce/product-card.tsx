@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/utils/utility";
-import { ShoppingBag } from "lucide-react";
+import { ShoppingBag, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -15,6 +15,8 @@ export interface Product {
   imageUrl: string;
   isFeatured?: boolean;
   inStock: boolean;
+  rating?: number;
+  reviewCount?: number;
 }
 
 interface ProductCardProps {
@@ -103,6 +105,30 @@ export function ProductCard({ product, className }: ProductCardProps) {
             {product.name}
           </Link>
         </h3>
+
+        {/* Rating Stars (Blueprint: Lucide Star icons, filled amber) */}
+        {product.rating !== undefined && (
+          <div className="flex items-center gap-1.5">
+            <div className="flex items-center">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  className={cn(
+                    "h-3.5 w-3.5",
+                    i < Math.round(product.rating!)
+                      ? "fill-amber-500 text-amber-500"
+                      : "fill-zinc-200 text-zinc-200",
+                  )}
+                />
+              ))}
+            </div>
+            {product.reviewCount !== undefined && (
+              <span className="text-xs text-zinc-400">
+                ({product.reviewCount})
+              </span>
+            )}
+          </div>
+        )}
 
         {/* Pricing */}
         <div className="flex items-center gap-2">
