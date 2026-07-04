@@ -12,14 +12,66 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/src/utils/utility";
 import { Star } from "lucide-react";
-import { useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCallback } from "react";
 
-// Mock data for filters
-const categories = ["Apparel", "Footwear", "Accessories", "Outerwear"];
+const categories = [
+  "Essentials",
+  "Studio",
+  "Accessories",
+  "Outerwear",
+  "Footwear",
+];
 const brands = ["Atelier Essentials", "Atelier Studio", "Atelier Accessories"];
 
 export function FilterSidebar() {
-  const [priceRange, setPriceRange] = useState([0, 1000]);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  // Helper to update URL params
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (value) {
+        params.set(name, value);
+      } else {
+        params.delete(name);
+      }
+      params.set("page", "1"); // Reset to page 1 on filter change
+      return params.toString();
+    },
+    [searchParams],
+  );
+
+  const handleCategoryChange = (category: string, checked: boolean) => {
+    router.push(
+      `${pathname}?${createQueryString("category", checked ? category : "")}`,
+    );
+  };
+
+  const handleRatingChange = (rating: string, checked: boolean) => {
+    router.push(
+      `${pathname}?${createQueryString("rating", checked ? rating : "")}`,
+    );
+  };
+
+  const handlePriceChange = (value: number[]) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("minPrice", value[0].toString());
+    params.set("maxPrice", value[1].toString());
+    params.set("page", "1");
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
+  const clearAll = () => {
+    router.push(pathname);
+  };
+
+  const currentCategory = searchParams.get("category");
+  const currentRating = searchParams.get("rating");
+  const currentMinPrice = Number(searchParams.get("minPrice")) || 0;
+  const currentMaxPrice = Number(searchParams.get("maxPrice")) || 1000;
 
   return (
     <div className="space-y-6">
@@ -30,6 +82,7 @@ export function FilterSidebar() {
         <Button
           variant="ghost"
           size="sm"
+          onClick={clearAll}
           className="h-auto p-0 text-muted-foreground hover:text-foreground"
         >
           Clear All
@@ -38,10 +91,9 @@ export function FilterSidebar() {
 
       <Accordion
         type="multiple"
-        defaultValue={["categories", "brands", "price", "rating"]}
+        defaultValue={["categories", "price", "rating"]}
         className="w-full"
       >
-        {/* Categories */}
         <AccordionItem value="categories" className="border-border">
           <AccordionTrigger className="py-4 text-sm font-medium text-foreground hover:text-foreground">
             Categories
@@ -50,7 +102,13 @@ export function FilterSidebar() {
             <div className="space-y-3 pt-2">
               {categories.map((category) => (
                 <div key={category} className="flex items-center space-x-3">
-                  <Checkbox id={`cat-${category}`} />
+                  <Checkbox
+                    id={`cat-${category}`}
+                    checked={currentCategory === category}
+                    onCheckedChange={(checked) =>
+                      handleCategoryChange(category, checked as boolean)
+                    }
+                  />
                   <Label
                     htmlFor={`cat-${category}`}
                     className="cursor-pointer text-sm font-normal text-muted-foreground"
@@ -63,29 +121,6 @@ export function FilterSidebar() {
           </AccordionContent>
         </AccordionItem>
 
-        {/* Brands */}
-        <AccordionItem value="brands" className="border-border">
-          <AccordionTrigger className="py-4 text-sm font-medium text-foreground hover:text-foreground">
-            Brands
-          </AccordionTrigger>
-          <AccordionContent>
-            <div className="space-y-3 pt-2">
-              {brands.map((brand) => (
-                <div key={brand} className="flex items-center space-x-3">
-                  <Checkbox id={`brand-${brand}`} />
-                  <Label
-                    htmlFor={`brand-${brand}`}
-                    className="cursor-pointer text-sm font-normal text-muted-foreground"
-                  >
-                    {brand}
-                  </Label>
-                </div>
-              ))}
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-
-        {/* Price Range */}
         <AccordionItem value="price" className="border-border">
           <AccordionTrigger className="py-4 text-sm font-medium text-foreground hover:text-foreground">
             Price
@@ -96,19 +131,18 @@ export function FilterSidebar() {
                 defaultValue={[0, 1000]}
                 max={1000}
                 step={10}
-                value={priceRange}
-                onValueChange={setPriceRange}
+                value={[currentMinPrice, currentMaxPrice]}
+                onValueCommit={handlePriceChange} // Only update URL on release
                 className="mb-6"
               />
               <div className="flex items-center justify-between text-sm text-muted-foreground">
-                <span>${priceRange[0]}</span>
-                <span>${priceRange[1]}</span>
+                <span>${currentMinPrice}</span>
+                <span>${currentMaxPrice}</span>
               </div>
             </div>
           </AccordionContent>
         </AccordionItem>
 
-        {/* Rating */}
         <AccordionItem value="rating" className="border-border">
           <AccordionTrigger className="py-4 text-sm font-medium text-foreground hover:text-foreground">
             Rating
@@ -117,7 +151,13 @@ export function FilterSidebar() {
             <div className="space-y-3 pt-2">
               {[4, 3, 2, 1].map((rating) => (
                 <div key={rating} className="flex items-center space-x-3">
-                  <Checkbox id={`rating-${rating}`} />
+                  <Checkbox
+                    id={`rating-${rating}`}
+                    checked={currentRating === rating.toString()}
+                    onCheckedChange={(checked) =>
+                      handleRatingChange(rating.toString(), checked as boolean)
+                    }
+                  />
                   <Label
                     htmlFor={`rating-${rating}`}
                     className="flex cursor-pointer items-center gap-1"
