@@ -52,6 +52,7 @@
 // }
 
 import { type Product } from "@/components/commerce/product-card";
+import { type ProductInfoData } from "@/components/commerce/product-info";
 
 // Extensive mock database to simulate backend responses
 const MOCK_DATABASE: Product[] = [
@@ -464,4 +465,65 @@ export async function getProducts(
     totalPages,
     currentPage: page,
   };
+}
+
+// ... (Keep existing MOCK_DATABASE and getProducts function here) ...
+
+export interface FullProduct extends ProductInfoData {
+  slug: string;
+  description: string;
+  images: string[];
+}
+
+// Extended mock database for PDP
+const MOCK_PDP_DATABASE: Record<string, FullProduct> = {
+  "cashmere-crewneck-sweater": {
+    id: "1",
+    slug: "cashmere-crewneck-sweater",
+    brand: "Atelier Essentials",
+    name: "Cashmere Crewneck Sweater",
+    category: "Knitwear",
+    description:
+      "Crafted from the finest Grade-A Mongolian cashmere, this crewneck sweater offers unparalleled softness and warmth. The relaxed yet tailored silhouette ensures a perfect drape, making it an essential layering piece for transitional weather.",
+    price: 245.0,
+    salePrice: 196.0,
+    discountPercentage: 20,
+    rating: 4.8,
+    reviewCount: 124,
+    inStock: true,
+    sizes: [
+      { name: "XS", inStock: true },
+      { name: "S", inStock: true },
+      { name: "M", inStock: true },
+      { name: "L", inStock: false },
+      { name: "XL", inStock: true },
+    ],
+    images: [
+      "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1576566588028-4147f3842f27?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1200&auto=format&fit=crop",
+    ],
+  },
+  // Add more products here as needed for testing
+};
+
+/**
+ * Fetches a single product by its SEO slug.
+ * Replace internal logic with real fetch() call to your Express backend.
+ */
+export async function getProductBySlug(
+  slug: string,
+): Promise<FullProduct | null> {
+  // Simulate network latency
+  await new Promise((resolve) => setTimeout(resolve, 800));
+
+  /* 
+    REAL BACKEND INTEGRATION EXAMPLE:
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/${slug}`)
+    if (res.status === 404) return null
+    if (!res.ok) throw new Error('Failed to fetch product')
+    return res.json()
+  */
+
+  return MOCK_PDP_DATABASE[slug] || null;
 }
