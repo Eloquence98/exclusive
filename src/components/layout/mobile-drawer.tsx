@@ -15,10 +15,10 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { useCartStore } from "@/lib/store";
 import { Menu } from "lucide-react";
 import Link from "next/link";
 
-// Mock categories for the accordion (Will be dynamic in Phase 3)
 const categories = [
   {
     name: "Women",
@@ -39,6 +39,15 @@ const mainLinks = [
 ];
 
 export function MobileDrawer() {
+  // Connect to Cart Store
+  const { openCart, totalItems } = useCartStore();
+  const cartCount = totalItems();
+
+  // Prevent Radix focus trap conflicts by waiting for the mobile drawer to close
+  const handleOpenCart = () => {
+    setTimeout(() => openCart(), 150);
+  };
+
   return (
     <Sheet>
       {/* Trigger Button */}
@@ -49,19 +58,22 @@ export function MobileDrawer() {
           className="md:hidden"
           aria-label="Open menu"
         >
-          <Menu className="h-5 w-5" />
+          <Menu className="h-5 w-5 text-foreground" />
         </Button>
       </SheetTrigger>
 
       {/* Drawer Content */}
-      <SheetContent side="right" className="flex w-full max-w-sm flex-col p-0">
-        <SheetHeader className="border-b border-zinc-100 px-6 py-4">
-          <SheetTitle className="text-left text-xl font-semibold tracking-tight">
+      <SheetContent
+        side="right"
+        className="flex w-full max-w-sm flex-col bg-background p-0"
+      >
+        <SheetHeader className="border-b border-border px-6 py-4">
+          <SheetTitle className="text-left text-xl font-semibold tracking-tight text-foreground">
             Menu
           </SheetTitle>
         </SheetHeader>
 
-        <nav className="flex-1 overflow-y-auto px-6 py-4">
+        <nav className="flex-1 overflow-y-auto px-6 py-4 scrollbar-hide">
           {/* Main Links */}
           <ul className="mb-6 space-y-1">
             {mainLinks.map((link) => (
@@ -69,7 +81,7 @@ export function MobileDrawer() {
                 <SheetClose asChild>
                   <Link
                     href={link.href}
-                    className="block py-3 text-xl font-medium text-zinc-950 transition-colors hover:text-zinc-600"
+                    className="block py-3 text-xl font-medium text-foreground transition-colors hover:text-muted-foreground"
                   >
                     {link.name}
                   </Link>
@@ -79,14 +91,18 @@ export function MobileDrawer() {
           </ul>
 
           {/* Categories Accordion */}
-          <div className="border-t border-zinc-100 pt-4">
-            <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-zinc-400">
+          <div className="border-t border-border pt-4">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
               Categories
             </p>
             <Accordion type="single" collapsible className="w-full">
               {categories.map((category) => (
-                <AccordionItem key={category.slug} value={category.slug}>
-                  <AccordionTrigger className="py-3 text-lg font-medium text-zinc-950">
+                <AccordionItem
+                  key={category.slug}
+                  value={category.slug}
+                  className="border-border"
+                >
+                  <AccordionTrigger className="py-3 text-lg font-medium text-foreground">
                     {category.name}
                   </AccordionTrigger>
                   <AccordionContent>
@@ -95,8 +111,8 @@ export function MobileDrawer() {
                         <li key={sub}>
                           <SheetClose asChild>
                             <Link
-                              href={`/shop/${category.slug}/${sub.toLowerCase().replace(" ", "-")}`}
-                              className="block py-1 text-base text-zinc-600 transition-colors hover:text-zinc-950"
+                              href={`/shop?category=${sub.toLowerCase().replace(" ", "-")}`}
+                              className="block py-1 text-base text-muted-foreground transition-colors hover:text-foreground"
                             >
                               {sub}
                             </Link>
@@ -111,24 +127,30 @@ export function MobileDrawer() {
           </div>
         </nav>
 
-        {/* Footer Links (Auth/Cart placeholders for now) */}
-        <div className="space-y-4 border-t border-zinc-100 px-6 py-6">
+        {/* Footer Links */}
+        <div className="space-y-4 border-t border-border px-6 py-6">
           <SheetClose asChild>
             <Link
               href="/account"
-              className="block text-base font-medium text-zinc-950 transition-colors hover:text-zinc-600"
+              className="block text-base font-medium text-foreground transition-colors hover:text-muted-foreground"
             >
               My Account
             </Link>
           </SheetClose>
-          {/* Cart link will be replaced by Cart Drawer trigger in Phase 5 */}
+
+          {/* Mobile Cart Trigger */}
           <SheetClose asChild>
-            <Link
-              href="/cart"
-              className="block text-base font-medium text-zinc-950 transition-colors hover:text-zinc-600"
+            <button
+              onClick={handleOpenCart}
+              className="flex w-full items-center justify-between text-base font-medium text-foreground transition-colors hover:text-muted-foreground"
             >
-              Cart
-            </Link>
+              <span>Cart</span>
+              {cartCount > 0 && (
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-primary-foreground">
+                  {cartCount}
+                </span>
+              )}
+            </button>
           </SheetClose>
         </div>
       </SheetContent>

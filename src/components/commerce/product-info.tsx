@@ -2,6 +2,7 @@
 
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
+import { useCartStore } from "@/lib/store";
 import { cn } from "@/src/utils/utility";
 import { Check, Star } from "lucide-react";
 import { useState } from "react";
@@ -12,9 +13,13 @@ export interface ProductSize {
   inStock: boolean;
 }
 
+// Updated interface to include fields needed for the Cart Store
 export interface ProductInfoData {
+  id: string;
+  slug: string;
   brand: string;
   name: string;
+  category: string;
   price: number;
   salePrice?: number;
   discountPercentage?: number;
@@ -22,7 +27,7 @@ export interface ProductInfoData {
   reviewCount: number;
   inStock: boolean;
   sizes: ProductSize[];
-  category: string;
+  images: string[];
 }
 
 interface ProductInfoProps {
@@ -33,22 +38,39 @@ export function ProductInfo({ product }: ProductInfoProps) {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [isAdding, setIsAdding] = useState(false);
 
+  // Connect to Zustand store
+  const addItem = useCartStore((state) => state.addItem);
+
   const hasSale = product.salePrice && product.salePrice < product.price;
 
   const handleAddToCart = () => {
+    // Validation: Ensure a size is selected if the product has sizes
     if (!selectedSize && product.sizes.length > 0) {
       toast.error("Please select a size");
       return;
     }
 
     setIsAdding(true);
-    // Simulate network request
+
+    // Simulate brief network delay for UX, then add to store
     setTimeout(() => {
-      setIsAdding(false);
-      toast.success("Added to cart", {
-        description: `${product.name} (${selectedSize}) has been added.`,
+      addItem({
+        id: product.id,
+        slug: product.slug,
+        name: product.name,
+        brand: product.brand,
+        price: product.price,
+        salePrice: product.salePrice,
+        imageUrl: product.images[0], // Use the primary image for the cart
+        size: selectedSize || undefined,
       });
-    }, 800);
+
+      setIsAdding(false);
+
+      toast.success("Added to cart", {
+        description: `${product.name}${selectedSize ? ` (${selectedSize})` : ""} has been added.`,
+      });
+    }, 600);
   };
 
   return (
