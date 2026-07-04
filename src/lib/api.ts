@@ -743,3 +743,40 @@ export async function logoutUser(): Promise<{ message: string }> {
 
   return { message: "Logged out successfully." };
 }
+
+export interface UpdateProfilePayload {
+  name: string;
+}
+
+export interface UpdatePasswordPayload {
+  currentPassword: string;
+  newPassword: string;
+}
+
+/**
+ * Updates the user's profile information.
+ */
+export async function updateUserProfile(
+  payload: UpdateProfilePayload,
+): Promise<{ message: string }> {
+  await new Promise((resolve) => setTimeout(resolve, 800));
+  return { message: "Profile updated successfully." };
+}
+
+/**
+ * Updates the user's password.
+ */
+export async function updateUserPassword(
+  payload: UpdatePasswordPayload,
+): Promise<{ message: string }> {
+  await new Promise((resolve) => setTimeout(resolve, 800));
+
+  if (payload.newPassword.length < 6) {
+    throw new Error("New password must be at least 6 characters");
+  }
+  if (payload.currentPassword === payload.newPassword) {
+    throw new Error("New password must be different from the current password");
+  }
+
+  return { message: "Password updated successfully." };
+}
