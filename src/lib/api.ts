@@ -53,6 +53,7 @@
 
 import { type Product } from "@/components/commerce/product-card";
 import { type ProductInfoData } from "@/components/commerce/product-info";
+import { type CartItem } from "./store";
 
 // Extensive mock database to simulate backend responses
 const MOCK_DATABASE: Product[] = [
@@ -526,4 +527,54 @@ export async function getProductBySlug(
   */
 
   return MOCK_PDP_DATABASE[slug] || null;
+}
+
+export interface ShippingAddress {
+  firstName: string;
+  lastName: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+}
+
+export interface OrderPayload {
+  email: string;
+  shippingAddress: ShippingAddress;
+  items: CartItem[];
+  subtotal: number;
+  shippingCost: number;
+  total: number;
+  createAccount?: boolean;
+  password?: string;
+}
+
+/**
+ * Sends the order payload to the backend.
+ * Handles both Guest checkout and Guest -> Registered User flows.
+ */
+export async function createOrder(
+  payload: OrderPayload,
+): Promise<{ orderId: string }> {
+  // Simulate network latency
+  await new Promise((resolve) => setTimeout(resolve, 1500));
+
+  /* 
+    REAL BACKEND INTEGRATION EXAMPLE:
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/orders`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    if (!res.ok) {
+      const errorData = await res.json()
+      throw new Error(errorData.message || 'Failed to create order')
+    }
+    return res.json()
+  */
+
+  // Mock successful response
+  return {
+    orderId: `ORD-${Math.random().toString(36).substring(2, 10).toUpperCase()}`,
+  };
 }
