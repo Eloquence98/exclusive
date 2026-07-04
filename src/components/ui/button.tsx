@@ -1,35 +1,29 @@
 "use client";
 
-import { cn } from "@/utils/utility";
+import { cn } from "@/src/utils/utility";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { motion, type HTMLMotionProps } from "framer-motion";
 import * as React from "react";
 
-/**
- * Button Variants
- * Strictly follows the "Quiet Luxury" blueprint:
- * - Primary: bg-zinc-900
- * - Secondary: Outline with border-zinc-200
- * - Border Radius: rounded-lg (8px)
- */
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  // Blueprint: Accessible UI focus rings using CSS variables
+  "inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        default: "bg-primary text-white hover:bg-zinc-800",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
         outline:
-          "border border-zinc-200 bg-white hover:bg-zinc-50 hover:text-primary",
-        secondary: "bg-zinc-100 text-primary hover:bg-zinc-200",
-        ghost: "hover:bg-zinc-100 hover:text-primary",
-        link: "text-primary underline-offset-4 hover:underline",
-        icon: "h-10 w-10 p-0 rounded-full hover:bg-zinc-100 text-zinc-600 hover:text-primary",
+          "border border-border bg-background hover:bg-muted hover:text-foreground",
+        secondary: "bg-muted text-foreground hover:bg-muted/80",
+        ghost: "hover:bg-muted hover:text-foreground",
+        link: "text-foreground underline-offset-4 hover:underline",
+        icon: "h-10 w-10 p-0 rounded-full hover:bg-muted text-muted-foreground hover:text-foreground",
       },
       size: {
         default: "h-10 px-4 py-2",
         sm: "h-9 px-3 text-xs",
-        lg: "h-12 px-8 text-base", // Blueprint: Add to cart button is h-12
+        lg: "h-12 px-8 text-base",
         icon: "h-10 w-10",
       },
     },
@@ -46,11 +40,6 @@ export interface ButtonProps
   asChild?: boolean;
 }
 
-/**
- * Premium Button Component
- * - Uses Framer Motion for micro-interactions (scale 0.98 on tap)
- * - Supports `asChild` to render as a Next.js Link without breaking motion props
- */
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
@@ -63,8 +52,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) => {
-    // If asChild is true, we render a standard Slot to avoid passing
-    // Framer Motion props (like whileTap) to DOM elements via Next.js Link
     if (asChild) {
       return (
         <Slot
@@ -75,7 +62,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       );
     }
 
-    // Standard button with Framer Motion micro-interactions
     return (
       <motion.button
         className={cn(buttonVariants({ variant, size, className }))}

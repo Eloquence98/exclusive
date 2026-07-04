@@ -37,6 +37,10 @@
     --radius: 0.5rem;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     /* Improve font rendering for a premium feel */
     font-feature-settings:
