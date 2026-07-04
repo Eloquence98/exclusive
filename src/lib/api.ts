@@ -780,3 +780,61 @@ export async function updateUserPassword(
 
   return { message: "Password updated successfully." };
 }
+
+export type OrderStatus = "Processing" | "Shipped" | "Delivered" | "Cancelled";
+
+export interface Order {
+  id: string;
+  date: string;
+  status: OrderStatus;
+  total: number;
+  itemsCount: number;
+}
+
+/**
+ * Fetches all orders for the authenticated user.
+ */
+export async function getUserOrders(): Promise<Order[]> {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  /* 
+    REAL BACKEND INTEGRATION EXAMPLE:
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/orders`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+    if (!res.ok) throw new Error('Failed to fetch orders')
+    return res.json()
+  */
+
+  // Mock data
+  return [
+    {
+      id: "ORD-7A9B2C",
+      date: "2023-10-24T14:30:00Z",
+      status: "Delivered",
+      total: 430.0,
+      itemsCount: 2,
+    },
+    {
+      id: "ORD-8X3Y4Z",
+      date: "2023-11-02T09:15:00Z",
+      status: "Shipped",
+      total: 195.0,
+      itemsCount: 1,
+    },
+    {
+      id: "ORD-1M2N3P",
+      date: "2023-11-10T16:45:00Z",
+      status: "Processing",
+      total: 850.0,
+      itemsCount: 4,
+    },
+    {
+      id: "ORD-9Q8W7E",
+      date: "2023-09-15T11:20:00Z",
+      status: "Cancelled",
+      total: 120.0,
+      itemsCount: 1,
+    },
+  ];
+}
