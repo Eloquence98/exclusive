@@ -838,3 +838,134 @@ export async function getUserOrders(): Promise<Order[]> {
     },
   ];
 }
+
+export interface TimelineStep {
+  label: string;
+  date?: string;
+  completed: boolean;
+  current: boolean;
+}
+
+export interface OrderDetails extends Order {
+  shippingAddress: ShippingAddress;
+  items: CartItem[];
+  timeline: TimelineStep[];
+}
+
+/**
+ * Fetches a single order by its ID.
+ */
+export async function getOrderById(id: string): Promise<OrderDetails | null> {
+  await new Promise((resolve) => setTimeout(resolve, 800));
+
+  /* 
+    REAL BACKEND INTEGRATION EXAMPLE:
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/orders/${id}`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+    if (res.status === 404) return null
+    if (!res.ok) throw new Error('Failed to fetch order')
+    return res.json()
+  */
+
+  // Mock data for a "Shipped" order to demonstrate all timeline states
+  if (id === "ORD-8X3Y4Z") {
+    return {
+      id: "ORD-8X3Y4Z",
+      date: "2023-11-02T09:15:00Z",
+      status: "Shipped",
+      total: 195.0,
+      itemsCount: 1,
+      shippingAddress: {
+        firstName: "Elena",
+        lastName: "V.",
+        address: "123 Luxury Lane",
+        city: "New York",
+        state: "NY",
+        zip: "10001",
+      },
+      items: [
+        {
+          id: "5",
+          slug: "merino-wool-turtleneck",
+          name: "Merino Wool Turtleneck",
+          brand: "Atelier Knitwear",
+          price: 195.0,
+          imageUrl:
+            "https://images.unsplash.com/photo-1576566588028-4147f3842f27?q=80&w=800&auto=format&fit=crop",
+          size: "M",
+          quantity: 1,
+        },
+      ],
+      timeline: [
+        {
+          label: "Order Placed",
+          date: "Nov 2, 2023 - 9:15 AM",
+          completed: true,
+          current: false,
+        },
+        {
+          label: "Payment Confirmed",
+          date: "Nov 2, 2023 - 9:16 AM",
+          completed: true,
+          current: false,
+        },
+        {
+          label: "Packed",
+          date: "Nov 3, 2023 - 10:00 AM",
+          completed: true,
+          current: false,
+        },
+        {
+          label: "Shipped",
+          date: "Nov 4, 2023 - 2:30 PM",
+          completed: false,
+          current: true,
+        },
+        { label: "Out for Delivery", completed: false, current: false },
+        { label: "Delivered", completed: false, current: false },
+      ],
+    };
+  }
+
+  // Fallback mock for other IDs
+  return {
+    id,
+    date: "2023-10-24T14:30:00Z",
+    status: "Delivered",
+    total: 430.0,
+    itemsCount: 2,
+    shippingAddress: {
+      firstName: "John",
+      lastName: "Doe",
+      address: "456 Style St",
+      city: "London",
+      state: "UK",
+      zip: "SW1A 1AA",
+    },
+    items: [],
+    timeline: [
+      {
+        label: "Order Placed",
+        date: "Oct 24",
+        completed: true,
+        current: false,
+      },
+      {
+        label: "Payment Confirmed",
+        date: "Oct 24",
+        completed: true,
+        current: false,
+      },
+      { label: "Packed", date: "Oct 25", completed: true, current: false },
+      { label: "Shipped", date: "Oct 26", completed: true, current: false },
+      {
+        label: "Out for Delivery",
+        date: "Oct 28",
+        completed: true,
+        current: false,
+      },
+      { label: "Delivered", date: "Oct 28", completed: true, current: false },
+    ],
+  };
+}
