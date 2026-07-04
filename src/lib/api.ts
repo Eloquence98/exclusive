@@ -468,8 +468,6 @@ export async function getProducts(
   };
 }
 
-// ... (Keep existing MOCK_DATABASE and getProducts function here) ...
-
 export interface FullProduct extends ProductInfoData {
   slug: string;
   description: string;
@@ -577,4 +575,171 @@ export async function createOrder(
   return {
     orderId: `ORD-${Math.random().toString(36).substring(2, 10).toUpperCase()}`,
   };
+}
+
+export interface LoginPayload {
+  email: string;
+  password: string;
+}
+
+export interface AuthResponse {
+  token: string;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+  };
+}
+
+/**
+ * Authenticates a user and returns a JWT.
+ */
+export async function loginUser(payload: LoginPayload): Promise<AuthResponse> {
+  // Simulate network latency
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  /* 
+    REAL BACKEND INTEGRATION EXAMPLE:
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    if (!res.ok) {
+      const errorData = await res.json()
+      throw new Error(errorData.message || 'Invalid credentials')
+    }
+    return res.json()
+  */
+
+  // Mock successful response
+  if (payload.password.length < 6) {
+    throw new Error("Invalid email or password");
+  }
+
+  return {
+    token: "mock-jwt-token-12345",
+    user: {
+      id: "user-1",
+      name: "Elena V.",
+      email: payload.email,
+    },
+  };
+}
+
+export interface RegisterPayload {
+  name: string;
+  email: string;
+  password: string;
+  orderId?: string; // Used for Guest -> Registered flow
+}
+
+/**
+ * Registers a new user.
+ * If orderId is provided, links the guest order to the new account.
+ */
+export async function registerUser(
+  payload: RegisterPayload,
+): Promise<AuthResponse> {
+  // Simulate network latency
+  await new Promise((resolve) => setTimeout(resolve, 1200));
+
+  /* 
+    REAL BACKEND INTEGRATION EXAMPLE:
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/signup`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    if (!res.ok) {
+      const errorData = await res.json()
+      throw new Error(errorData.message || 'Registration failed')
+    }
+    return res.json()
+  */
+
+  // Mock validation
+  if (payload.password.length < 6) {
+    throw new Error("Password must be at least 6 characters");
+  }
+
+  // Mock successful response
+  return {
+    token: "mock-jwt-token-67890",
+    user: {
+      id: "user-2",
+      name: payload.name,
+      email: payload.email,
+    },
+  };
+}
+
+/**
+ * Requests a password reset email.
+ */
+export async function requestPasswordReset(
+  email: string,
+): Promise<{ message: string }> {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  /* 
+    REAL BACKEND INTEGRATION EXAMPLE:
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/forgot-password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    })
+    if (!res.ok) throw new Error('Failed to send reset email')
+    return res.json()
+  */
+
+  return { message: "Password reset email sent successfully." };
+}
+
+/**
+ * Resets the password using a secure token.
+ */
+export async function resetPassword(
+  token: string,
+  password: string,
+): Promise<{ message: string }> {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  /* 
+    REAL BACKEND INTEGRATION EXAMPLE:
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/reset-password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token, password })
+    })
+    if (!res.ok) throw new Error('Invalid or expired token')
+    return res.json()
+  */
+
+  if (password.length < 6)
+    throw new Error("Password must be at least 6 characters");
+
+  return { message: "Password reset successfully." };
+}
+
+/**
+ * Logs out the user and invalidates the token.
+ */
+export async function logoutUser(): Promise<{ message: string }> {
+  await new Promise((resolve) => setTimeout(resolve, 500));
+
+  /* 
+    REAL BACKEND INTEGRATION EXAMPLE:
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` 
+      }
+    })
+    if (!res.ok) throw new Error('Failed to logout')
+    return res.json()
+  */
+
+  return { message: "Logged out successfully." };
 }
