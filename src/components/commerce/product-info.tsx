@@ -38,13 +38,12 @@ export function ProductInfo({ product }: ProductInfoProps) {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [isAdding, setIsAdding] = useState(false);
 
-  // Connect to Zustand store
   const addItem = useCartStore((state) => state.addItem);
+  const openCart = useCartStore((state) => state.openCart);
 
   const hasSale = product.salePrice && product.salePrice < product.price;
 
   const handleAddToCart = () => {
-    // Validation: Ensure a size is selected if the product has sizes
     if (!selectedSize && product.sizes.length > 0) {
       toast.error("Please select a size");
       return;
@@ -52,7 +51,6 @@ export function ProductInfo({ product }: ProductInfoProps) {
 
     setIsAdding(true);
 
-    // Simulate brief network delay for UX, then add to store
     setTimeout(() => {
       addItem({
         id: product.id,
@@ -61,9 +59,11 @@ export function ProductInfo({ product }: ProductInfoProps) {
         brand: product.brand,
         price: product.price,
         salePrice: product.salePrice,
-        imageUrl: product.images[0], // Use the primary image for the cart
+        imageUrl: product.images[0],
         size: selectedSize || undefined,
       });
+
+      openCart(); // open the drawer on the PDP
 
       setIsAdding(false);
 

@@ -39,13 +39,30 @@
 
   html {
     scroll-behavior: smooth;
+    /* Prevent font size inflation on mobile landscape */
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
-    /* Improve font rendering for a premium feel */
+    @apply bg-background text-foreground antialiased;
     font-feature-settings:
       "rlig" 1,
       "calt" 1;
+
+    /* Premium Mobile UX: Remove default tap highlight color */
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Brand-aligned Text Selection */
+  ::selection {
+    background-color: hsl(var(--primary) / 0.15);
+    color: hsl(var(--foreground));
+  }
+
+  /* Prevent layout shift when Radix UI locks body scroll for Modals/Drawers */
+  body[data-scroll-locked] {
+    margin-right: 0 !important;
+    padding-right: 0 !important;
   }
 }
 

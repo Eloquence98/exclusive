@@ -60,7 +60,6 @@ export const useCartStore = create<CartState>((set, get) => ({
       // Add new item
       set({
         items: [...items, { ...product, quantity: 1 }],
-        isOpen: true,
       });
     }
   },

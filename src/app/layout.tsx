@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 import { cn } from "@/utils/utility";
-import { Metadata } from "next";
+import { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import React from "react";
 import { Toaster } from "../components/ui/sonner";
@@ -13,6 +13,17 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "ATELIER | Premium E-Commerce",
   description: "A quiet luxury shopping experience.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5, // Allow zooming for accessibility, but prevent accidental double-tap zoom
+  userScalable: true,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
+  ],
 };
 
 // export const metadata: Metadata = {
