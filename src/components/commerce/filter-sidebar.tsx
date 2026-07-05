@@ -13,7 +13,7 @@ import { Slider } from "@/components/ui/slider";
 import { cn } from "@/src/utils/utility";
 import { Star } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const categories = [
   "Essentials",
@@ -28,6 +28,21 @@ export function FilterSidebar() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  // Read from URL
+  const currentMinPrice = Number(searchParams.get("minPrice")) || 0;
+  const currentMaxPrice = Number(searchParams.get("maxPrice")) || 1000;
+
+  // Local state for smooth slider dragging
+  const [priceRange, setPriceRange] = useState([
+    currentMinPrice,
+    currentMaxPrice,
+  ]);
+
+  // Sync local state if URL params change externally (e.g., clicking "Clear All")
+  useEffect(() => {
+    setPriceRange([currentMinPrice, currentMaxPrice]);
+  }, [currentMinPrice, currentMaxPrice]);
 
   // Helper to update URL params
   const createQueryString = useCallback(
@@ -56,10 +71,17 @@ export function FilterSidebar() {
     );
   };
 
-  const handlePriceChange = (value: number[]) => {
+  // Update URL only when the user releases the slider
+  const handlePriceCommit = (value: number[]) => {
     const params = new URLSearchParams(searchParams.toString());
-    params.set("minPrice", value[0].toString());
-    params.set("maxPrice", value[1].toString());
+
+    // Keep URL clean by only adding params if they differ from defaults
+    if (value[0] > 0) params.set("minPrice", value[0].toString());
+    else params.delete("minPrice");
+
+    if (value[1] < 1000) params.set("maxPrice", value[1].toString());
+    else params.delete("maxPrice");
+
     params.set("page", "1");
     router.push(`${pathname}?${params.toString()}`);
   };
@@ -70,8 +92,6 @@ export function FilterSidebar() {
 
   const currentCategory = searchParams.get("category");
   const currentRating = searchParams.get("rating");
-  const currentMinPrice = Number(searchParams.get("minPrice")) || 0;
-  const currentMaxPrice = Number(searchParams.get("maxPrice")) || 1000;
 
   return (
     <div className="space-y-6">
@@ -128,16 +148,16 @@ export function FilterSidebar() {
           <AccordionContent>
             <div className="px-1 pt-4">
               <Slider
-                defaultValue={[0, 1000]}
                 max={1000}
                 step={10}
-                value={[currentMinPrice, currentMaxPrice]}
-                onValueCommit={handlePriceChange} // Only update URL on release
+                value={priceRange} // Bound to local state
+                onValueChange={setPriceRange} // Updates local state while dragging
+                onValueCommit={handlePriceCommit} // Updates URL on release
                 className="mb-6"
               />
               <div className="flex items-center justify-between text-sm text-muted-foreground">
-                <span>${currentMinPrice}</span>
-                <span>${currentMaxPrice}</span>
+                <span>${priceRange[0]}</span>
+                <span>${priceRange[1]}</span>
               </div>
             </div>
           </AccordionContent>
