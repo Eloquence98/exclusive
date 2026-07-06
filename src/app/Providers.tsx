@@ -14,7 +14,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <HeroUIProvider>
         <QueryClientProvider client={queryClient}>
           {children}
-          <ReactQueryDevtools initialIsOpen={false} />
+          <ReactQueryDevtools />
         </QueryClientProvider>
       </HeroUIProvider>
     </SessionProvider>

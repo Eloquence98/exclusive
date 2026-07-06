@@ -2,26 +2,12 @@
 
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/lib/store";
+import { Product } from "@/src/domains/catalog/types/product.types";
 import { cn } from "@/src/utils/utility";
 import { ShoppingBag, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { toast } from "sonner";
-
-export interface Product {
-  id: string;
-  slug: string;
-  name: string;
-  brand?: string;
-  price: number;
-  salePrice?: number;
-  discountPercentage?: number;
-  imageUrl: string;
-  isFeatured?: boolean;
-  inStock: boolean;
-  rating?: number;
-  reviewCount?: number;
-}
 
 interface ProductCardProps {
   product: Product;
@@ -41,18 +27,18 @@ export function ProductCard({ product, className }: ProductCardProps) {
 
     // Add item to cart (Size is undefined for Quick Add)
     addItem({
-      id: product.id,
+      id: product._id,
       slug: product.slug,
-      name: product.name,
+      name: product.title,
       brand: product.brand,
       price: product.price,
       salePrice: product.salePrice,
-      imageUrl: product.imageUrl,
+      imageUrl: product.imageCover,
     });
 
     // User Feedback
     toast.success("Added to cart", {
-      description: `${product.name} has been added to your cart.`,
+      description: `${product.title} has been added to your cart.`,
     });
   };
 
@@ -64,8 +50,11 @@ export function ProductCard({ product, className }: ProductCardProps) {
         className="relative block aspect-[3/4] w-full overflow-hidden rounded-2xl bg-muted"
       >
         <Image
-          src={product.imageUrl}
-          alt={product.name}
+          src={
+            product.imageCover ||
+            "https://dummyimage.com/400x400/cccccc/cccccc.png"
+          }
+          alt={product.title}
           fill
           sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
@@ -88,7 +77,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
         </div>
 
         {/* Quick Add Button (Desktop Only) */}
-        {product.inStock && (
+        {product.stock > 0 ? (
           <div className="absolute bottom-0 left-0 right-0 z-10 hidden translate-y-full p-4 transition-transform duration-300 ease-out group-hover:translate-y-0 md:block">
             <Button
               className="w-full border border-border bg-background/90 text-foreground shadow-sm backdrop-blur-sm hover:bg-background"
@@ -98,10 +87,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
               Quick Add
             </Button>
           </div>
-        )}
-
-        {/* Out of Stock Overlay */}
-        {!product.inStock && (
+        ) : (
           <div className="absolute inset-0 z-10 flex items-center justify-center bg-background/60 backdrop-blur-[2px]">
             <span className="rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground">
               Out of Stock
@@ -125,7 +111,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
             href={`/product/${product.slug}`}
             className="underline-offset-4 transition-colors hover:underline"
           >
-            {product.name}
+            {product.title}
           </Link>
         </h3>
 
@@ -145,9 +131,9 @@ export function ProductCard({ product, className }: ProductCardProps) {
                 />
               ))}
             </div>
-            {product.reviewCount !== undefined && (
+            {product.ratingsQuantity !== undefined && (
               <span className="text-xs text-muted-foreground">
-                ({product.reviewCount})
+                ({product.ratingsQuantity})
               </span>
             )}
           </div>

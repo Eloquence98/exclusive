@@ -38,7 +38,7 @@ export type SaleStatus =
  * Includes Mongoose fields + virtuals (toJSON: { virtuals: true })
  */
 export interface Product {
-  _id: string;
+  _id: string; // imported on backend replace this with id in toJson function model
   title: string;
   slug: string;
   description: string;
