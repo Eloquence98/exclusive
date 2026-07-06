@@ -4,6 +4,7 @@ import { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import React from "react";
 import { Toaster } from "../components/ui/sonner";
+import { Providers } from "./Providers";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -48,30 +49,11 @@ export default function RootLayout({
           inter.variable,
         )}
       >
-        {children}
-        {/* Global Toast Notifications */}
-        <Toaster />
+        <Providers>
+          {children}
+          <Toaster />
+        </Providers>
       </body>
     </html>
-    // <html lang="en" className="bg-cream text-ink antialiased">
-    //   {/* <body
-    //     className={`${fraunces.className} mx-auto max-w-1920 bg-cream text-ink antialiased`}
-    //   > */}
-    //   <body
-    //     className={cn(
-    //       "mx-auto min-h-screen max-w-1920 bg-background font-sans antialiased",
-    //       inter.variable,
-    //     )}
-    //   >
-    //     <Providers>
-    //       <Header />
-    //       <main className="mb-24 min-h-[calc(100dvh-4.625rem)]">
-    //         {children}
-    //       </main>
-    //       <Footer />
-    //       <Toaster />
-    //     </Providers>
-    //   </body>
-    // </html>
   );
 }
