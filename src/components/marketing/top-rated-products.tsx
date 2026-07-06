@@ -1,60 +1,10 @@
 "use client";
 
-import { ProductCard, type Product } from "@/components/commerce/product-card";
+import { ProductCard } from "@/components/commerce/product-card";
+import { topRatedProductsOptions } from "@/domains/catalog/queries/products.query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { SectionHeader } from "./section-header";
-
-// Mock data specifically featuring high ratings
-const mockTopRatedProducts: Product[] = [
-  {
-    id: "9",
-    slug: "structured-wool-coat",
-    name: "Structured Wool Overcoat",
-    brand: "Atelier Outerwear",
-    price: 595.0,
-    imageUrl:
-      "https://images.unsplash.com/photo-1539533018447-63fcce2678e3?q=80&w=800&auto=format&fit=crop",
-    inStock: true,
-    rating: 4.9,
-    reviewCount: 124,
-  },
-  {
-    id: "10",
-    slug: "suede-chelsea-boots",
-    name: "Italian Suede Chelsea Boots",
-    brand: "Atelier Footwear",
-    price: 340.0,
-    imageUrl:
-      "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?q=80&w=800&auto=format&fit=crop",
-    inStock: true,
-    rating: 4.8,
-    reviewCount: 89,
-  },
-  {
-    id: "11",
-    slug: "ribbed-knit-polo",
-    name: "Ribbed Knit Polo Shirt",
-    brand: "Atelier Essentials",
-    price: 145.0,
-    imageUrl:
-      "https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?q=80&w=800&auto=format&fit=crop",
-    inStock: true,
-    rating: 4.7,
-    reviewCount: 215,
-  },
-  {
-    id: "12",
-    slug: "titanium-aviators",
-    name: "Titanium Aviator Sunglasses",
-    brand: "Atelier Eyewear",
-    price: 220.0,
-    imageUrl:
-      "https://images.unsplash.com/photo-1511499767150-a48a237f0083?q=80&w=800&auto=format&fit=crop",
-    inStock: true,
-    rating: 5.0,
-    reviewCount: 42,
-  },
-];
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -76,8 +26,9 @@ const itemVariants = {
 };
 
 export function TopRatedProducts() {
+  const { data: products } = useSuspenseQuery(topRatedProductsOptions);
+
   return (
-    // Alternating background: Pure white
     <section className="bg-white py-16 md:py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeader
@@ -93,9 +44,9 @@ export function TopRatedProducts() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >
-          {mockTopRatedProducts.map((product) => (
+          {products.map((product) => (
             <motion.div
-              key={product.id}
+              key={product._id}
               variants={itemVariants}
               className="min-w-[80vw] snap-start md:min-w-0"
             >

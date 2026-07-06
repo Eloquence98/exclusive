@@ -1,54 +1,10 @@
 "use client";
 
-import { ProductCard, type Product } from "@/components/commerce/product-card";
+import { ProductCard } from "@/components/commerce/product-card";
+import { trendingProductsOptions } from "@/domains/catalog/queries/products.query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { SectionHeader } from "./section-header";
-
-// Distinct mock data for Trending products
-const mockTrendingProducts: Product[] = [
-  {
-    id: "5",
-    slug: "merino-wool-turtleneck",
-    name: "Merino Wool Turtleneck",
-    brand: "Atelier Knitwear",
-    price: 195.0,
-    imageUrl:
-      "https://images.unsplash.com/photo-1576566588028-4147f3842f27?q=80&w=800&auto=format&fit=crop",
-    inStock: true,
-  },
-  {
-    id: "6",
-    slug: "relaxed-linen-blazer",
-    name: "Relaxed Linen Blazer",
-    brand: "Atelier Tailoring",
-    price: 320.0,
-    imageUrl:
-      "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=800&auto=format&fit=crop",
-    inStock: true,
-  },
-  {
-    id: "7",
-    slug: "minimalist-leather-watch",
-    name: "Minimalist Leather Watch",
-    brand: "Atelier Accessories",
-    price: 275.0,
-    imageUrl:
-      "https://images.unsplash.com/photo-1524592094714-0f0654e20314?q=80&w=800&auto=format&fit=crop",
-    inStock: true,
-  },
-  {
-    id: "8",
-    slug: "cotton-canvas-tote",
-    name: "Heavyweight Cotton Canvas Tote",
-    brand: "Atelier Essentials",
-    price: 85.0,
-    salePrice: 65.0,
-    discountPercentage: 20,
-    imageUrl:
-      "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=800&auto=format&fit=crop",
-    inStock: true,
-  },
-];
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -70,8 +26,9 @@ const itemVariants = {
 };
 
 export function TrendingProducts() {
+  const { data: products } = useSuspenseQuery(trendingProductsOptions);
+
   return (
-    // Blueprint: bg-zinc-50 for subtle section breaks
     <section className="bg-zinc-50 py-16 md:py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeader
@@ -87,9 +44,9 @@ export function TrendingProducts() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >
-          {mockTrendingProducts.map((product) => (
+          {products.map((product) => (
             <motion.div
-              key={product.id}
+              key={product._id}
               variants={itemVariants}
               className="min-w-[80vw] snap-start md:min-w-0"
             >

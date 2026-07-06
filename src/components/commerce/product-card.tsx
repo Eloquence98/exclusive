@@ -1,9 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import type { Product } from "@/domains/catalog/types/product.types";
 import { useCartStore } from "@/lib/store";
-import { Product } from "@/src/domains/catalog/types/product.types";
-import { cn } from "@/src/utils/utility";
+import { cn } from "@/utils/utility";
 import { ShoppingBag, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,17 +15,15 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, className }: ProductCardProps) {
-  const hasSale = product.salePrice && product.salePrice < product.price;
+  const hasSale = product.saleStatus === "ACTIVE";
 
-  // Connect to Zustand Cart Store
+  // TODO: Move to cart domain mutation when cart domain is migrated
   const addItem = useCartStore((state) => state.addItem);
 
   const handleQuickAdd = (e: React.MouseEvent<HTMLButtonElement>) => {
-    // Prevent link navigation when clicking Quick Add
     e.preventDefault();
     e.stopPropagation();
 
-    // Add item to cart (Size is undefined for Quick Add)
     addItem({
       id: product._id,
       slug: product.slug,
@@ -36,7 +34,6 @@ export function ProductCard({ product, className }: ProductCardProps) {
       imageUrl: product.imageCover,
     });
 
-    // User Feedback
     toast.success("Added to cart", {
       description: `${product.title} has been added to your cart.`,
     });
@@ -51,8 +48,9 @@ export function ProductCard({ product, className }: ProductCardProps) {
       >
         <Image
           src={
-            product.imageCover ||
-            "https://dummyimage.com/400x400/cccccc/cccccc.png"
+            product.imageCover?.startsWith("http")
+              ? product.imageCover
+              : "https://dummyimage.com/400x400/cccccc/cccccc.png"
           }
           alt={product.title}
           fill
@@ -60,7 +58,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         />
 
-        {/* Badges (Featured / Sale) */}
+        {/* Badges */}
         <div className="absolute left-3 top-3 z-10 flex flex-col gap-2">
           {product.isFeatured && (
             <span className="rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground">
@@ -69,7 +67,8 @@ export function ProductCard({ product, className }: ProductCardProps) {
           )}
           {hasSale && (
             <span className="rounded-full bg-destructive px-3 py-1 text-xs font-medium text-destructive-foreground">
-              {product.discountPercentage
+              {/* discountPercentage is a backend virtual — no frontend calculation needed */}
+              {product.discountPercentage > 0
                 ? `-${product.discountPercentage}%`
                 : "Sale"}
             </span>
@@ -98,7 +97,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
 
       {/* Product Details */}
       <div className="mt-4 space-y-1.5 px-1">
-        {/* Brand (Overline) */}
+        {/* Brand */}
         {product.brand && (
           <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
             {product.brand}
@@ -115,8 +114,8 @@ export function ProductCard({ product, className }: ProductCardProps) {
           </Link>
         </h3>
 
-        {/* Rating Stars */}
-        {product.rating !== undefined && (
+        {/* Rating */}
+        {product.ratingsAverage !== undefined && (
           <div className="flex items-center gap-1.5">
             <div className="flex items-center">
               {[...Array(5)].map((_, i) => (
@@ -124,7 +123,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
                   key={i}
                   className={cn(
                     "h-3.5 w-3.5",
-                    i < Math.round(product.rating!)
+                    i < Math.round(product.ratingsAverage)
                       ? "fill-amber-500 text-amber-500"
                       : "fill-muted text-muted",
                   )}
@@ -144,7 +143,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
           {hasSale ? (
             <>
               <span className="text-sm font-medium text-destructive">
-                ${product.salePrice?.toFixed(2)}
+                ${product.currentPrice.toFixed(2)}
               </span>
               <span className="text-sm text-muted-foreground line-through">
                 ${product.price.toFixed(2)}
@@ -152,7 +151,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
             </>
           ) : (
             <span className="text-sm font-medium text-foreground">
-              ${product.price.toFixed(2)}
+              ${product.currentPrice.toFixed(2)}
             </span>
           )}
         </div>
