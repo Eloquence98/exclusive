@@ -1,8 +1,3 @@
-/**
- * Product domain types
- * Matches backend Mongoose schema + virtuals
- */
-
 export type ProductCategory =
   | "t-shirts"
   | "shirts"
@@ -78,11 +73,38 @@ export interface ApiResponse<T> {
 }
 
 /**
- * Paginated products response (future use for /shop)
+ * Pagination metadata from backend
+ * Returned in meta.pagination for list endpoints
  */
-export interface ProductsListResponse {
-  products: Product[];
-  totalProducts: number;
+export interface PaginationMeta {
+  page: number;
+  limit: number;
+  totalDocuments: number;
   totalPages: number;
-  currentPage: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+}
+
+/**
+ * Backend response for paginated product lists
+ * GET /api/products returns this shape
+ */
+export interface ApiProductListResponse {
+  status: "success" | "fail" | "error";
+  results: number;
+  meta: {
+    pagination: PaginationMeta;
+  };
+  data: {
+    data: Product[];
+  };
+}
+
+/**
+ * Frontend-friendly product list response
+ * After unwrapping backend structure
+ */
+export interface ProductListResponse {
+  products: Product[];
+  pagination: PaginationMeta;
 }

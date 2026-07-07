@@ -1,8 +1,3 @@
-/**
- * Product Queries (TanStack Query layer)
- * Defines all catalog domain queries using queryOptions pattern
- */
-
 import { queryOptions } from "@tanstack/react-query";
 import * as productsApi from "../api/products.api";
 
@@ -16,6 +11,8 @@ export const catalogKeys = {
   featured: () => [...catalogKeys.products(), "featured"] as const,
   trending: () => [...catalogKeys.products(), "trending"] as const,
   topRated: () => [...catalogKeys.products(), "top-rated"] as const,
+  list: (searchParams: Record<string, string | string[] | undefined>) =>
+    [...catalogKeys.products(), "list", searchParams] as const,
   detail: (slug: string) =>
     [...catalogKeys.products(), "detail", slug] as const,
 };
@@ -49,6 +46,26 @@ export const topRatedProductsOptions = queryOptions({
   queryFn: productsApi.getTopRatedProducts,
   staleTime: 5 * 60 * 1000, // 5 minutes
 });
+
+/**
+ * Product list query factory
+ * Used on shop page — each unique searchParams = unique cache entry
+ * URL params are the source of truth for filtering, sorting, pagination
+ *
+ * Cache behavior:
+ * /shop?page=1&sort=price-asc → unique cache entry
+ * /shop?page=2&sort=price-asc → different cache entry
+ * /shop?category=shoes        → different cache entry
+ * Browser back/forward        → instant cache hit
+ */
+export const productListOptions = (
+  searchParams: Record<string, string | string[] | undefined>,
+) =>
+  queryOptions({
+    queryKey: catalogKeys.list(searchParams),
+    queryFn: () => productsApi.getProductList(searchParams),
+    staleTime: 2 * 60 * 1000, // 2 minutes — shop page refreshes more often
+  });
 
 /**
  * Product detail query factory
