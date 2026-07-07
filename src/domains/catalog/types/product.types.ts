@@ -1,3 +1,9 @@
+/**
+ * Product domain types
+ * Matches backend Mongoose schema + virtuals
+ * Backend returns: id (not _id) — Mongoose virtual
+ */
+
 export type ProductCategory =
   | "t-shirts"
   | "shirts"
@@ -29,52 +35,66 @@ export type SaleStatus =
   | "ENDED";
 
 /**
- * Product model from backend
- * Includes Mongoose fields + virtuals (toJSON: { virtuals: true })
+ * Product list item
+ * Returned by list endpoints (featured, trending, top-rated, shop)
+ * Backend aliasDefaultFields ensures these fields are always present
  */
-export interface Product {
-  _id: string; // imported on backend replace this with id in toJson function model
+export interface ProductListItem {
+  id: string;
   title: string;
   slug: string;
-  description: string;
   price: number;
   salePrice?: number;
   onSale: boolean;
   discount: number;
   stock: number;
   imageCover: string;
-  images: string[];
   category: ProductCategory;
-  size?: ProductSize; // TODO: Backend needs variants system for multi-size products
-  brand?: string;
-  tags: string[];
   isFeatured: boolean;
   ratingsAverage: number;
   ratingsQuantity: number;
-  createdAt: string;
-  updatedAt: string;
 
-  // Virtuals (computed by backend)
+  // Virtuals
   currentPrice: number;
   discountPercentage: number;
   saleStatus: SaleStatus;
 }
 
 /**
+ * Full product
+ * Returned by getProductBySlug and getProductById
+ * Includes all fields for PDP
+ */
+export interface Product extends ProductListItem {
+  description: string;
+  images: string[];
+  size?: ProductSize; // TODO: Backend needs variants system
+  brand?: string;
+  tags: string[];
+  isActive: boolean;
+  isDeleted: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+/**
  * Backend API response wrapper
- * All endpoints return { status, data: { data: T } }
+ * Standard shape: { status, data: { data: T } }
  */
 export interface ApiResponse<T> {
   status: "success" | "fail" | "error";
   results?: number;
+  meta?: {
+    pagination: PaginationMeta;
+  };
   data: {
     data: T;
   };
 }
 
 /**
- * Pagination metadata from backend
- * Returned in meta.pagination for list endpoints
+ * Pagination metadata
+ * Returned in meta.pagination for all list endpoints
  */
 export interface PaginationMeta {
   page: number;
@@ -86,25 +106,49 @@ export interface PaginationMeta {
 }
 
 /**
- * Backend response for paginated product lists
- * GET /api/products returns this shape
- */
-export interface ApiProductListResponse {
-  status: "success" | "fail" | "error";
-  results: number;
-  meta: {
-    pagination: PaginationMeta;
-  };
-  data: {
-    data: Product[];
-  };
-}
-
-/**
- * Frontend-friendly product list response
+ * Frontend product list response
  * After unwrapping backend structure
  */
 export interface ProductListResponse {
-  products: Product[];
+  products: ProductListItem[];
   pagination: PaginationMeta;
+}
+
+/**
+ * Catalog stats
+ * Returned by GET /api/v1/products/stats
+ * Used to populate filter sidebar dynamically
+ */
+export interface CategoryStat {
+  name: ProductCategory;
+  count: number;
+}
+
+export interface BrandStat {
+  name: string;
+  count: number;
+}
+
+export interface SizeStat {
+  name: ProductSize;
+  count: number;
+}
+
+export interface CatalogStats {
+  priceRange: {
+    minPrice: number;
+    maxPrice: number;
+  };
+  totalProducts: number;
+  categories: CategoryStat[];
+  brands: BrandStat[];
+  sizes: SizeStat[];
+}
+
+/**
+ * Stats API response wrapper
+ */
+export interface ApiStatsResponse {
+  status: "success" | "fail" | "error";
+  data: CatalogStats;
 }

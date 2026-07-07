@@ -1,7 +1,9 @@
 import type {
-  ApiProductListResponse,
   ApiResponse,
+  ApiStatsResponse,
+  CatalogStats,
   Product,
+  ProductListItem,
   ProductListResponse,
 } from "../types/product.types";
 
@@ -9,49 +11,53 @@ const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
 
 /**
- * Fetches featured products from /api/products/featured
+ * Fetches featured products
+ * GET /api/v1/products/featured
  */
-export async function getFeaturedProducts(): Promise<Product[]> {
+export async function getFeaturedProducts(): Promise<ProductListItem[]> {
   const res = await fetch(`${API_BASE_URL}/products/featured`);
 
   if (!res.ok) {
     throw new Error(`Failed to fetch featured products: ${res.statusText}`);
   }
 
-  const json: ApiResponse<Product[]> = await res.json();
+  const json: ApiResponse<ProductListItem[]> = await res.json();
   return json.data.data;
 }
 
 /**
- * Fetches trending products from /api/products/trending
+ * Fetches trending products
+ * GET /api/v1/products/trending
  */
-export async function getTrendingProducts(): Promise<Product[]> {
+export async function getTrendingProducts(): Promise<ProductListItem[]> {
   const res = await fetch(`${API_BASE_URL}/products/trending`);
 
   if (!res.ok) {
     throw new Error(`Failed to fetch trending products: ${res.statusText}`);
   }
 
-  const json: ApiResponse<Product[]> = await res.json();
+  const json: ApiResponse<ProductListItem[]> = await res.json();
   return json.data.data;
 }
 
 /**
- * Fetches top-rated products from /api/products/top-rated
+ * Fetches top rated products
+ * GET /api/v1/products/top-rated
  */
-export async function getTopRatedProducts(): Promise<Product[]> {
+export async function getTopRatedProducts(): Promise<ProductListItem[]> {
   const res = await fetch(`${API_BASE_URL}/products/top-rated`);
 
   if (!res.ok) {
-    throw new Error(`Failed to fetch top-rated products: ${res.statusText}`);
+    throw new Error(`Failed to fetch top rated products: ${res.statusText}`);
   }
 
-  const json: ApiResponse<Product[]> = await res.json();
+  const json: ApiResponse<ProductListItem[]> = await res.json();
   return json.data.data;
 }
 
 /**
  * Fetches a single product by slug
+ * GET /api/v1/products/:slug
  * Returns null if not found (404)
  */
 export async function getProductBySlug(slug: string): Promise<Product | null> {
@@ -68,19 +74,36 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
 }
 
 /**
+ * Fetches catalog stats
+ * GET /api/v1/products/stats
+ * Returns price range, categories, brands, sizes
+ * Used to populate filter sidebar dynamically
+ */
+export async function getCatalogStats(): Promise<CatalogStats> {
+  const res = await fetch(`${API_BASE_URL}/products/stats`);
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch catalog stats: ${res.statusText}`);
+  }
+
+  const json: ApiStatsResponse = await res.json();
+  return json.data;
+}
+
+/**
  * Fetches paginated and filtered product list
- * Transforms frontend searchParams → backend query format
+ * GET /api/v1/products?...
  *
  * Frontend → Backend param translation:
- * - sort=price-asc        → sort=price
- * - sort=price-desc       → sort=-price
- * - sort=newest           → sort=-createdAt
- * - sort=top-rated        → sort=-ratingsAverage
- * - sort=featured         → isFeatured=true&sort=-ratingsAverage
- * - minPrice=50           → price[gte]=50
- * - maxPrice=200          → price[lte]=200
- * - rating=4              → ratingsAverage[gte]=4
- * - category=shoes        → category=shoes
+ * sort=price-asc        → sort=price
+ * sort=price-desc       → sort=-price
+ * sort=newest           → sort=-createdAt
+ * sort=top-rated        → sort=-ratingsAverage
+ * sort=featured         → isFeatured=true&sort=-createdAt
+ * minPrice=50           → price[gte]=50
+ * maxPrice=200          → price[lte]=200
+ * rating=4              → ratingsAverage[gte]=4
+ * category=shoes        → category=shoes
  */
 export async function getProductList(
   searchParams: Record<string, string | string[] | undefined>,
@@ -88,12 +111,10 @@ export async function getProductList(
   const params = new URLSearchParams();
 
   // Pagination
-  const page = searchParams.page?.toString() || "1";
-  const limit = searchParams.limit?.toString() || "9";
-  params.set("page", page);
-  params.set("limit", limit);
+  params.set("page", searchParams.page?.toString() || "1");
+  params.set("limit", searchParams.limit?.toString() || "9");
 
-  // Sorting
+  // Sorting — translate frontend values to backend format
   const sort = searchParams.sort?.toString() || "featured";
   switch (sort) {
     case "price-asc":
@@ -109,8 +130,9 @@ export async function getProductList(
       params.set("sort", "-ratingsAverage");
       break;
     case "featured":
+      // Backend aliasDefaultFields handles isFeatured
       params.set("isFeatured", "true");
-      params.set("sort", "-ratingsAverage");
+      params.set("sort", "-createdAt");
       break;
     default:
       params.set("sort", "-createdAt");
@@ -121,7 +143,7 @@ export async function getProductList(
     params.set("category", searchParams.category.toString());
   }
 
-  // Price range filters → backend advanced filter format
+  // Price range → backend advanced filter format
   if (searchParams.minPrice) {
     params.set("price[gte]", searchParams.minPrice.toString());
   }
@@ -134,22 +156,16 @@ export async function getProductList(
     params.set("ratingsAverage[gte]", searchParams.rating.toString());
   }
 
-  // Search
-  if (searchParams.search) {
-    // TODO: Confirm backend search param name when search is implemented
-    params.set("search", searchParams.search.toString());
-  }
-
   const res = await fetch(`${API_BASE_URL}/products?${params.toString()}`);
 
   if (!res.ok) {
-    throw new Error(`Failed to fetch product list: ${res.statusText}`);
+    throw new Error(`Failed to fetch products: ${res.statusText}`);
   }
 
-  const json: ApiProductListResponse = await res.json();
+  const json: ApiResponse<ProductListItem[]> = await res.json();
 
   return {
     products: json.data.data,
-    pagination: json.meta.pagination,
+    pagination: json.meta!.pagination,
   };
 }

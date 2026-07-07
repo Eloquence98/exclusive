@@ -1,3 +1,10 @@
+/**
+ * FilterSidebar (Client Component)
+ * Pure UI — receives URL params, writes URL params
+ * Fetches catalog stats via TanStack Query for dynamic filters
+ * Does NOT fetch products — only controls filter state via URL
+ */
+
 "use client";
 
 import {
@@ -10,28 +17,26 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { cn } from "@/src/utils/utility";
+import { catalogStatsOptions } from "@/domains/catalog/queries/products.query";
+import { cn } from "@/utils/utility";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { Star } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-
-const categories = [
-  "Essentials",
-  "Studio",
-  "Accessories",
-  "Outerwear",
-  "Footwear",
-];
-const brands = ["Atelier Essentials", "Atelier Studio", "Atelier Accessories"];
 
 export function FilterSidebar() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // Read from URL
-  const currentMinPrice = Number(searchParams.get("minPrice")) || 0;
-  const currentMaxPrice = Number(searchParams.get("maxPrice")) || 1000;
+  // Fetch catalog stats for dynamic filters
+  const { data: stats } = useSuspenseQuery(catalogStatsOptions);
+
+  // Read current filters from URL
+  const currentMinPrice =
+    Number(searchParams.get("minPrice")) || stats.priceRange.minPrice;
+  const currentMaxPrice =
+    Number(searchParams.get("maxPrice")) || stats.priceRange.maxPrice;
 
   // Local state for smooth slider dragging
   const [priceRange, setPriceRange] = useState([
@@ -39,7 +44,7 @@ export function FilterSidebar() {
     currentMaxPrice,
   ]);
 
-  // Sync local state if URL params change externally (e.g., clicking "Clear All")
+  // Sync local state if URL params change externally
   useEffect(() => {
     setPriceRange([currentMinPrice, currentMaxPrice]);
   }, [currentMinPrice, currentMaxPrice]);
@@ -65,22 +70,34 @@ export function FilterSidebar() {
     );
   };
 
+  const handleBrandChange = (brand: string, checked: boolean) => {
+    router.push(
+      `${pathname}?${createQueryString("brand", checked ? brand : "")}`,
+    );
+  };
+
   const handleRatingChange = (rating: string, checked: boolean) => {
     router.push(
       `${pathname}?${createQueryString("rating", checked ? rating : "")}`,
     );
   };
 
-  // Update URL only when the user releases the slider
+  // Update URL only when user releases the slider
   const handlePriceCommit = (value: number[]) => {
     const params = new URLSearchParams(searchParams.toString());
 
-    // Keep URL clean by only adding params if they differ from defaults
-    if (value[0] > 0) params.set("minPrice", value[0].toString());
-    else params.delete("minPrice");
+    // Only add params if they differ from defaults
+    if (value[0] > stats.priceRange.minPrice) {
+      params.set("minPrice", value[0].toString());
+    } else {
+      params.delete("minPrice");
+    }
 
-    if (value[1] < 1000) params.set("maxPrice", value[1].toString());
-    else params.delete("maxPrice");
+    if (value[1] < stats.priceRange.maxPrice) {
+      params.set("maxPrice", value[1].toString());
+    } else {
+      params.delete("maxPrice");
+    }
 
     params.set("page", "1");
     router.push(`${pathname}?${params.toString()}`);
@@ -91,6 +108,7 @@ export function FilterSidebar() {
   };
 
   const currentCategory = searchParams.get("category");
+  const currentBrand = searchParams.get("brand");
   const currentRating = searchParams.get("rating");
 
   return (
@@ -111,29 +129,36 @@ export function FilterSidebar() {
 
       <Accordion
         type="multiple"
-        defaultValue={["categories", "price", "rating"]}
+        defaultValue={["categories", "brands", "price", "rating"]}
         className="w-full"
       >
+        {/* Categories */}
         <AccordionItem value="categories" className="border-border">
           <AccordionTrigger className="py-4 text-sm font-medium text-foreground hover:text-foreground">
             Categories
           </AccordionTrigger>
           <AccordionContent>
             <div className="space-y-3 pt-2">
-              {categories.map((category) => (
-                <div key={category} className="flex items-center space-x-3">
+              {stats.categories.map((category) => (
+                <div
+                  key={category.name}
+                  className="flex items-center space-x-3"
+                >
                   <Checkbox
-                    id={`cat-${category}`}
-                    checked={currentCategory === category}
+                    id={`cat-${category.name}`}
+                    checked={currentCategory === category.name}
                     onCheckedChange={(checked) =>
-                      handleCategoryChange(category, checked as boolean)
+                      handleCategoryChange(category.name, checked as boolean)
                     }
                   />
                   <Label
-                    htmlFor={`cat-${category}`}
-                    className="cursor-pointer text-sm font-normal text-muted-foreground"
+                    htmlFor={`cat-${category.name}`}
+                    className="flex w-full cursor-pointer justify-between text-sm font-normal text-muted-foreground"
                   >
-                    {category}
+                    <span className="capitalize">
+                      {category.name.replace("-", " ")}
+                    </span>
+                    <span className="text-xs">({category.count})</span>
                   </Label>
                 </div>
               ))}
@@ -141,6 +166,36 @@ export function FilterSidebar() {
           </AccordionContent>
         </AccordionItem>
 
+        {/* Brands */}
+        <AccordionItem value="brands" className="border-border">
+          <AccordionTrigger className="py-4 text-sm font-medium text-foreground hover:text-foreground">
+            Brands
+          </AccordionTrigger>
+          <AccordionContent>
+            <div className="space-y-3 pt-2">
+              {stats.brands.slice(0, 10).map((brand) => (
+                <div key={brand.name} className="flex items-center space-x-3">
+                  <Checkbox
+                    id={`brand-${brand.name}`}
+                    checked={currentBrand === brand.name}
+                    onCheckedChange={(checked) =>
+                      handleBrandChange(brand.name, checked as boolean)
+                    }
+                  />
+                  <Label
+                    htmlFor={`brand-${brand.name}`}
+                    className="flex w-full cursor-pointer justify-between text-sm font-normal text-muted-foreground"
+                  >
+                    <span>{brand.name}</span>
+                    <span className="text-xs">({brand.count})</span>
+                  </Label>
+                </div>
+              ))}
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+
+        {/* Price */}
         <AccordionItem value="price" className="border-border">
           <AccordionTrigger className="py-4 text-sm font-medium text-foreground hover:text-foreground">
             Price
@@ -148,11 +203,12 @@ export function FilterSidebar() {
           <AccordionContent>
             <div className="px-1 pt-4">
               <Slider
-                max={1000}
-                step={10}
-                value={priceRange} // Bound to local state
-                onValueChange={setPriceRange} // Updates local state while dragging
-                onValueCommit={handlePriceCommit} // Updates URL on release
+                min={Math.floor(stats.priceRange.minPrice)}
+                max={Math.ceil(stats.priceRange.maxPrice)}
+                step={1}
+                value={priceRange}
+                onValueChange={setPriceRange}
+                onValueCommit={handlePriceCommit}
                 className="mb-6"
               />
               <div className="flex items-center justify-between text-sm text-muted-foreground">
@@ -163,6 +219,7 @@ export function FilterSidebar() {
           </AccordionContent>
         </AccordionItem>
 
+        {/* Rating */}
         <AccordionItem value="rating" className="border-border">
           <AccordionTrigger className="py-4 text-sm font-medium text-foreground hover:text-foreground">
             Rating

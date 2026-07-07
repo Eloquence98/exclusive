@@ -1,12 +1,30 @@
+/**
+ * Product Queries (TanStack Query layer)
+ * Defines all catalog domain queries using queryOptions pattern
+ * TanStack Query is the only server state manager
+ */
+
 import { queryOptions } from "@tanstack/react-query";
 import * as productsApi from "../api/products.api";
 
 /**
  * Query key factory for catalog domain
  * Hierarchical structure enables targeted invalidation
+ *
+ * Key hierarchy:
+ * ['catalog']
+ *   ['catalog', 'products']
+ *     ['catalog', 'products', 'featured']
+ *     ['catalog', 'products', 'trending']
+ *     ['catalog', 'products', 'top-rated']
+ *     ['catalog', 'products', 'list', { ...searchParams }]
+ *     ['catalog', 'products', 'detail', slug]
+ *   ['catalog', 'stats']
  */
 export const catalogKeys = {
   all: ["catalog"] as const,
+
+  // Products
   products: () => [...catalogKeys.all, "products"] as const,
   featured: () => [...catalogKeys.products(), "featured"] as const,
   trending: () => [...catalogKeys.products(), "trending"] as const,
@@ -15,11 +33,14 @@ export const catalogKeys = {
     [...catalogKeys.products(), "list", searchParams] as const,
   detail: (slug: string) =>
     [...catalogKeys.products(), "detail", slug] as const,
+
+  // Stats
+  stats: () => [...catalogKeys.all, "stats"] as const,
 };
 
 /**
  * Featured products query
- * Used on homepage
+ * Used on homepage — 8 products, sorted by createdAt
  */
 export const featuredProductsOptions = queryOptions({
   queryKey: catalogKeys.featured(),
@@ -29,7 +50,7 @@ export const featuredProductsOptions = queryOptions({
 
 /**
  * Trending products query
- * Used on homepage
+ * Used on homepage — 5 products, sorted by ratingsQuantity
  */
 export const trendingProductsOptions = queryOptions({
   queryKey: catalogKeys.trending(),
@@ -38,8 +59,8 @@ export const trendingProductsOptions = queryOptions({
 });
 
 /**
- * Top-rated products query
- * Used on homepage
+ * Top rated products query
+ * Used on homepage — 5 products, sorted by ratingsAverage
  */
 export const topRatedProductsOptions = queryOptions({
   queryKey: catalogKeys.topRated(),
@@ -49,14 +70,15 @@ export const topRatedProductsOptions = queryOptions({
 
 /**
  * Product list query factory
- * Used on shop page — each unique searchParams = unique cache entry
- * URL params are the source of truth for filtering, sorting, pagination
+ * Used on shop page
+ * Each unique searchParams object = unique cache entry
  *
  * Cache behavior:
- * /shop?page=1&sort=price-asc → unique cache entry
- * /shop?page=2&sort=price-asc → different cache entry
- * /shop?category=shoes        → different cache entry
- * Browser back/forward        → instant cache hit
+ * ?page=1&sort=price-asc          → unique cache entry
+ * ?page=2&sort=price-asc          → different cache entry
+ * ?category=shoes                 → different cache entry
+ * Browser back/forward            → instant cache hit
+ * Same params after navigation    → instant cache hit
  */
 export const productListOptions = (
   searchParams: Record<string, string | string[] | undefined>,
@@ -64,8 +86,20 @@ export const productListOptions = (
   queryOptions({
     queryKey: catalogKeys.list(searchParams),
     queryFn: () => productsApi.getProductList(searchParams),
-    staleTime: 2 * 60 * 1000, // 2 minutes — shop page refreshes more often
+    staleTime: 2 * 60 * 1000, // 2 minutes
   });
+
+/**
+ * Catalog stats query
+ * Used to power filter sidebar dynamically
+ * Price range, categories, brands, sizes — all from backend
+ * Long staleTime — stats don't change frequently
+ */
+export const catalogStatsOptions = queryOptions({
+  queryKey: catalogKeys.stats(),
+  queryFn: productsApi.getCatalogStats,
+  staleTime: 10 * 60 * 1000, // 10 minutes
+});
 
 /**
  * Product detail query factory
