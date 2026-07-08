@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import type { Product } from "@/domains/catalog/types/product.types";
+import type { ProductListItem } from "@/domains/catalog/types/product.types";
 import { useCartStore } from "@/lib/store";
 import { cn } from "@/utils/utility";
 import { ShoppingBag, Star } from "lucide-react";
@@ -10,7 +10,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 
 interface ProductCardProps {
-  product: Product;
+  product: ProductListItem;
   className?: string;
 }
 
@@ -25,10 +25,9 @@ export function ProductCard({ product, className }: ProductCardProps) {
     e.stopPropagation();
 
     addItem({
-      id: product._id,
+      id: product.id,
       slug: product.slug,
       name: product.title,
-      brand: product.brand,
       price: product.price,
       salePrice: product.salePrice,
       imageUrl: product.imageCover,
@@ -98,11 +97,11 @@ export function ProductCard({ product, className }: ProductCardProps) {
       {/* Product Details */}
       <div className="mt-4 space-y-1.5 px-1">
         {/* Brand */}
-        {product.brand && (
+        {/* {product.brand && (
           <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
             {product.brand}
           </p>
-        )}
+        )} */}
 
         {/* Title */}
         <h3 className="line-clamp-1 text-base font-medium text-foreground">

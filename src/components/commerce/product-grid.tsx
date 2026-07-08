@@ -5,25 +5,35 @@ import {
   NoSearchResultsEmptyState,
 } from "@/components/ui/empty-state";
 import { productListOptions } from "@/domains/catalog/queries/products.query";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { PaginationControls } from "./pagination-controls";
+import { useShopParams } from "@/src/hooks/useShopParams";
+import { useQuery } from "@tanstack/react-query";
+import { useSearchParams } from "next/navigation";
+import { ProductCardSkeleton } from "../ui/skeleton";
 import { ProductCard } from "./product-card";
 
-interface ProductGridProps {
-  searchParams: Record<string, string | string[] | undefined>;
-}
+export function ProductGrid() {
+  // 1. Get state from URL
+  const searchParams = useSearchParams();
+  const search = searchParams.get("search");
+  const { params, setParams } = useShopParams();
+  console.log("HERE???");
 
-export function ProductGrid({ searchParams }: ProductGridProps) {
-  const { data } = useSuspenseQuery(productListOptions(searchParams));
+  // 2. Configure Query
+  // The queryKey CHANGES whenever params change, triggering a new fetch automatically.
+  const { data, isLoading, isError } = useQuery(productListOptions(params));
 
-  const { products, pagination } = data;
+  if (isLoading) return <ProductCardSkeleton />;
+  if (isError) return <div>Failed to load products.</div>;
 
   // Empty States
-  if (products.length === 0) {
-    if (searchParams.search) {
-      return (
-        <NoSearchResultsEmptyState query={searchParams.search as string} />
-      );
+  if (data?.products.length === 0) {
+    return <NoFilterResultsEmptyState />;
+  }
+
+  // Empty States
+  if (data?.products.length === 0) {
+    if (search) {
+      return <NoSearchResultsEmptyState query={search as string} />;
     }
     return <NoFilterResultsEmptyState />;
   }
@@ -32,22 +42,23 @@ export function ProductGrid({ searchParams }: ProductGridProps) {
     <>
       {/* Results Count */}
       <p className="mb-6 text-sm text-muted-foreground">
-        Showing {products.length} of {pagination.totalDocuments} products
+        Showing {data?.products.length} of {data?.pagination.totalDocuments}{" "}
+        products
       </p>
 
       {/* Product Grid */}
       <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6 lg:gap-8">
-        {products.map((product) => (
-          <ProductCard key={product._id} product={product} />
+        {data?.products.map((product) => (
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
 
       {/* Pagination */}
-      <PaginationControls
-        currentPage={pagination.page}
-        totalPages={pagination.totalPages}
+      {/* <PaginationControls
+        currentPage={data?.pagination.page}
+        totalPages={data?.pagination.totalPages}
         searchParams={searchParams}
-      />
+      /> */}
     </>
   );
 }
