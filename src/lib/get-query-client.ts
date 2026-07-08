@@ -8,7 +8,10 @@ function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: 60 * 1000,
+        staleTime: 1000 * 60, // Data fresh for 1 min
+        gcTime: 1000 * 60 * 5, // Cleanup after 5 mins
+        retry: 1, // Fail fast on bad networks
+        refetchOnWindowFocus: false, // Disable annoying auto-refetches unless critical
       },
       dehydrate: {
         // include pending queries in dehydration

@@ -1,3 +1,4 @@
+import type { ShopParams } from "@/hooks/useShopParams";
 import type {
   ApiResponse,
   ApiStatsResponse,
@@ -77,7 +78,7 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
  * Fetches catalog stats
  * GET /api/v1/products/stats
  * Returns price range, categories, brands, sizes
- * Used to populate filter sidebar dynamically
+ * Used to power filter sidebar dynamically
  */
 export async function getCatalogStats(): Promise<CatalogStats> {
   const res = await fetch(`${API_BASE_URL}/products/stats`);
@@ -93,6 +94,7 @@ export async function getCatalogStats(): Promise<CatalogStats> {
 /**
  * Fetches paginated and filtered product list
  * GET /api/v1/products?...
+ * Accepts typed ShopParams — translates to backend query format
  *
  * Frontend → Backend param translation:
  * sort=price-asc        → sort=price
@@ -104,19 +106,19 @@ export async function getCatalogStats(): Promise<CatalogStats> {
  * maxPrice=200          → price[lte]=200
  * rating=4              → ratingsAverage[gte]=4
  * category=shoes        → category=shoes
+ * brand=Classic Fit     → brand=Classic Fit
  */
 export async function getProductList(
-  searchParams: Record<string, string | string[] | undefined>,
+  shopParams: ShopParams,
 ): Promise<ProductListResponse> {
   const params = new URLSearchParams();
 
   // Pagination
-  params.set("page", searchParams.page?.toString() || "1");
-  params.set("limit", searchParams.limit?.toString() || "9");
+  params.set("page", String(shopParams.page));
+  params.set("limit", String(shopParams.limit));
 
   // Sorting — translate frontend values to backend format
-  const sort = searchParams.sort?.toString() || "featured";
-  switch (sort) {
+  switch (shopParams.sort) {
     case "price-asc":
       params.set("sort", "price");
       break;
@@ -130,7 +132,6 @@ export async function getProductList(
       params.set("sort", "-ratingsAverage");
       break;
     case "featured":
-      // Backend aliasDefaultFields handles isFeatured
       params.set("isFeatured", "true");
       params.set("sort", "-createdAt");
       break;
@@ -138,22 +139,27 @@ export async function getProductList(
       params.set("sort", "-createdAt");
   }
 
-  // Category filter
-  if (searchParams.category) {
-    params.set("category", searchParams.category.toString());
+  // Category filter — passed directly to backend
+  if (shopParams.category) {
+    params.set("category", shopParams.category);
+  }
+
+  // Brand filter — backend APIFeatures.filter() handles directly
+  if (shopParams.brand) {
+    params.set("brand", shopParams.brand);
   }
 
   // Price range → backend advanced filter format
-  if (searchParams.minPrice) {
-    params.set("price[gte]", searchParams.minPrice.toString());
+  if (shopParams?.minPrice !== undefined) {
+    params.set("price[gte]", String(shopParams.minPrice));
   }
-  if (searchParams.maxPrice) {
-    params.set("price[lte]", searchParams.maxPrice.toString());
+  if (shopParams.maxPrice !== undefined) {
+    params.set("price[lte]", String(shopParams.maxPrice));
   }
 
   // Rating filter → backend advanced filter format
-  if (searchParams.rating) {
-    params.set("ratingsAverage[gte]", searchParams.rating.toString());
+  if (shopParams.rating !== undefined) {
+    params.set("ratingsAverage[gte]", String(shopParams.rating));
   }
 
   const res = await fetch(`${API_BASE_URL}/products?${params.toString()}`);
