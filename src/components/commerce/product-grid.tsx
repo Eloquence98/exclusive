@@ -21,9 +21,13 @@ export function ProductGrid() {
 
   // 2. Configure Query
   // The queryKey CHANGES whenever params change, triggering a new fetch automatically.
-  const { data, isLoading, isError } = useQuery(productListOptions(params));
+  const { data, isLoading, isError, isFetching } = useQuery(
+    productListOptions(params),
+  );
 
-  if (isLoading) return <ProductSectionSkeleton />;
+  if (isLoading || isFetching) {
+    return <ProductSectionSkeleton />;
+  }
   if (isError) return <div>Failed to load products.</div>;
 
   // Empty States
