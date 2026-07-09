@@ -46,7 +46,7 @@ export function TrendingProducts() {
         >
           {products.map((product) => (
             <motion.div
-              key={product._id}
+              key={product.id}
               variants={itemVariants}
               className="min-w-[80vw] snap-start md:min-w-0"
             >
