@@ -3,6 +3,7 @@
 
 import { FilterSidebar } from "@/src/components/commerce/filter-sidebar";
 import { ProductGrid } from "@/src/components/commerce/product-grid";
+import PaginationControls from "@/src/components/commerce/product-pagination";
 import { SortDropdown } from "@/src/components/commerce/sort-dropdown";
 import { Button } from "@/src/components/ui/button";
 import {

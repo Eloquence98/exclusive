@@ -23,7 +23,7 @@ export function useShopParams() {
   const params: ShopParams = {
     page: Number(searchParams.get("page")) || 1,
     limit: Number(searchParams.get("limit")) || 9,
-    sort: searchParams.get("sort") || "featured",
+    sort: searchParams.get("sort") || undefined,
     category: searchParams.get("category") || undefined,
     brand: searchParams.get("brand") || undefined,
     minPrice: searchParams.get("minPrice")

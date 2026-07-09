@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { ProductCardSkeleton } from "../ui/skeleton";
 import { ProductCard } from "./product-card";
+import PaginationControls from "./product-pagination";
 
 export function ProductGrid() {
   // 1. Get state from URL
@@ -42,23 +43,19 @@ export function ProductGrid() {
     <>
       {/* Results Count */}
       <p className="mb-6 text-sm text-muted-foreground">
-        Showing {data?.products.length} of {data?.pagination.totalDocuments}{" "}
+        Showing {data.products.length} of {data.pagination.totalDocuments}{" "}
         products
       </p>
 
       {/* Product Grid */}
       <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6 lg:gap-8">
-        {data?.products.map((product) => (
+        {data.products.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
 
       {/* Pagination */}
-      {/* <PaginationControls
-        currentPage={data?.pagination.page}
-        totalPages={data?.pagination.totalPages}
-        searchParams={searchParams}
-      /> */}
+      <PaginationControls pagination={data.pagination} />
     </>
   );
 }
