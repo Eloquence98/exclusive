@@ -86,17 +86,19 @@ export default function PaginationControls({
   const to = Math.min(page * limit, totalDocuments);
   const pageNumbers = getPageNumbers();
 
+  if (totalPages < 2) return null;
+
   return (
     <div className="flex w-full flex-col items-center justify-between gap-4 sm:flex-row">
       {/* Results Info */}
-      <p className="text-sm text-muted-foreground">
+      <p className="shrink-0 text-sm text-muted-foreground">
         Showing <span className="font-semibold">{from}</span> to{" "}
         <span className="font-semibold">{to}</span> of{" "}
         <span className="font-semibold">{totalDocuments}</span> results
       </p>
 
       {/* Shadcn Pagination Component */}
-      <Pagination>
+      <Pagination className="mt-4 justify-end">
         <PaginationContent>
           {/* Previous Button */}
           <PaginationItem>
