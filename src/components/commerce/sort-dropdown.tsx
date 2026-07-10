@@ -7,24 +7,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useShopParams } from "@/hooks/useShopParams";
 
 export function SortDropdown() {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const sortBy = searchParams.get("sort") || "";
+  const { params, setParams } = useShopParams();
 
   const handleSortChange = (value: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("sort", value);
-    params.set("page", "1");
-    // router.replace(`${pathname}?${params.toString()}`);
-    // Instant URL update (client-side only) this feels better once data is cached on query
-    window.history.replaceState({}, "", `${pathname}?${params.toString()}`);
+    setParams({ sort: value });
   };
 
   return (
-    <Select value={sortBy} onValueChange={handleSortChange}>
+    <Select value={params.sort || ""} onValueChange={handleSortChange}>
       <SelectTrigger className="w-[180px] bg-background md:w-[200px]">
         <SelectValue placeholder="Sort by" />
       </SelectTrigger>

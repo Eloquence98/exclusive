@@ -6,7 +6,7 @@ import { useCallback } from "react";
 export interface ShopParams {
   page: number;
   limit: number;
-  sort: string;
+  sort?: string;
   category?: string;
   brand?: string;
   minPrice?: number;
@@ -58,14 +58,14 @@ export function useShopParams() {
         next.set("page", "1");
       }
 
-      router.push(`${pathname}?${next.toString()}`, { scroll: false });
+      router.replace(`${pathname}?${next.toString()}`, { scroll: false });
     },
     [searchParams, router, pathname],
   );
 
   // Clear all filters — reset to default state
   const clearParams = useCallback(() => {
-    router.push(pathname, { scroll: false });
+    router.replace(pathname, { scroll: false });
   }, [router, pathname]);
 
   return { params, setParams, clearParams };

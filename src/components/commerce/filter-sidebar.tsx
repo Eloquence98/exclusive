@@ -1,10 +1,3 @@
-/**
- * FilterSidebar (Client Component)
- * Pure UI — receives URL params, writes URL params
- * Fetches catalog stats via TanStack Query for dynamic filters
- * Does NOT fetch products — only controls filter state via URL
- */
-
 "use client";
 
 import {
@@ -18,98 +11,42 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { catalogStatsOptions } from "@/domains/catalog/queries/products.query";
+import { useShopParams } from "@/hooks/useShopParams";
 import { cn } from "@/utils/utility";
+import { Skeleton } from "@heroui/react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Star } from "lucide-react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export function FilterSidebar() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  // Fetch catalog stats for dynamic filters
+  const { params, setParams, clearParams } = useShopParams();
+  // Instant cache hit — stats prefetched on server
+  // useSuspenseQuery is correct here — Suspense boundary in ShopClient
   const { data: stats } = useSuspenseQuery(catalogStatsOptions);
 
-  // Read current filters from URL
-  const currentMinPrice =
-    Number(searchParams.get("minPrice")) || stats.priceRange.minPrice;
-  const currentMaxPrice =
-    Number(searchParams.get("maxPrice")) || stats.priceRange.maxPrice;
-
-  // Local state for smooth slider dragging
-  const [priceRange, setPriceRange] = useState([
-    currentMinPrice,
-    currentMaxPrice,
+  const [priceRange, setPriceRange] = useState<[number, number]>([
+    params.minPrice ?? Math.floor(stats.priceRange.minPrice),
+    params.maxPrice ?? Math.ceil(stats.priceRange.maxPrice),
   ]);
 
-  // Sync local state if URL params change externally
+  // Sync slider when URL params change externally (clear all, back button)
   useEffect(() => {
-    setPriceRange([currentMinPrice, currentMaxPrice]);
-  }, [currentMinPrice, currentMaxPrice]);
+    setPriceRange([
+      params.minPrice ?? Math.floor(stats.priceRange.minPrice),
+      params.maxPrice ?? Math.ceil(stats.priceRange.maxPrice),
+    ]);
+  }, [params.minPrice, params.maxPrice, stats.priceRange]);
 
-  // Helper to update URL params
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      if (value) {
-        params.set(name, value);
-      } else {
-        params.delete(name);
-      }
-      params.set("page", "1"); // Reset to page 1 on filter change
-      return params.toString();
-    },
-    [searchParams],
-  );
-
-  const handleCategoryChange = (category: string, checked: boolean) => {
-    router.push(
-      `${pathname}?${createQueryString("category", checked ? category : "")}`,
-    );
-  };
-
-  const handleBrandChange = (brand: string, checked: boolean) => {
-    router.push(
-      `${pathname}?${createQueryString("brand", checked ? brand : "")}`,
-    );
-  };
-
-  const handleRatingChange = (rating: string, checked: boolean) => {
-    router.push(
-      `${pathname}?${createQueryString("rating", checked ? rating : "")}`,
-    );
-  };
-
-  // Update URL only when user releases the slider
+  // Commit price to URL only on slider release
   const handlePriceCommit = (value: number[]) => {
-    const params = new URLSearchParams(searchParams.toString());
+    const isAtMin = value[0] <= Math.floor(stats.priceRange.minPrice);
+    const isAtMax = value[1] >= Math.ceil(stats.priceRange.maxPrice);
 
-    // Only add params if they differ from defaults
-    if (value[0] > stats.priceRange.minPrice) {
-      params.set("minPrice", value[0].toString());
-    } else {
-      params.delete("minPrice");
-    }
-
-    if (value[1] < stats.priceRange.maxPrice) {
-      params.set("maxPrice", value[1].toString());
-    } else {
-      params.delete("maxPrice");
-    }
-
-    params.set("page", "1");
-    router.push(`${pathname}?${params.toString()}`);
+    setParams({
+      minPrice: isAtMin ? undefined : value[0],
+      maxPrice: isAtMax ? undefined : value[1],
+    });
   };
-
-  const clearAll = () => {
-    router.push(pathname);
-  };
-
-  const currentCategory = searchParams.get("category");
-  const currentBrand = searchParams.get("brand");
-  const currentRating = searchParams.get("rating");
 
   return (
     <div className="space-y-6">
@@ -120,7 +57,7 @@ export function FilterSidebar() {
         <Button
           variant="ghost"
           size="sm"
-          onClick={clearAll}
+          onClick={clearParams}
           className="h-auto p-0 text-muted-foreground hover:text-foreground"
         >
           Clear All
@@ -132,7 +69,7 @@ export function FilterSidebar() {
         defaultValue={["categories", "brands", "price", "rating"]}
         className="w-full"
       >
-        {/* Categories */}
+        {/* Categories — from backend stats */}
         <AccordionItem value="categories" className="border-border">
           <AccordionTrigger className="py-4 text-sm font-medium text-foreground hover:text-foreground">
             Categories
@@ -146,9 +83,11 @@ export function FilterSidebar() {
                 >
                   <Checkbox
                     id={`cat-${category.name}`}
-                    checked={currentCategory === category.name}
+                    checked={params.category === category.name}
                     onCheckedChange={(checked) =>
-                      handleCategoryChange(category.name, checked as boolean)
+                      setParams({
+                        category: checked ? category.name : undefined,
+                      })
                     }
                   />
                   <Label
@@ -166,7 +105,7 @@ export function FilterSidebar() {
           </AccordionContent>
         </AccordionItem>
 
-        {/* Brands */}
+        {/* Brands — from backend stats, top 10 */}
         <AccordionItem value="brands" className="border-border">
           <AccordionTrigger className="py-4 text-sm font-medium text-foreground hover:text-foreground">
             Brands
@@ -177,9 +116,11 @@ export function FilterSidebar() {
                 <div key={brand.name} className="flex items-center space-x-3">
                   <Checkbox
                     id={`brand-${brand.name}`}
-                    checked={currentBrand === brand.name}
+                    checked={params.brand === brand.name}
                     onCheckedChange={(checked) =>
-                      handleBrandChange(brand.name, checked as boolean)
+                      setParams({
+                        brand: checked ? brand.name : undefined,
+                      })
                     }
                   />
                   <Label
@@ -195,7 +136,7 @@ export function FilterSidebar() {
           </AccordionContent>
         </AccordionItem>
 
-        {/* Price */}
+        {/* Price — real min/max from backend stats */}
         <AccordionItem value="price" className="border-border">
           <AccordionTrigger className="py-4 text-sm font-medium text-foreground hover:text-foreground">
             Price
@@ -207,13 +148,15 @@ export function FilterSidebar() {
                 max={Math.ceil(stats.priceRange.maxPrice)}
                 step={1}
                 value={priceRange}
-                onValueChange={setPriceRange}
+                onValueChange={(value) =>
+                  setPriceRange(value as [number, number])
+                }
                 onValueCommit={handlePriceCommit}
                 className="mb-6"
               />
               <div className="flex items-center justify-between text-sm text-muted-foreground">
-                <span>${priceRange[0]}</span>
-                <span>${priceRange[1]}</span>
+                <span>${priceRange[0].toFixed(0)}</span>
+                <span>${priceRange[1].toFixed(0)}</span>
               </div>
             </div>
           </AccordionContent>
@@ -230,9 +173,11 @@ export function FilterSidebar() {
                 <div key={rating} className="flex items-center space-x-3">
                   <Checkbox
                     id={`rating-${rating}`}
-                    checked={currentRating === rating.toString()}
+                    checked={params.rating === rating}
                     onCheckedChange={(checked) =>
-                      handleRatingChange(rating.toString(), checked as boolean)
+                      setParams({
+                        rating: checked ? rating : undefined,
+                      })
                     }
                   />
                   <Label
@@ -260,6 +205,32 @@ export function FilterSidebar() {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
+    </div>
+  );
+}
+
+export function FilterSidebarSkeleton() {
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <Skeleton className="h-6 w-16" />
+        <Skeleton className="h-4 w-14" />
+      </div>
+      <div className="space-y-6">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className="space-y-3">
+            <Skeleton className="h-5 w-24" />
+            <div className="space-y-2 pl-1">
+              {Array.from({ length: 4 }).map((_, j) => (
+                <div key={j} className="flex items-center gap-3">
+                  <Skeleton className="h-4 w-4 rounded" />
+                  <Skeleton className="h-4 w-32" />
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

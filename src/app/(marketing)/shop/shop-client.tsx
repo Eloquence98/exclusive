@@ -1,17 +1,21 @@
 "use client";
 
-import { FilterSidebar } from "@/src/components/commerce/filter-sidebar";
-import { ProductGrid } from "@/src/components/commerce/product-grid";
-import { SortDropdown } from "@/src/components/commerce/sort-dropdown";
-import { Button } from "@/src/components/ui/button";
+import {
+  FilterSidebar,
+  FilterSidebarSkeleton,
+} from "@/components/commerce/filter-sidebar";
+import { ProductGrid } from "@/components/commerce/product-grid";
+import { SortDropdown } from "@/components/commerce/sort-dropdown";
+import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/src/components/ui/sheet";
+} from "@/components/ui/sheet";
 import { SlidersHorizontal } from "lucide-react";
+import { Suspense } from "react";
 
 export default function ShopClient() {
   return (
@@ -54,8 +58,11 @@ export default function ShopClient() {
                   <SortDropdown />
                 </div>
 
+                {/* Mobile Filters with Suspense */}
                 <div className="flex-1 overflow-y-auto pr-2 scrollbar-hide">
-                  <FilterSidebar />
+                  <Suspense fallback={<FilterSidebarSkeleton />}>
+                    <FilterSidebar />
+                  </Suspense>
                 </div>
 
                 <div className="mt-6 border-t border-border pt-6">
@@ -72,10 +79,12 @@ export default function ShopClient() {
 
         {/* Main Layout Grid */}
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-4 lg:gap-12">
-          {/* Desktop Sidebar (Sticky) */}
+          {/* Desktop Sidebar with Suspense */}
           <aside className="hidden lg:col-span-1 lg:block">
             <div className="sticky top-24">
-              <FilterSidebar />
+              <Suspense fallback={<FilterSidebarSkeleton />}>
+                <FilterSidebar />
+              </Suspense>
             </div>
           </aside>
 

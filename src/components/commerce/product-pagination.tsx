@@ -32,64 +32,55 @@ export default function PaginationControls({
   const { page, limit, totalDocuments, totalPages, hasNextPage, hasPrevPage } =
     pagination;
 
-  // 1. Helper to update URL
+  // Helper to update URL with new page number
   const handlePageChange = (newPage: number) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("page", String(newPage));
     router.push(`${pathname}?${params.toString()}`);
   };
 
-  // 2. Logic to generate page numbers + ellipsis
+  // Generate page numbers with ellipsis logic
   const getPageNumbers = () => {
     const pages: (number | "ellipsis")[] = [];
-    const maxVisible = 5; // Total page buttons to show (excluding prev/next)
+    const maxVisible = 5;
 
     if (totalPages <= maxVisible) {
-      // Case: Show all pages if total is small
+      // Show all pages if total is small
       for (let i = 1; i <= totalPages; i++) pages.push(i);
     } else {
-      // Case: Complex logic with ellipsis
-      // Always show first page
+      // Complex logic with ellipsis
       pages.push(1);
 
-      // Calculate start/end of the middle range
       let start = Math.max(2, page - 1);
       let end = Math.min(totalPages - 1, page + 1);
 
-      // Adjust range if near start
       if (page <= 3) {
         end = Math.min(totalPages - 1, maxVisible - 1);
       }
-      // Adjust range if near end
       if (page >= totalPages - 2) {
         start = Math.max(2, totalPages - (maxVisible - 2));
       }
 
-      // Add ellipsis after '1' if needed
       if (start > 2) pages.push("ellipsis");
 
-      // Add middle pages
       for (let i = start; i <= end; i++) pages.push(i);
 
-      // Add ellipsis before last page if needed
       if (end < totalPages - 1) pages.push("ellipsis");
 
-      // Always show last page
       pages.push(totalPages);
     }
     return pages;
   };
 
+  // Don't render if only 1 page
   if (totalPages <= 1) return null;
 
   const from = (page - 1) * limit + 1;
   const to = Math.min(page * limit, totalDocuments);
   const pageNumbers = getPageNumbers();
 
-  if (totalPages < 2) return null;
-
   return (
-    <div className="flex w-full flex-col items-center justify-between gap-4 sm:flex-row">
+    <div className="mt-16 flex w-full flex-col items-center justify-between gap-4 sm:flex-row">
       {/* Results Info */}
       <p className="shrink-0 text-sm text-muted-foreground">
         Showing <span className="font-semibold">{from}</span> to{" "}
@@ -98,7 +89,7 @@ export default function PaginationControls({
       </p>
 
       {/* Shadcn Pagination Component */}
-      <Pagination className="mt-4 justify-end">
+      <Pagination className="justify-end">
         <PaginationContent>
           {/* Previous Button */}
           <PaginationItem>
