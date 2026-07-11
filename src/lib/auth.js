@@ -5,6 +5,7 @@ import Credentials from "next-auth/providers/credentials";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const authConfig = {
+  trustHost: true,
   providers: [
     Google({
       clientId: process.env.AUTH_GOOGLE_ID,
