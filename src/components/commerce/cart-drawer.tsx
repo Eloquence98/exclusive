@@ -1,3 +1,10 @@
+/**
+ * CartDrawer (Client Component)
+ * Owns its own drawer open/close state locally
+ * Cart data comes from cart.store.ts
+ * No UI state lives in cart store
+ */
+
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -8,16 +15,23 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { useCartStore } from "@/lib/store";
+import { useCartStore } from "@/src/domains/cart/cart.store";
 import { ShoppingBag } from "lucide-react";
 import Link from "next/link";
 import { CartItem } from "./cart-item";
 
-export function CartDrawer() {
-  const { isOpen, closeCart, items, totalItems, subtotal } = useCartStore();
+interface CartDrawerProps {
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+}
+
+export function CartDrawer({ isOpen, onOpenChange }: CartDrawerProps) {
+  const { items, totalItems, subtotal } = useCartStore();
+
+  const handleClose = () => onOpenChange(false);
 
   return (
-    <Sheet open={isOpen} onOpenChange={(open) => !open && closeCart()}>
+    <Sheet open={isOpen} onOpenChange={onOpenChange}>
       <SheetContent
         side="right"
         className="flex w-full max-w-md flex-col bg-background p-0"
@@ -38,7 +52,7 @@ export function CartDrawer() {
                 title="Your cart is empty"
                 description="Looks like you haven't added anything to your cart yet."
                 action={
-                  <Button asChild variant="default" onClick={closeCart}>
+                  <Button asChild variant="default" onClick={handleClose}>
                     <Link href="/shop">Continue Shopping</Link>
                   </Button>
                 }
@@ -50,6 +64,7 @@ export function CartDrawer() {
                 <CartItem
                   key={`${item.id}-${item.size || "no-size"}-${index}`}
                   item={item}
+                  onNavigate={handleClose}
                 />
               ))}
             </div>
@@ -75,18 +90,17 @@ export function CartDrawer() {
             <Button
               asChild
               size="lg"
-              className="h-12 w-full bg-primary text-base text-primary-foreground hover:bg-primary/90"
+              className="h-12 w-full text-base"
+              onClick={handleClose}
             >
-              <Link href="/checkout" onClick={closeCart}>
-                Proceed to Checkout
-              </Link>
+              <Link href="/checkout">Proceed to Checkout</Link>
             </Button>
 
             <Button
               asChild
               variant="ghost"
               className="w-full text-sm text-muted-foreground hover:text-foreground"
-              onClick={closeCart}
+              onClick={handleClose}
             >
               <Link href="/shop">Continue Shopping</Link>
             </Button>

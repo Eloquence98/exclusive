@@ -15,7 +15,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { useCartStore } from "@/lib/store";
+import { useCartStore } from "@/domains/cart/cart.store";
 import { Menu } from "lucide-react";
 import Link from "next/link";
 
@@ -38,14 +38,17 @@ const mainLinks = [
   { name: "New Arrivals", href: "/shop?sort=newest" },
 ];
 
-export function MobileDrawer() {
-  // Connect to Cart Store
-  const { openCart, totalItems } = useCartStore();
+interface MobileDrawerProps {
+  onOpenCart: () => void;
+}
+
+export function MobileDrawer({ onOpenCart }: MobileDrawerProps) {
+  const { totalItems } = useCartStore();
   const cartCount = totalItems();
 
-  // Prevent Radix focus trap conflicts by waiting for the mobile drawer to close
+  // Prevent Radix focus trap conflicts by waiting for mobile drawer to close
   const handleOpenCart = () => {
-    setTimeout(() => openCart(), 150);
+    setTimeout(() => onOpenCart(), 150);
   };
 
   return (

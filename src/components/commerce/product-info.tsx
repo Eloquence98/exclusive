@@ -2,8 +2,8 @@
 
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
+import { useCartStore } from "@/domains/cart/cart.store";
 import type { Product } from "@/domains/catalog/types/product.types";
-import { useCartStore } from "@/lib/store";
 import { cn } from "@/utils/utility";
 import { Check, Star } from "lucide-react";
 import { useState } from "react";
@@ -15,12 +15,13 @@ interface ProductInfoProps {
 
 export function ProductInfo({ product }: ProductInfoProps) {
   const [selectedSize, setSelectedSize] = useState<string | null>(
+    // Pre-select the single size if product has one
     product.size ?? null,
   );
   const [isAdding, setIsAdding] = useState(false);
 
   const addItem = useCartStore((state) => state.addItem);
-  const openCart = useCartStore((state) => state.openCart);
+
   const hasSale = product.saleStatus === "ACTIVE";
   const inStock = product.stock > 0;
 
@@ -45,11 +46,11 @@ export function ProductInfo({ product }: ProductInfoProps) {
         size: selectedSize ?? undefined,
       });
 
-      openCart();
       setIsAdding(false);
 
+      // Toast notification is the only feedback — no drawer open
       toast.success("Added to cart", {
-        description: `${product.title}${selectedSize ? ` (${selectedSize})` : ""} has been added.`,
+        description: `${product.title}${selectedSize ? ` (${selectedSize})` : ""} has been added to your cart.`,
       });
     }, 600);
   };
@@ -106,7 +107,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
           )}
         </div>
 
-        {/* Rating — uses backend field names */}
+        {/* Rating */}
         <div className="flex items-center gap-2">
           <div className="flex items-center">
             {[...Array(5)].map((_, i) => (
@@ -127,7 +128,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
         </div>
       </div>
 
-      {/* Stock Indicator — uses stock number not boolean */}
+      {/* Stock Indicator */}
       <div className="flex items-center gap-2">
         <span
           className={cn(
@@ -140,11 +141,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
         </span>
       </div>
 
-      {/* Size Selection
-          Backend has single size field per product (not variants yet)
-          Shows single size as pre-selected option
-          TODO: Update when backend supports size variants
-      */}
+      {/* Size Selection */}
       {product.size && (
         <div className="space-y-3 pt-2">
           <div className="flex items-center justify-between">

@@ -1,8 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useCartStore } from "@/domains/cart/cart.store";
 import type { ProductListItem } from "@/domains/catalog/types/product.types";
-import { useCartStore } from "@/lib/store";
 import { cn } from "@/utils/utility";
 import { ShoppingBag, Star } from "lucide-react";
 import Image from "next/image";
@@ -16,8 +16,6 @@ interface ProductCardProps {
 
 export function ProductCard({ product, className }: ProductCardProps) {
   const hasSale = product.saleStatus === "ACTIVE";
-
-  // TODO: Move to cart domain mutation when cart domain is migrated
   const addItem = useCartStore((state) => state.addItem);
 
   const handleQuickAdd = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -28,11 +26,13 @@ export function ProductCard({ product, className }: ProductCardProps) {
       id: product.id,
       slug: product.slug,
       name: product.title,
+      brand: product.brand,
       price: product.price,
       salePrice: product.salePrice,
       imageUrl: product.imageCover,
     });
 
+    // Toast notification only — no drawer open
     toast.success("Added to cart", {
       description: `${product.title} has been added to your cart.`,
     });
@@ -57,7 +57,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         />
 
-        {/* Badges */}
+        {/* Badges (Featured / Sale) */}
         <div className="absolute left-3 top-3 z-10 flex flex-col gap-2">
           {product.isFeatured && (
             <span className="rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground">
@@ -66,7 +66,6 @@ export function ProductCard({ product, className }: ProductCardProps) {
           )}
           {hasSale && (
             <span className="rounded-full bg-destructive px-3 py-1 text-xs font-medium text-destructive-foreground">
-              {/* discountPercentage is a backend virtual — no frontend calculation needed */}
               {product.discountPercentage > 0
                 ? `-${product.discountPercentage}%`
                 : "Sale"}
@@ -96,12 +95,12 @@ export function ProductCard({ product, className }: ProductCardProps) {
 
       {/* Product Details */}
       <div className="mt-4 space-y-1.5 px-1">
-        {/* Brand */}
-        {/* {product.brand && (
+        {/* Brand (Overline) */}
+        {product.brand && (
           <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
             {product.brand}
           </p>
-        )} */}
+        )}
 
         {/* Title */}
         <h3 className="line-clamp-1 text-base font-medium text-foreground">
@@ -113,7 +112,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
           </Link>
         </h3>
 
-        {/* Rating */}
+        {/* Rating Stars */}
         {product.ratingsAverage !== undefined && (
           <div className="flex items-center gap-1.5">
             <div className="flex items-center">

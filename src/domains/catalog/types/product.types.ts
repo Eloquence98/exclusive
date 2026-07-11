@@ -53,6 +53,7 @@ export interface ProductListItem {
   isFeatured: boolean;
   ratingsAverage: number;
   ratingsQuantity: number;
+  brand?: string;
 
   // Virtuals
   currentPrice: number;

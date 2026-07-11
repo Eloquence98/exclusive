@@ -3,8 +3,8 @@
 import { CartDrawer } from "@/components/commerce/cart-drawer";
 import { Button } from "@/components/ui/button";
 import { SearchInput } from "@/components/ui/search-input";
-import { useCartStore } from "@/lib/store";
-import { cn } from "@/src/utils/utility";
+import { useCartStore } from "@/domains/cart/cart.store";
+import { cn } from "@/utils/utility";
 import { ShoppingBag, User } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -18,9 +18,10 @@ const navLinks = [
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // Connect to Cart Store
-  const { openCart, totalItems } = useCartStore();
+  // Cart data only — no drawer state in cart store
+  const { totalItems } = useCartStore();
   const cartCount = totalItems();
 
   useEffect(() => {
@@ -77,12 +78,12 @@ export function Navbar() {
                 </Link>
               </Button>
 
-              {/* Cart Trigger */}
+              {/* Cart Trigger — Navbar owns drawer state */}
               <Button
                 variant="ghost"
                 size="icon"
                 className="relative"
-                onClick={openCart}
+                onClick={() => setIsCartOpen(true)}
                 aria-label="Open cart"
               >
                 <ShoppingBag className="h-5 w-5 text-foreground" />
@@ -94,14 +95,14 @@ export function Navbar() {
               </Button>
 
               {/* Mobile Menu Toggle */}
-              <MobileDrawer />
+              <MobileDrawer onOpenCart={() => setIsCartOpen(true)} />
             </div>
           </div>
         </div>
       </header>
 
-      {/* Global Cart Drawer Instance */}
-      <CartDrawer />
+      {/* Cart Drawer — controlled by navbar state */}
+      <CartDrawer isOpen={isCartOpen} onOpenChange={setIsCartOpen} />
     </>
   );
 }

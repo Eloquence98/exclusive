@@ -1,20 +1,22 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useCartStore, type CartItem as CartItemType } from "@/lib/store";
+import { useCartStore } from "@/domains/cart/cart.store";
+import type { CartItem as CartItemType } from "@/domains/cart/cart.types";
 import { Minus, Plus, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 interface CartItemProps {
   item: CartItemType;
+  onNavigate: () => void; // Close drawer when user clicks product link
 }
 
-export function CartItem({ item }: CartItemProps) {
-  const { removeItem, updateQuantity, closeCart } = useCartStore();
+export function CartItem({ item, onNavigate }: CartItemProps) {
+  const { removeItem, updateQuantity } = useCartStore();
 
   // Calculate price based on active sale
-  const currentPrice = item.salePrice || item.price;
+  const currentPrice = item.salePrice ?? item.price;
   const lineTotal = currentPrice * item.quantity;
 
   return (
@@ -23,7 +25,7 @@ export function CartItem({ item }: CartItemProps) {
       <Link
         href={`/product/${item.slug}`}
         className="relative h-24 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-muted"
-        onClick={closeCart}
+        onClick={onNavigate}
       >
         <Image
           src={item.imageUrl}
@@ -49,7 +51,7 @@ export function CartItem({ item }: CartItemProps) {
             <Link
               href={`/product/${item.slug}`}
               className="line-clamp-1 block max-w-[180px] text-sm font-medium text-foreground underline-offset-4 hover:underline sm:max-w-[220px]"
-              onClick={closeCart}
+              onClick={onNavigate}
             >
               {item.name}
             </Link>
