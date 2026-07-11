@@ -1,6 +1,7 @@
 "use client";
 import Swiper from "@/components/Swiper";
 import { useQuery } from "@tanstack/react-query";
+import { productListOptions } from "../domains/catalog/queries/products.query";
 import Button from "./Button";
 import ProductCard from "./ProductCard";
 import SectionLabel from "./SectionLabel";

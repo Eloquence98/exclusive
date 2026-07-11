@@ -1,8 +1,5 @@
 import ProductDetails from "@/components/products/ProductDetails";
-import {
-  getProductById,
-  getProductList,
-} from "@/domains/catalog/api/products.api";
+import { getProductById } from "@/domains/catalog/api/products.api";
 
 export async function generateMetadata(props) {
   const params = await props.params;
@@ -14,16 +11,16 @@ export async function generateMetadata(props) {
   }
 }
 
-export async function generateStaticParams() {
-  try {
-    const { products } = await getProductList({ limit: 10 });
-    return products.map((product) => ({
-      productId: String(product.id),
-    }));
-  } catch (error) {
-    return [];
-  }
-}
+// export async function generateStaticParams() {
+//   try {
+//     const { products } = await getProductList({ limit: 10 });
+//     return products.map((product) => ({
+//       productId: String(product.id),
+//     }));
+//   } catch (error) {
+//     return [];
+//   }
+// }
 
 export default async function Page(props) {
   const params = await props.params;
