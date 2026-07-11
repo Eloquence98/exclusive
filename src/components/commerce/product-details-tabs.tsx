@@ -48,7 +48,6 @@ export function ProductDetailsTabs({
   const relatedParams: ShopParams = {
     page: 1,
     limit: 4,
-    sort: "featured",
     category,
   };
 

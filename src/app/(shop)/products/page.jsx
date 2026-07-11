@@ -1,7 +1,7 @@
 import LayoutPadding from "@/components/LayoutPadding";
 import ProductCard from "@/components/ProductCard";
 import Spinner from "@/components/Spinner";
-import { getProducts } from "@/lib/data-service";
+import { getProductList } from "@/domains/catalog/api/products.api";
 import { productCategories } from "@/lib/productCategories";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -13,7 +13,7 @@ export const metadata = {
 
 async function ProductGrid({ category, onSale }) {
   const filters = {};
-  
+
   if (category) {
     filters.category = category;
   }
@@ -21,7 +21,7 @@ async function ProductGrid({ category, onSale }) {
     filters.onSale = true;
   }
 
-  const products = await getProducts(filters);
+  const { products } = await getProductList(filters);
 
   if (products.length === 0) {
     return (
@@ -91,7 +91,7 @@ function SideNavigation() {
 export default async function Page(props) {
   const searchParams = await props.searchParams;
   const category = searchParams?.category;
-  const onSale = searchParams?.onSale === 'true';
+  const onSale = searchParams?.onSale === "true";
 
   return (
     <LayoutPadding>
@@ -101,8 +101,8 @@ export default async function Page(props) {
             {category
               ? category.charAt(0).toUpperCase() + category.slice(1)
               : onSale
-              ? "Sale Products"
-              : "All Products"}
+                ? "Sale Products"
+                : "All Products"}
           </h1>
         </div>
 

@@ -3,7 +3,7 @@
 import { ProductCard } from "@/components/commerce/product-card";
 import { featuredProductsOptions } from "@/domains/catalog/queries/products.query";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { SectionHeader } from "./section-header";
 
 const containerVariants = {
@@ -16,7 +16,7 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,

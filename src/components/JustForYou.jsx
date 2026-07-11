@@ -1,29 +1,20 @@
 "use client";
 import Swiper from "@/components/Swiper";
-import { getProducts } from "@/lib/data-service";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import Button from "./Button";
 import ProductCard from "./ProductCard";
 import SectionLabel from "./SectionLabel";
 import Spinner from "./Spinner";
 
 function JustForYou() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const relatedParams = {
+    page: 1,
+    limit: 4,
+  };
 
-  useEffect(() => {
-    getProducts({ limit: 4 })
-      .then((data) => {
-        setProducts(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Failed to load products:", error);
-        setLoading(false);
-      });
-  }, []);
+  const { data, isLoading } = useQuery(productListOptions(relatedParams));
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="flex justify-center p-8">
         <Spinner />
@@ -31,7 +22,7 @@ function JustForYou() {
     );
   }
 
-  if (products.length === 0) {
+  if (data?.products.length === 0) {
     return null;
   }
 
@@ -71,7 +62,7 @@ function JustForYou() {
           }}
           className="h-full max-h-full w-full max-w-full"
         >
-          {products.map((product) => (
+          {data?.products.map((product) => (
             <Swiper.Slide key={product.id}>
               <ProductCard product={product} />
             </Swiper.Slide>

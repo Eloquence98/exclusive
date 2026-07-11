@@ -6,23 +6,23 @@ import { formatPrice } from "@/utils/utility";
 export default function ProductCard({ product }) {
   return (
     <Link href={`/product/${product?.slug}`} className="group block">
-      <div className="bg-bone relative aspect-[4/5] overflow-hidden">
+      <div className="relative aspect-[4/5] overflow-hidden bg-bone">
         {product?.image && (
           <Image
             src={product?.image}
             alt={product?.name}
             fill
-            className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105"
+            className="duration-[1200ms] object-cover transition-transform ease-out group-hover:scale-105"
             sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
           />
         )}
         {product?.badge && (
-          <span className="bg-cream/95 absolute left-3 top-3 px-2.5 py-1 text-[10px] uppercase tracking-[0.15em] backdrop-blur">
+          <span className="absolute left-3 top-3 bg-cream/95 px-2.5 py-1 text-[10px] uppercase tracking-[0.15em] backdrop-blur">
             {product?.badge}
           </span>
         )}
         {!product?.badge && product?.isNew && (
-          <span className="bg-ink text-cream absolute left-3 top-3 px-2.5 py-1 text-[10px] uppercase tracking-[0.15em]">
+          <span className="absolute left-3 top-3 bg-ink px-2.5 py-1 text-[10px] uppercase tracking-[0.15em] text-cream">
             New
           </span>
         )}
@@ -38,7 +38,7 @@ export default function ProductCard({ product }) {
             {product?.name}
           </div>
           {product?.reviewCount > 0 && (
-            <div className="text-ink/60 mt-1.5 flex items-center gap-1.5 text-xs">
+            <div className="mt-1.5 flex items-center gap-1.5 text-xs text-ink/60">
               <Rating value={product?.avgRating ?? 0} size={12} />
               <span>({product?.reviewCount})</span>
             </div>

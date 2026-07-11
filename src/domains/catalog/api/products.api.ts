@@ -75,6 +75,24 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
 }
 
 /**
+ * Fetches a single product by ID
+ * GET /api/v1/products/:id
+ * Returns null if not found (404)
+ */
+export async function getProductById(id: string): Promise<Product | null> {
+  const res = await fetch(`${API_BASE_URL}/products/${id}`);
+
+  if (res.status === 404) return null;
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch product: ${res.statusText}`);
+  }
+
+  const json: ApiResponse<Product> = await res.json();
+  return json.data.data;
+}
+
+/**
  * Fetches catalog stats
  * GET /api/v1/products/stats
  * Returns price range, categories, brands, sizes

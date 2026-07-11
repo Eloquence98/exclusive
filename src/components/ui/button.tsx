@@ -34,45 +34,63 @@ const buttonVariants = cva(
   },
 );
 
-export interface ButtonProps
-  extends Omit<HTMLMotionProps<"button">, "style">,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean;
-}
+type ButtonVariants = VariantProps<typeof buttonVariants>;
+
+type ButtonAsChildProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
+  ButtonVariants & {
+    asChild: true;
+  };
+
+type MotionButtonProps = HTMLMotionProps<"button"> &
+  ButtonVariants & {
+    asChild?: false;
+  };
+
+export type ButtonProps = ButtonAsChildProps | MotionButtonProps;
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {
-      className,
-      variant,
-      size,
-      asChild = false,
-      whileTap = { scale: 0.98 },
-      ...props
-    },
-    ref,
-  ) => {
+  (props, ref) => {
+    const { className, variant, size, asChild = false } = props;
+
     if (asChild) {
+      const {
+        className: _,
+        variant: __,
+        size: ___,
+        asChild: ____,
+        ...slotProps
+      } = props as ButtonAsChildProps;
+
       return (
         <Slot
-          className={cn(buttonVariants({ variant, size, className }))}
           ref={ref}
-          {...props}
+          className={cn(buttonVariants({ variant, size, className }))}
+          {...slotProps}
         />
       );
     }
 
+    const {
+      className: _,
+      variant: __,
+      size: ___,
+      asChild: ____,
+      whileTap = { scale: 0.98 },
+      ...motionProps
+    } = props as MotionButtonProps;
+
     return (
       <motion.button
-        className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
+        className={cn(buttonVariants({ variant, size, className }))}
         whileTap={whileTap}
         transition={{ type: "spring", stiffness: 400, damping: 17 }}
-        {...props}
+        {...motionProps}
       />
     );
   },
 );
+
 Button.displayName = "Button";
 
 export { Button, buttonVariants };

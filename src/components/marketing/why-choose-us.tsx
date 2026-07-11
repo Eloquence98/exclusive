@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { RefreshCw, ShieldCheck, Truck, type LucideIcon } from "lucide-react";
 import { SectionHeader } from "./section-header";
 
@@ -41,7 +41,7 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
