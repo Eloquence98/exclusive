@@ -2,49 +2,31 @@
 
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
+import type { Product } from "@/domains/catalog/types/product.types";
 import { useCartStore } from "@/lib/store";
-import { cn } from "@/src/utils/utility";
+import { cn } from "@/utils/utility";
 import { Check, Star } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
-export interface ProductSize {
-  name: string;
-  inStock: boolean;
-}
-
-// Updated interface to include fields needed for the Cart Store
-export interface ProductInfoData {
-  id: string;
-  slug: string;
-  brand: string;
-  name: string;
-  category: string;
-  price: number;
-  salePrice?: number;
-  discountPercentage?: number;
-  rating: number;
-  reviewCount: number;
-  inStock: boolean;
-  sizes: ProductSize[];
-  images: string[];
-}
-
 interface ProductInfoProps {
-  product: ProductInfoData;
+  product: Product;
 }
 
 export function ProductInfo({ product }: ProductInfoProps) {
-  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [selectedSize, setSelectedSize] = useState<string | null>(
+    product.size ?? null,
+  );
   const [isAdding, setIsAdding] = useState(false);
 
   const addItem = useCartStore((state) => state.addItem);
   const openCart = useCartStore((state) => state.openCart);
-
-  const hasSale = product.salePrice && product.salePrice < product.price;
+  const hasSale = product.saleStatus === "ACTIVE";
+  const inStock = product.stock > 0;
 
   const handleAddToCart = () => {
-    if (!selectedSize && product.sizes.length > 0) {
+    // Size required only if product has a size field
+    if (!selectedSize && product.size) {
       toast.error("Please select a size");
       return;
     }
@@ -55,20 +37,19 @@ export function ProductInfo({ product }: ProductInfoProps) {
       addItem({
         id: product.id,
         slug: product.slug,
-        name: product.name,
+        name: product.title,
         brand: product.brand,
         price: product.price,
         salePrice: product.salePrice,
-        imageUrl: product.images[0],
-        size: selectedSize || undefined,
+        imageUrl: product.imageCover,
+        size: selectedSize ?? undefined,
       });
 
-      openCart(); // open the drawer on the PDP
-
+      openCart();
       setIsAdding(false);
 
       toast.success("Added to cart", {
-        description: `${product.name}${selectedSize ? ` (${selectedSize})` : ""} has been added.`,
+        description: `${product.title}${selectedSize ? ` (${selectedSize})` : ""} has been added.`,
       });
     }, 600);
   };
@@ -82,43 +63,50 @@ export function ProductInfo({ product }: ProductInfoProps) {
           { label: "Shop", href: "/shop" },
           {
             label: product.category,
-            href: `/shop?category=${product.category.toLowerCase()}`,
+            href: `/shop?category=${product.category}`,
           },
-          { label: product.name },
+          { label: product.title },
         ]}
       />
 
       {/* Header */}
       <div className="space-y-3">
-        <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-          {product.brand}
-        </p>
+        {/* Brand */}
+        {product.brand && (
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            {product.brand}
+          </p>
+        )}
+
+        {/* Title */}
         <h1 className="text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
-          {product.name}
+          {product.title}
         </h1>
 
-        {/* Pricing */}
+        {/* Pricing — uses backend virtuals */}
         <div className="flex items-center gap-3">
           {hasSale ? (
             <>
               <span className="text-2xl font-medium text-destructive">
-                ${product.salePrice?.toFixed(2)}
+                ${product.currentPrice.toFixed(2)}
               </span>
               <span className="text-lg text-muted-foreground line-through">
                 ${product.price.toFixed(2)}
               </span>
-              <span className="rounded-full bg-destructive/10 px-2.5 py-0.5 text-xs font-semibold text-destructive">
-                {product.discountPercentage}% Off
-              </span>
+              {product.discountPercentage > 0 && (
+                <span className="rounded-full bg-destructive/10 px-2.5 py-0.5 text-xs font-semibold text-destructive">
+                  {product.discountPercentage}% Off
+                </span>
+              )}
             </>
           ) : (
             <span className="text-2xl font-medium text-foreground">
-              ${product.price.toFixed(2)}
+              ${product.currentPrice.toFixed(2)}
             </span>
           )}
         </div>
 
-        {/* Rating */}
+        {/* Rating — uses backend field names */}
         <div className="flex items-center gap-2">
           <div className="flex items-center">
             {[...Array(5)].map((_, i) => (
@@ -126,7 +114,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
                 key={i}
                 className={cn(
                   "h-4 w-4",
-                  i < Math.round(product.rating)
+                  i < Math.round(product.ratingsAverage)
                     ? "fill-amber-500 text-amber-500"
                     : "fill-muted text-muted",
                 )}
@@ -134,26 +122,30 @@ export function ProductInfo({ product }: ProductInfoProps) {
             ))}
           </div>
           <span className="text-sm text-muted-foreground">
-            {product.rating} ({product.reviewCount} Reviews)
+            {product.ratingsAverage} ({product.ratingsQuantity} Reviews)
           </span>
         </div>
       </div>
 
-      {/* Stock Indicator */}
+      {/* Stock Indicator — uses stock number not boolean */}
       <div className="flex items-center gap-2">
         <span
           className={cn(
             "h-2 w-2 rounded-full",
-            product.inStock ? "bg-emerald-500" : "bg-destructive",
+            inStock ? "bg-emerald-500" : "bg-destructive",
           )}
         />
         <span className="text-sm font-medium text-foreground">
-          {product.inStock ? "In Stock" : "Out of Stock"}
+          {inStock ? `In Stock (${product.stock} available)` : "Out of Stock"}
         </span>
       </div>
 
-      {/* Size Selection */}
-      {product.sizes.length > 0 && (
+      {/* Size Selection
+          Backend has single size field per product (not variants yet)
+          Shows single size as pre-selected option
+          TODO: Update when backend supports size variants
+      */}
+      {product.size && (
         <div className="space-y-3 pt-2">
           <div className="flex items-center justify-between">
             <p className="text-sm font-medium text-foreground">Size</p>
@@ -162,32 +154,27 @@ export function ProductInfo({ product }: ProductInfoProps) {
             </button>
           </div>
           <div className="flex flex-wrap gap-3">
-            {product.sizes.map((size) => (
-              <button
-                key={size.name}
-                disabled={!size.inStock}
-                onClick={() => setSelectedSize(size.name)}
-                className={cn(
-                  "flex h-11 min-w-[3rem] items-center justify-center rounded-full border px-4 text-sm font-medium transition-all",
-                  selectedSize === size.name
-                    ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border bg-background text-foreground hover:border-primary",
-                  !size.inStock && "cursor-not-allowed line-through opacity-50",
-                )}
-              >
-                {size.name}
-              </button>
-            ))}
+            <button
+              onClick={() => setSelectedSize(product.size!)}
+              className={cn(
+                "flex h-11 min-w-[3rem] items-center justify-center rounded-full border px-4 text-sm font-medium transition-all",
+                selectedSize === product.size
+                  ? "border-primary bg-primary text-primary-foreground"
+                  : "border-border bg-background text-foreground hover:border-primary",
+              )}
+            >
+              {product.size}
+            </button>
           </div>
         </div>
       )}
 
-      {/* Add to Cart Button */}
+      {/* Add to Cart */}
       <div className="space-y-4 pt-4">
         <Button
           size="lg"
-          className="h-12 w-full bg-primary text-base text-primary-foreground hover:bg-primary/90"
-          disabled={!product.inStock || isAdding}
+          className="h-12 w-full text-base"
+          disabled={!inStock || isAdding}
           onClick={handleAddToCart}
         >
           {isAdding ? (
@@ -195,7 +182,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
               <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
               Adding...
             </span>
-          ) : !product.inStock ? (
+          ) : !inStock ? (
             "Sold Out"
           ) : (
             "Add to Cart"

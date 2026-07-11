@@ -4,8 +4,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import Link from "next/link";
 
-export function ProductAccordions() {
+interface ProductAccordionsProps {
+  description: string;
+}
+
+export function ProductAccordions({ description }: ProductAccordionsProps) {
   return (
     <Accordion
       type="single"
@@ -17,19 +22,7 @@ export function ProductAccordions() {
           Description
         </AccordionTrigger>
         <AccordionContent className="text-sm leading-relaxed text-muted-foreground">
-          <p>
-            Crafted from the finest Grade-A Mongolian cashmere, this crewneck
-            sweater offers unparalleled softness and warmth. The relaxed yet
-            tailored silhouette ensures a perfect drape, making it an essential
-            layering piece for transitional weather. Features include ribbed
-            cuffs, hem, and a reinforced collar to maintain its shape over time.
-          </p>
-          <ul className="mt-4 list-disc space-y-2 pl-5">
-            <li>100% Grade-A Mongolian Cashmere</li>
-            <li>Relaxed, true-to-size fit</li>
-            <li>Ribbed trims for structure</li>
-            <li>Dry clean only</li>
-          </ul>
+          <p className="whitespace-pre-line">{description}</p>
         </AccordionContent>
       </AccordionItem>
 
@@ -72,12 +65,12 @@ export function ProductAccordions() {
           </p>
           <p>
             To initiate a return, please visit your{" "}
-            <a
+            <Link
               href="/account/orders"
               className="text-foreground underline underline-offset-4"
             >
               Order History
-            </a>
+            </Link>
             .
           </p>
         </AccordionContent>

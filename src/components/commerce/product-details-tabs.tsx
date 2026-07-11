@@ -1,9 +1,20 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { cn } from "@/src/utils/utility";
-import { Calendar, Star, User } from "lucide-react";
-import { ProductCard, type Product } from "./product-card";
+"use client";
 
-// Mock Reviews Data
+import { ProductGridSkeleton } from "@/components/ui/skeleton";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { productListOptions } from "@/domains/catalog/queries/products.query";
+import type { ShopParams } from "@/hooks/useShopParams";
+import { cn } from "@/utils/utility";
+import { useQuery } from "@tanstack/react-query";
+import { Calendar, Star, User } from "lucide-react";
+import { ProductCard } from "./product-card";
+
+interface ProductDetailsTabsProps {
+  productId: string;
+  category: string;
+}
+
+// Mock Reviews Data — TODO: Replace with reviews domain
 const mockReviews = [
   {
     id: "1",
@@ -28,59 +39,25 @@ const mockReviews = [
   },
 ];
 
-// Mock Related Products Data
-const mockRelatedProducts: Product[] = [
-  {
-    id: "101",
-    slug: "merino-turtleneck",
-    name: "Merino Wool Turtleneck",
-    brand: "Atelier Knitwear",
-    price: 195,
-    imageUrl:
-      "https://images.unsplash.com/photo-1576566588028-4147f3842f27?q=80&w=800&auto=format&fit=crop",
-    inStock: true,
-    rating: 4.7,
-    reviewCount: 67,
-  },
-  {
-    id: "102",
-    slug: "ribbed-polo",
-    name: "Ribbed Knit Polo Shirt",
-    brand: "Atelier Essentials",
-    price: 145,
-    imageUrl:
-      "https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?q=80&w=800&auto=format&fit=crop",
-    inStock: true,
-    rating: 4.4,
-    reviewCount: 51,
-  },
-  {
-    id: "103",
-    slug: "linen-blazer",
-    name: "Relaxed Linen Blazer",
-    brand: "Atelier Tailoring",
-    price: 320,
-    imageUrl:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop",
-    inStock: true,
-    rating: 4.6,
-    reviewCount: 33,
-  },
-  {
-    id: "104",
-    slug: "wool-trousers",
-    name: "Tailored Wool Trousers",
-    brand: "Atelier Studio",
-    price: 185,
-    imageUrl:
-      "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=800&auto=format&fit=crop",
-    inStock: true,
-    rating: 4.5,
-    reviewCount: 89,
-  },
-];
+export function ProductDetailsTabs({
+  productId,
+  category,
+}: ProductDetailsTabsProps) {
+  // Fetch related products from same category
+  // Exclude current product from results
+  const relatedParams: ShopParams = {
+    page: 1,
+    limit: 4,
+    sort: "featured",
+    category,
+  };
 
-export function ProductDetailsTabs() {
+  const { data, isLoading } = useQuery(productListOptions(relatedParams));
+
+  // Filter out current product from related products
+  const relatedProducts =
+    data?.products.filter((p) => p.id !== productId) ?? [];
+
   return (
     <Tabs defaultValue="reviews" className="w-full">
       <TabsList className="mb-8 h-auto w-full justify-start rounded-none border-b border-border bg-transparent p-0">
@@ -145,11 +122,23 @@ export function ProductDetailsTabs() {
 
       {/* Related Products Tab */}
       <TabsContent value="related" className="mt-0">
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6 lg:gap-8">
-          {mockRelatedProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6 lg:gap-8">
+            <ProductGridSkeleton count={4} />
+          </div>
+        ) : relatedProducts.length === 0 ? (
+          <div className="flex min-h-[200px] items-center justify-center">
+            <p className="text-sm text-muted-foreground">
+              No related products found.
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6 lg:gap-8">
+            {relatedProducts.slice(0, 4).map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        )}
       </TabsContent>
     </Tabs>
   );

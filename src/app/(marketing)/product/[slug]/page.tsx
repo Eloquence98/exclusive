@@ -1,18 +1,22 @@
-import { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { getProductBySlug } from "@/lib/api";
-import { ProductGallery } from "@/components/commerce/product-gallery";
-import { ProductInfo } from "@/components/commerce/product-info";
-import { ProductAccordions } from "@/components/commerce/product-accordions";
-import { ProductDetailsTabs } from "@/components/commerce/product-details-tabs";
+import { ProductDetailClient } from "@/components/commerce/product-detail-client";
+import { getProductBySlug } from "@/domains/catalog/api/products.api";
+import { productDetailOptions } from "@/domains/catalog/queries/products.query";
+import { getQueryClient } from "@/src/lib/get-query-client";
+import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
+import type { Metadata } from "next";
+interface ProductPageProps {
+  params: Promise<{ slug: string }>;
+}
 
-// Dynamic SEO Metadata Generation
+/**
+ * Dynamic SEO metadata
+ * Direct API call is correct here — server only, not cached by TanStack Query
+ */
 export async function generateMetadata({
   params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
-  const product = await getProductBySlug(params.slug);
+}: ProductPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     return {
@@ -21,62 +25,38 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${product.name} | ATELIER`,
+    title: `${product.title} | ATELIER`,
     description: product.description,
     openGraph: {
-      title: `${product.name} | ATELIER`,
+      title: `${product.title} | ATELIER`,
       description: product.description,
       images: [
         {
-          url: product.images[0],
+          url: product.imageCover,
           width: 1200,
           height: 1600,
-          alt: product.name,
+          alt: product.title,
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${product.name} | ATELIER`,
+      title: `${product.title} | ATELIER`,
       description: product.description,
-      images: [product.images[0]],
+      images: [product.imageCover],
     },
   };
 }
 
-export default async function ProductPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  // Fetch product data from backend
-  const product = await getProductBySlug(params.slug);
+export default async function ProductPage({ params }: ProductPageProps) {
+  const { slug } = await params;
+  const queryClient = getQueryClient();
 
-  // Trigger 404 page if product doesn't exist
-  if (!product) {
-    notFound();
-  }
+  void queryClient.prefetchQuery(productDetailOptions(slug));
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16 lg:px-8">
-        {/* Main 2-Column Grid */}
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
-          {/* Left Column: Gallery */}
-          <ProductGallery images={product.images} productName={product.name} />
-
-          {/* Right Column: Info & Accordions */}
-          <div className="flex flex-col">
-            <ProductInfo product={product} />
-            <ProductAccordions />
-          </div>
-        </div>
-
-        {/* Bottom Section: Tabs for Reviews and Related Products */}
-        <section className="mt-24 border-t border-border pt-16">
-          <ProductDetailsTabs />
-        </section>
-      </div>
-    </div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <ProductDetailClient slug={slug} />
+    </HydrationBoundary>
   );
 }
