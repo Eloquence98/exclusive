@@ -1,3 +1,5 @@
+import type { PaginationMeta } from "@/types/api";
+
 export type ProductCategory =
   | "t-shirts"
   | "shirts"
@@ -70,34 +72,6 @@ export interface Product extends ProductListItem {
   isDeleted: boolean;
   createdAt: string;
   updatedAt: string;
-}
-
-/**
- * Backend API response wrapper
- * Standard shape: { status, data: { data: T } }
- */
-export interface ApiResponse<T> {
-  status: "success" | "fail" | "error";
-  results?: number;
-  meta?: {
-    pagination: PaginationMeta;
-  };
-  data: {
-    data: T;
-  };
-}
-
-/**
- * Pagination metadata
- * Returned in meta.pagination for all list endpoints
- */
-export interface PaginationMeta {
-  page: number;
-  limit: number;
-  totalDocuments: number;
-  totalPages: number;
-  hasNextPage: boolean;
-  hasPrevPage: boolean;
 }
 
 /**

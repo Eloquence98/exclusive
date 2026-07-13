@@ -1,6 +1,6 @@
 import type { ShopParams } from "@/hooks/useShopParams";
+import type { ApiResponse } from "@/types/api";
 import type {
-  ApiResponse,
   ApiStatsResponse,
   CatalogStats,
   Product,
