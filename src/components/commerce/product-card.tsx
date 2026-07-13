@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/domains/cart/cart.store";
-import type { ProductListItem } from "@/domains/catalog/types/product.types";
+import type { ProductListItem } from "@/src/domains/catalog/product.types";
 import { cn } from "@/utils/utility";
 import { ShoppingBag, Star } from "lucide-react";
 import Image from "next/image";

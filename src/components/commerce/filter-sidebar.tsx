@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { catalogStatsOptions } from "@/domains/catalog/queries/products.query";
+import { catalogStatsOptions } from "@/src/domains/catalog/products.query";
 import { useShopParams } from "@/hooks/useShopParams";
 import { cn } from "@/utils/utility";
 import { Skeleton } from "@heroui/react";

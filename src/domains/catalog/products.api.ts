@@ -6,7 +6,7 @@ import type {
   Product,
   ProductListItem,
   ProductListResponse,
-} from "../types/product.types";
+} from "./product.types";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";

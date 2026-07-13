@@ -2,7 +2,7 @@
 
 import { ProductGridSkeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { productListOptions } from "@/domains/catalog/queries/products.query";
+import { productListOptions } from "@/src/domains/catalog/products.query";
 import type { ShopParams } from "@/hooks/useShopParams";
 import { cn } from "@/utils/utility";
 import { useQuery } from "@tanstack/react-query";

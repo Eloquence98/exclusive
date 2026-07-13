@@ -1,9 +1,3 @@
-/**
- * Product domain types
- * Matches backend Mongoose schema + virtuals
- * Backend returns: id (not _id) — Mongoose virtual
- */
-
 export type ProductCategory =
   | "t-shirts"
   | "shirts"

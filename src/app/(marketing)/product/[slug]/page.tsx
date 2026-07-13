@@ -1,6 +1,6 @@
 import { ProductDetailClient } from "@/components/commerce/product-detail-client";
 import { getProductBySlug } from "@/domains/catalog/api/products.api";
-import { productDetailOptions } from "@/domains/catalog/queries/products.query";
+import { productDetailOptions } from "@/src/domains/catalog/products.query";
 import { getQueryClient } from "@/src/lib/get-query-client";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import type { Metadata } from "next";

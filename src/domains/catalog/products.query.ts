@@ -1,12 +1,6 @@
-/**
- * Product Queries (TanStack Query layer)
- * Defines all catalog domain queries using queryOptions pattern
- * TanStack Query is the only server state manager
- */
-
 import type { ShopParams } from "@/hooks/useShopParams";
 import { queryOptions } from "@tanstack/react-query";
-import * as productsApi from "../api/products.api";
+import * as productsApi from "./products.api";
 
 /**
  * Query key factory for catalog domain
