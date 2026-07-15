@@ -23,5 +23,5 @@ export async function createOrder(
     );
   }
 
-  return (json as ApiResponse<CreateOrderResponse>).data.data;
+  return (json as ApiResponse<CreateOrderResponse>).data;
 }

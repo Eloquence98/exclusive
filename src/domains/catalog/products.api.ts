@@ -23,7 +23,7 @@ export async function getFeaturedProducts(): Promise<ProductListItem[]> {
   }
 
   const json: ApiResponse<ProductListItem[]> = await res.json();
-  return json.data.data;
+  return json.data;
 }
 
 /**
@@ -38,7 +38,7 @@ export async function getTrendingProducts(): Promise<ProductListItem[]> {
   }
 
   const json: ApiResponse<ProductListItem[]> = await res.json();
-  return json.data.data;
+  return json.data;
 }
 
 /**
@@ -53,7 +53,7 @@ export async function getTopRatedProducts(): Promise<ProductListItem[]> {
   }
 
   const json: ApiResponse<ProductListItem[]> = await res.json();
-  return json.data.data;
+  return json.data;
 }
 
 /**
@@ -71,7 +71,7 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   }
 
   const json: ApiResponse<Product> = await res.json();
-  return json.data.data;
+  return json.data;
 }
 
 /**
@@ -89,7 +89,7 @@ export async function getProductById(id: string): Promise<Product | null> {
   }
 
   const json: ApiResponse<Product> = await res.json();
-  return json.data.data;
+  return json.data;
 }
 
 /**
@@ -189,7 +189,7 @@ export async function getProductList(
   const json: ApiResponse<ProductListItem[]> = await res.json();
 
   return {
-    products: json.data.data,
+    products: json.data,
     pagination: json.meta!.pagination,
   };
 }

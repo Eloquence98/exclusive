@@ -50,6 +50,7 @@ export interface CreateOrderPayload {
  */
 export interface CreateOrderResponse {
   orderNumber: string;
+  accessToken: string;
   totalAmount: number;
   orderStatus: OrderStatus;
   createdAt: string;

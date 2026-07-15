@@ -19,9 +19,7 @@ export interface ApiResponse<T> {
   status: "success" | "fail" | "error";
   results?: number;
   meta?: ApiMeta;
-  data: {
-    data: T;
-  };
+  data: T;
 }
 
 /**
