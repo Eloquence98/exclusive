@@ -1,7 +1,7 @@
 import LayoutPadding from "@/components/LayoutPadding";
 import ProductCard from "@/components/ProductCard";
 import Spinner from "@/components/Spinner";
-import { getProductList } from "@/domains/catalog/api/products.api";
+import { getProductList } from "@/domains/catalog/products.api";
 import { productCategories } from "@/lib/productCategories";
 import Link from "next/link";
 import { Suspense } from "react";

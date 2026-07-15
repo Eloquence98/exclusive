@@ -1,5 +1,5 @@
 import ProductDetails from "@/components/products/ProductDetails";
-import { getProductById } from "@/domains/catalog/api/products.api";
+import { getProductById } from "@/domains/catalog/products.api";
 
 export async function generateMetadata(props) {
   const params = await props.params;

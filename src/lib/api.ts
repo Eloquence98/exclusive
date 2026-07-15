@@ -1,4 +1,4 @@
-import { type CartItem } from "./store";
+import { CartItem } from "../domains/cart/cart.types";
 
 interface ProductSize {
   name: string;
