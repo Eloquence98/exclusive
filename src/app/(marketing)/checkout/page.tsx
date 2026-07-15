@@ -19,7 +19,9 @@ export default function CheckoutPage() {
     onSuccess: (data) => {
       clearCart();
       toast.success("Order placed successfully!");
-      router.push(`/checkout/success?orderNumber=${data.orderNumber}`);
+      router.push(
+        `/checkout/success?orderNumber=${data.orderNumber}&token=${data.accessToken}`,
+      );
     },
     onError: (error: Error) => {
       toast.error(error.message ?? "Failed to place order. Please try again.");

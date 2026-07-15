@@ -5,6 +5,9 @@ export type OrderStatus =
   | "delivered"
   | "cancelled";
 
+export type PaymentMethod = "cash_on_delivery";
+export type PaymentStatus = "pending" | "paid" | "failed";
+
 /**
  * Shipping address matching backend orderSchema.shippingAddress.
  */
@@ -42,7 +45,7 @@ export interface CreateOrderPayload {
   guestInfo?: GuestInfo;
   shippingAddress: ShippingAddress;
   products: OrderProduct[];
-  paymentMethod: "cash_on_delivery";
+  paymentMethod: PaymentMethod;
 }
 
 /**
@@ -64,4 +67,54 @@ export interface ShippingCalculation {
   isFreeShipping: boolean;
   freeShippingThreshold: number;
   amountUntilFreeShipping: number;
+}
+
+// ---
+// Order Confirmation types
+// Returned by GET /orders/:orderNumber/confirmation?token=:token
+// ---
+
+export interface ConfirmationCustomer {
+  name: string;
+  email: string;
+}
+
+export interface ConfirmationProduct {
+  product: string;
+  quantity: number;
+  priceAtPurchase: number;
+  name: string;
+  imageUrl: string;
+}
+
+export interface ConfirmationPayment {
+  method: PaymentMethod;
+  status: PaymentStatus;
+}
+
+export interface ConfirmationTotals {
+  subtotal: number;
+  shippingCost: number;
+  totalAmount: number;
+}
+
+export interface ConfirmationEstimatedDelivery {
+  confirmedEstimate: string;
+  shippedEstimate: string;
+  deliveredEstimate: string;
+}
+
+/**
+ * Full order confirmation data.
+ * Returned by GET /orders/:orderNumber/confirmation?token=:token
+ */
+export interface OrderConfirmation {
+  orderNumber: string;
+  customer: ConfirmationCustomer;
+  products: ConfirmationProduct[];
+  shippingAddress: ShippingAddress;
+  payment: ConfirmationPayment;
+  totals: ConfirmationTotals;
+  orderStatus: OrderStatus;
+  estimatedDelivery: ConfirmationEstimatedDelivery;
 }
