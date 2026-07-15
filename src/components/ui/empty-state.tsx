@@ -54,6 +54,25 @@ export function EmptyState({
 }
 
 /**
+ * Contextual Empty State: Empty Cart (Checkout)
+ * Used when user lands on checkout with an empty cart.
+ */
+export function EmptyCartEmptyState() {
+  return (
+    <EmptyState
+      icon={<ShoppingBag className="h-7 w-7" />}
+      title="Your cart is empty"
+      description="You haven't added anything to your cart yet. Start shopping to see your items here."
+      action={
+        <Button asChild variant="default">
+          <Link href="/shop">Start Shopping</Link>
+        </Button>
+      }
+    />
+  );
+}
+
+/**
  * Contextual Empty State: No Search Results
  * Used when a standard search query returns 0 products.
  */

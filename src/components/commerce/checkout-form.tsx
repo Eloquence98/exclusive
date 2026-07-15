@@ -3,30 +3,28 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import type { CartItem } from "@/domains/cart/cart.types";
 import type {
   CreateOrderPayload,
   GuestInfo,
   ShippingAddress,
 } from "@/domains/checkout/checkout.types";
-import { buildOrderProducts } from "@/domains/checkout/checkout.utils";
+import {
+  buildOrderProducts,
+  calculateShipping,
+  calculateTotal,
+} from "@/domains/checkout/checkout.utils";
+import { useCartStore } from "@/src/domains/cart/cart.store";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
 interface CheckoutFormProps {
-  items: CartItem[];
-  total: number;
   isPending: boolean;
   onPlaceOrder: (payload: CreateOrderPayload) => void;
 }
 
-export function CheckoutForm({
-  items,
-  total,
-  isPending,
-  onPlaceOrder,
-}: CheckoutFormProps) {
+export function CheckoutForm({ isPending, onPlaceOrder }: CheckoutFormProps) {
+  const { items, subtotal } = useCartStore();
   const [guestInfo, setGuestInfo] = useState<GuestInfo>({
     name: "",
     email: "",
@@ -42,6 +40,10 @@ export function CheckoutForm({
     country: "",
   });
 
+  const cartSubtotal = subtotal();
+  const { shippingCost } = calculateShipping(cartSubtotal);
+  const total = calculateTotal(cartSubtotal, shippingCost);
+
   function handleGuestInfoChange(field: keyof GuestInfo, value: string) {
     setGuestInfo((prev) => ({ ...prev, [field]: value }));
   }
@@ -53,7 +55,7 @@ export function CheckoutForm({
     setShippingAddress((prev) => ({ ...prev, [field]: value }));
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
 
     onPlaceOrder({
