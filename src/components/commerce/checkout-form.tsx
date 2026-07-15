@@ -57,7 +57,6 @@ export function CheckoutForm({ isPending, onPlaceOrder }: CheckoutFormProps) {
 
   function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
-
     onPlaceOrder({
       guestInfo,
       shippingAddress: {
@@ -72,7 +71,7 @@ export function CheckoutForm({ isPending, onPlaceOrder }: CheckoutFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col">
+    <form id="checkout-form" onSubmit={handleSubmit} className="flex flex-col">
       <Link
         href="/shop"
         className="mb-8 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"

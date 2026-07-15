@@ -79,6 +79,7 @@ export function OrderSummary({ isPending }: OrderSummaryProps) {
       <div className="mt-8 hidden space-y-4 lg:block">
         <Button
           type="submit"
+          form="checkout-form"
           size="lg"
           disabled={isPending}
           className="h-12 w-full bg-primary text-base text-primary-foreground hover:bg-primary/90"
