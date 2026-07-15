@@ -1,29 +1,52 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, CheckCircle2, UserPlus } from "lucide-react";
+import { EmptyState } from "@/components/ui/empty-state";
+import { ArrowRight, CheckCircle2, PackageX } from "lucide-react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
 
-export default function OrderSuccessPage() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const orderId = searchParams.get("orderId");
+interface PageProps {
+  searchParams: Promise<{
+    orderNumber?: string;
+  }>;
+}
 
-  // Redirect to home if accessed directly without an order ID
-  useEffect(() => {
-    if (!orderId) {
-      router.push("/");
-    }
-  }, [orderId, router]);
+export const metadata = {
+  title: "Order Placed Successfully",
+  description:
+    "Your order has been placed successfully. Thank you for shopping with us.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
-  if (!orderId) return null;
+export default async function OrderSuccessPage({ searchParams }: PageProps) {
+  const { orderNumber } = await searchParams;
+
+  // ---
+  // Guard — show empty state if no orderNumber in URL
+  // ---
+  if (!orderNumber) {
+    return (
+      <div className="flex min-h-screen flex-col bg-background">
+        <main className="flex flex-1 items-center justify-center px-4 py-16 md:py-20">
+          <EmptyState
+            icon={<PackageX className="h-7 w-7" />}
+            title="Order not found"
+            description="We couldn't find this order. The link may be invalid or the order does not exist."
+            action={
+              <Button asChild variant="default">
+                <Link href="/shop">Continue Shopping</Link>
+              </Button>
+            }
+          />
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
-      {/* Main Content */}
       <main className="flex flex-1 items-center justify-center px-4 py-16 md:py-20">
         <div className="w-full max-w-xl space-y-10 text-center">
           {/* Success Indicator */}
@@ -50,7 +73,7 @@ export default function OrderSuccessPage() {
                   Order Number
                 </span>
                 <span className="font-mono text-sm font-semibold tracking-wide text-foreground">
-                  {orderId}
+                  {orderNumber}
                 </span>
               </div>
               <div className="flex items-center justify-between">
@@ -63,8 +86,8 @@ export default function OrderSuccessPage() {
             </CardContent>
           </Card>
 
-          {/* Guest to Registered Prompt */}
-          <Card className="border-border bg-background">
+          {/* Guest to Registered Prompt — Updated for future auth flow */}
+          {/* <Card className="border-border bg-background">
             <CardContent className="flex flex-col items-center gap-4 p-6 text-left sm:flex-row">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/5 text-primary">
                 <UserPlus className="h-5 w-5" />
@@ -84,10 +107,12 @@ export default function OrderSuccessPage() {
                 size="sm"
                 className="shrink-0 border-border text-foreground hover:bg-muted"
               >
-                <Link href={`/signup?orderId=${orderId}`}>Create Account</Link>
+                <Link href={`/signup?orderNumber=${orderNumber}`}>
+                  Create Account
+                </Link>
               </Button>
             </CardContent>
-          </Card>
+          </Card> */}
 
           {/* Primary Actions */}
           <div className="flex flex-col items-center justify-center gap-4 pt-4 sm:flex-row">

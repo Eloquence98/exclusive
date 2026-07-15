@@ -12,8 +12,12 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "ATELIER | Premium E-Commerce",
-  description: "A quiet luxury shopping experience.",
+  title: {
+    template: "%s / ATELIER",
+    default: "Welcome / ATELIER",
+  },
+  description:
+    "Welcome to the official ATELIER's online store. Shop new arrivals & latest trends for men, women and juniors online.",
 };
 
 export const viewport: Viewport = {
@@ -26,15 +30,6 @@ export const viewport: Viewport = {
     { media: "(prefers-color-scheme: dark)", color: "#09090b" },
   ],
 };
-
-// export const metadata: Metadata = {
-//   title: {
-//     template: "%s / Exclusive",
-//     default: "Welcome / Exclusive",
-//   },
-//   description:
-//     "Welcome to the official Exclusive's online store. Shop new arrivals & latest trends for men, women and juniors online.",
-// };
 
 export default function RootLayout({
   children,
