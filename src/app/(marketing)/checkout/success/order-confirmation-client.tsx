@@ -207,7 +207,14 @@ export function OrderConfirmationClient({
               size="lg"
               className="w-full bg-primary text-primary-foreground hover:bg-primary/90 sm:w-auto"
             >
-              <Link href={`/orders/track/${order.orderNumber}`}>
+              <Link
+                href={{
+                  pathname: `/orders/track/${order.orderNumber}`,
+                  query: {
+                    token,
+                  },
+                }}
+              >
                 Track Order
               </Link>
             </Button>
