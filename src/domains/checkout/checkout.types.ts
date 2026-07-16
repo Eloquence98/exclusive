@@ -118,3 +118,68 @@ export interface OrderConfirmation {
   orderStatus: OrderStatus;
   estimatedDelivery: ConfirmationEstimatedDelivery;
 }
+
+/**
+ * Order tracking data returned by.
+ * GET /api/v1/orders/:orderNumber/tracking?token=:token
+ * GET /api/v1/orders/:orderNumber/tracking?email=:email
+ */
+export interface OrderTracking {
+  id: string;
+  orderNumber: string;
+
+  status: {
+    current: OrderStatus;
+
+    history: {
+      status: OrderStatus;
+      timestamp: string;
+      note?: string;
+    }[];
+
+    progress: {
+      percent: number;
+      remainingSeconds: number;
+      estimatedDelivery?: string;
+    };
+  };
+
+  customer: {
+    name: string;
+    phone: string;
+  };
+
+  items: {
+    id: string;
+    name: string;
+    imageUrl: string;
+    quantity: number;
+    price: number;
+    total: number;
+  }[];
+
+  shippingAddress: {
+    name: string;
+    phone: string;
+    addressLine1: string;
+    addressLine2?: string;
+    city: string;
+    zipCode: string;
+    country: string;
+  };
+
+  payment: {
+    method: PaymentMethod;
+    status: PaymentStatus;
+  };
+
+  pricing: {
+    subtotal: number;
+    shippingCost: number;
+    total: number;
+    currency: string;
+  };
+
+  createdAt: string;
+  updatedAt: string;
+}
