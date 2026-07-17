@@ -19,6 +19,12 @@ export interface OrderProduct {
   quantity: number;
 }
 
+export interface OrderStatusHistory {
+  status: OrderStatus;
+  note?: string;
+  timestamp: string;
+}
+
 // ---
 // Order Confirmation types
 // Returned by GET /orders/:orderNumber/confirmation?token=:token
@@ -105,11 +111,7 @@ export interface OrderTracking {
 
   orderStatus: OrderStatus;
 
-  statusHistory: {
-    status: OrderStatus;
-    note?: string;
-    timestamp: string;
-  }[];
+  statusHistory: OrderStatusHistory[];
 
   trackingNumber?: string;
 

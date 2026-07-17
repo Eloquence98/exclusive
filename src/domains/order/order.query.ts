@@ -1,21 +1,23 @@
 import { queryOptions } from "@tanstack/react-query";
-import { OrderStatus } from "../order/order.types";
 import * as orderApi from "./order.api";
+import { OrderStatus } from "./order.types";
 
 /**
- * Query key factory for checkout domain.
+ * Query key factory for order domain.
  *
  * Key hierarchy:
- * ['checkout']
- *   ['checkout', 'confirmation', orderNumber]
- *   ['checkout', 'tracking', orderNumber]
+ * ['order']
+ *   ['order', 'confirmation', orderNumber]
+ *   ['order', 'tracking', orderNumber]
  */
-export const checkoutKeys = {
-  all: ["checkout"] as const,
+export const orderKeys = {
+  all: ["order"] as const,
+
   confirmation: (orderNumber: string) =>
-    [...checkoutKeys.all, "confirmation", orderNumber] as const,
+    [...orderKeys.all, "confirmation", orderNumber] as const,
+
   tracking: (orderNumber: string) =>
-    [...checkoutKeys.all, "tracking", orderNumber] as const,
+    [...orderKeys.all, "tracking", orderNumber] as const,
 };
 
 /**
@@ -30,11 +32,15 @@ const TERMINAL_STATUSES: OrderStatus[] = ["delivered", "cancelled"];
  */
 export const orderConfirmationOptions = (orderNumber: string, token: string) =>
   queryOptions({
-    queryKey: checkoutKeys.confirmation(orderNumber),
+    queryKey: orderKeys.confirmation(orderNumber),
+
     queryFn: () => orderApi.getOrderConfirmation(orderNumber, token),
+
     staleTime: 30 * 1000,
+
     refetchInterval: (query) => {
       const status = query.state.data?.orderStatus;
+
       if (status && TERMINAL_STATUSES.includes(status)) {
         return false;
       }
@@ -45,7 +51,6 @@ export const orderConfirmationOptions = (orderNumber: string, token: string) =>
 
 /**
  * Order tracking query options.
- *
  */
 export const orderTrackingOptions = (
   orderNumber: string,
@@ -55,7 +60,9 @@ export const orderTrackingOptions = (
   },
 ) =>
   queryOptions({
-    queryKey: checkoutKeys.tracking(orderNumber),
+    queryKey: orderKeys.tracking(orderNumber),
+
     queryFn: () => orderApi.getOrderTracking(orderNumber, options),
+
     staleTime: 30 * 1000,
   });
