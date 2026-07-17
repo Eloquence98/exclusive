@@ -32,7 +32,15 @@ function SuccessContent() {
         </p>
         <div className="flex gap-4">
           {orderNumber && (
-            <Button as="link" href={`/orders/track/${orderNumber}`}>
+            <Button
+              as="link"
+              href={{
+                pathname: `/orders/track`,
+                query: {
+                  orderNumber,
+                },
+              }}
+            >
               Track Order
             </Button>
           )}

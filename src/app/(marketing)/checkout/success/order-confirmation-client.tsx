@@ -209,8 +209,9 @@ export function OrderConfirmationClient({
             >
               <Link
                 href={{
-                  pathname: `/orders/track/${order.orderNumber}`,
+                  pathname: `/orders/track`,
                   query: {
+                    orderNumber,
                     token,
                   },
                 }}
