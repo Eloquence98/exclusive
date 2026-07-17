@@ -1,6 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
-import * as checkoutApi from "./checkout.api";
-import type { OrderStatus } from "./checkout.types";
+import { OrderStatus } from "../order/order.types";
+import * as orderApi from "./order.api";
 
 /**
  * Query key factory for checkout domain.
@@ -31,7 +31,7 @@ const TERMINAL_STATUSES: OrderStatus[] = ["delivered", "cancelled"];
 export const orderConfirmationOptions = (orderNumber: string, token: string) =>
   queryOptions({
     queryKey: checkoutKeys.confirmation(orderNumber),
-    queryFn: () => checkoutApi.getOrderConfirmation(orderNumber, token),
+    queryFn: () => orderApi.getOrderConfirmation(orderNumber, token),
     staleTime: 30 * 1000,
     refetchInterval: (query) => {
       const status = query.state.data?.orderStatus;
@@ -56,6 +56,6 @@ export const orderTrackingOptions = (
 ) =>
   queryOptions({
     queryKey: checkoutKeys.tracking(orderNumber),
-    queryFn: () => checkoutApi.getOrderTracking(orderNumber, options),
+    queryFn: () => orderApi.getOrderTracking(orderNumber, options),
     staleTime: 30 * 1000,
   });

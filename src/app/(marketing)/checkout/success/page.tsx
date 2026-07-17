@@ -1,5 +1,5 @@
-import { orderConfirmationOptions } from "@/domains/checkout/checkout.query";
 import { getQueryClient } from "@/lib/get-query-client";
+import { orderConfirmationOptions } from "@/src/domains/order/order.query";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";

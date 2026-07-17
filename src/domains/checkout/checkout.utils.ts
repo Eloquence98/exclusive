@@ -1,7 +1,6 @@
-// src/domains/checkout/checkout.utils.ts
-
 import type { CartItem } from "@/domains/cart/cart.types";
-import type { OrderProduct, ShippingCalculation } from "./checkout.types";
+import { OrderProduct } from "../order/order.types";
+import type { ShippingCalculation } from "./checkout.types";
 
 // ---
 // Shipping constants
