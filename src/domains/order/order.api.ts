@@ -1,4 +1,4 @@
-import { ApiResponse } from "@/src/types/api";
+import { ApiResponse } from "@/types/api";
 import { OrderConfirmation, OrderTracking } from "./order.types";
 
 const API_BASE_URL =

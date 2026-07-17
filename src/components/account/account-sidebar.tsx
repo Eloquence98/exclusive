@@ -2,7 +2,7 @@
 
 import { logoutUser } from "@/lib/api";
 import { useAuthStore } from "@/lib/auth-store";
-import { cn } from "@/src/utils/utility";
+import { cn } from "@/utils/utility";
 import { Loader2, LogOut, Settings, ShoppingBag, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";

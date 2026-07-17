@@ -15,7 +15,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { useCartStore } from "@/src/domains/cart/cart.store";
+import { useCartStore } from "@/domains/cart/cart.store";
 import { ShoppingBag } from "lucide-react";
 import Link from "next/link";
 import { CartItem } from "./cart-item";

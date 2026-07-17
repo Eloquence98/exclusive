@@ -4,7 +4,7 @@ import { ProductAccordions } from "@/components/commerce/product-accordions";
 import { ProductDetailsTabs } from "@/components/commerce/product-details-tabs";
 import { ProductGallery } from "@/components/commerce/product-gallery";
 import { ProductInfo } from "@/components/commerce/product-info";
-import { productDetailOptions } from "@/src/domains/catalog/products.query";
+import { productDetailOptions } from "@/domains/catalog/products.query";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { notFound } from "next/navigation";
 

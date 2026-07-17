@@ -1,6 +1,6 @@
-import { productListOptions } from "@/src/domains/catalog/products.query";
+import { productListOptions } from "@/domains/catalog/products.query";
 import type { ShopParams } from "@/hooks/useShopParams";
-import { getQueryClient } from "@/src/lib/get-query-client";
+import { getQueryClient } from "@/lib/get-query-client";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import type { Metadata } from "next";
 import ShopClient from "./shop-client";

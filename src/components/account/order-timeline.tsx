@@ -1,5 +1,5 @@
 import { type TimelineStep } from "@/lib/api";
-import { cn } from "@/src/utils/utility";
+import { cn } from "@/utils/utility";
 import { Check } from "lucide-react";
 
 interface OrderTimelineProps {

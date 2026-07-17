@@ -1,21 +1,10 @@
-// import RegisterUser from "@/components/RegisterUser";
-
-// export const metadata = {
-//   title: "Signup",
-// };
-// function page() {
-//   return <RegisterUser to="signup" />;
-// }
-
-// export default page;
-
 "use client";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { registerUser } from "@/lib/api";
-import { useAuthStore } from "@/src/lib/auth-store";
+import { useAuthStore } from "@/lib/auth-store";
 import { Eye, EyeOff, Loader2, Package } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";

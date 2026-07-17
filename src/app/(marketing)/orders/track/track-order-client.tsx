@@ -1,6 +1,6 @@
 "use client";
 
-import { orderTrackingOptions } from "@/src/domains/order/order.query";
+import { orderTrackingOptions } from "@/domains/order/order.query";
 import { useQuery } from "@tanstack/react-query";
 
 export default function TrackOrderClient({

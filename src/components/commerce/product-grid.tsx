@@ -5,7 +5,7 @@ import {
   NoSearchResultsEmptyState,
 } from "@/components/ui/empty-state";
 import { ProductGridSkeleton } from "@/components/ui/skeleton";
-import { productListOptions } from "@/src/domains/catalog/products.query";
+import { productListOptions } from "@/domains/catalog/products.query";
 import { useShopParams } from "@/hooks/useShopParams";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";

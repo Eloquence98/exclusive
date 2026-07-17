@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useCartStore } from "@/domains/cart/cart.store";
 import type {
   CreateOrderPayload,
   GuestInfo,
@@ -13,7 +14,6 @@ import {
   calculateShipping,
   calculateTotal,
 } from "@/domains/checkout/checkout.utils";
-import { useCartStore } from "@/src/domains/cart/cart.store";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";

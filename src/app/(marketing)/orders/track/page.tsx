@@ -1,5 +1,5 @@
+import { orderTrackingOptions } from "@/domains/order/order.query";
 import { getQueryClient } from "@/lib/get-query-client";
-import { orderTrackingOptions } from "@/src/domains/order/order.query";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import type { Metadata } from "next";
 import TrackOrderClient from "./track-order-client";

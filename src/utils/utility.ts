@@ -51,14 +51,6 @@ export function getPaginationRange(currentPage: number, totalPages: number) {
   return rangeWithDots;
 }
 
-export function formatCurrency(price: number) {
-  const formater = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-  });
-  return formater.format(price);
-}
-
 export function getTotalPrice(arrayToReduce = []) {
   const totalPrice = arrayToReduce.reduce((acc, cur) => {
     return acc + cur?.price || 0;
@@ -84,3 +76,59 @@ export function classNames(...xs) {
 export function starRating(rating: number) {
   return Math.round(rating * 2) / 2; // round to nearest half
 }
+
+export const formatCurrency = (amount: number, currency = "USD"): string => {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(amount);
+};
+
+export const formatDate = (
+  iso: string,
+  opts?: Intl.DateTimeFormatOptions,
+): string => {
+  return new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    ...opts,
+  }).format(new Date(iso));
+};
+
+export const formatDateTime = (iso: string): string => {
+  return new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  }).format(new Date(iso));
+};
+
+export const formatTime = (iso: string): string => {
+  return new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  }).format(new Date(iso));
+};
+
+export const formatRelative = (iso: string): string => {
+  const target = new Date(iso).getTime();
+  const now = new Date("2026-02-17T08:00:00Z").getTime();
+  const diffMs = target - now;
+  const diffMin = Math.round(diffMs / (1000 * 60));
+  const diffHr = Math.round(diffMs / (1000 * 60 * 60));
+  const diffDay = Math.round(diffMs / (1000 * 60 * 60 * 24));
+  if (Math.abs(diffMin) < 60)
+    return diffMin <= 0 ? `${Math.abs(diffMin)} min ago` : `in ${diffMin} min`;
+  if (Math.abs(diffHr) < 24)
+    return diffHr <= 0 ? `${Math.abs(diffHr)} hr ago` : `in ${diffHr} hr`;
+  return diffDay <= 0
+    ? `${Math.abs(diffDay)} day${Math.abs(diffDay) === 1 ? "" : "s"} ago`
+    : `in ${diffDay} day${diffDay === 1 ? "" : "s"}`;
+};

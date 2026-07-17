@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatShippingCost } from "@/domains/checkout/checkout.utils";
-import { orderConfirmationOptions } from "@/src/domains/order/order.query";
+import { orderConfirmationOptions } from "@/domains/order/order.query";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowRight, CheckCircle2, MapPin, UserPlus } from "lucide-react";
 import Image from "next/image";

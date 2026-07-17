@@ -3,7 +3,7 @@
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/domains/cart/cart.store";
-import type { Product } from "@/src/domains/catalog/product.types";
+import type { Product } from "@/domains/catalog/product.types";
 import { cn } from "@/utils/utility";
 import { Check, Star } from "lucide-react";
 import { useState } from "react";

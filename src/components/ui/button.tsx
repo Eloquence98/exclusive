@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/src/utils/utility";
+import { cn } from "@/utils/utility";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { motion, type HTMLMotionProps } from "framer-motion";

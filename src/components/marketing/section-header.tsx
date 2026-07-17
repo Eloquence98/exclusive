@@ -1,4 +1,4 @@
-import { cn } from "@/src/utils/utility";
+import { cn } from "@/utils/utility";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 

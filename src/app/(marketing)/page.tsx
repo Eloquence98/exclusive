@@ -1,11 +1,3 @@
-import {
-  featuredProductsOptions,
-  topRatedProductsOptions,
-  trendingProductsOptions,
-} from "@/src/domains/catalog/products.query";
-import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
-import { Suspense } from "react";
-
 import { ProductSectionSkeleton } from "@/components/commerce/product-section-skeleton";
 import { CategoryBentoGrid } from "@/components/marketing/category-bento-grid";
 import { FeaturedProducts } from "@/components/marketing/featured-products";
@@ -15,7 +7,14 @@ import { Testimonials } from "@/components/marketing/testimonials";
 import { TopRatedProducts } from "@/components/marketing/top-rated-products";
 import { TrendingProducts } from "@/components/marketing/trending-products";
 import { WhyChooseUs } from "@/components/marketing/why-choose-us";
-import { getQueryClient } from "@/src/lib/get-query-client";
+import {
+  featuredProductsOptions,
+  topRatedProductsOptions,
+  trendingProductsOptions,
+} from "@/domains/catalog/products.query";
+import { getQueryClient } from "@/lib/get-query-client";
+import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
+import { Suspense } from "react";
 
 export default function Home() {
   const queryClient = getQueryClient();

@@ -1,5 +1,5 @@
 import { type OrderStatus } from "@/lib/api";
-import { cn } from "@/src/utils/utility";
+import { cn } from "@/utils/utility";
 
 const statusStyles: Record<OrderStatus, string> = {
   Processing: "bg-amber-500/10 text-amber-700 border-amber-500/20",
