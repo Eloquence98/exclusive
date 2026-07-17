@@ -120,7 +120,7 @@ export interface OrderConfirmation {
 }
 
 /**
- * Order tracking data returned by.
+ * Order data returned by:
  * GET /api/v1/orders/:orderNumber/tracking?token=:token
  * GET /api/v1/orders/:orderNumber/tracking?email=:email
  */
@@ -128,34 +128,12 @@ export interface OrderTracking {
   id: string;
   orderNumber: string;
 
-  status: {
-    current: OrderStatus;
-
-    history: {
-      status: OrderStatus;
-      timestamp: string;
-      note?: string;
-    }[];
-
-    progress: {
-      percent: number;
-      remainingSeconds: number;
-      estimatedDelivery?: string;
-    };
-  };
-
-  customer: {
-    name: string;
-    phone: string;
-  };
-
-  items: {
-    id: string;
+  products: {
+    product: string;
+    quantity: number;
+    priceAtPurchase: number;
     name: string;
     imageUrl: string;
-    quantity: number;
-    price: number;
-    total: number;
   }[];
 
   shippingAddress: {
@@ -168,17 +146,22 @@ export interface OrderTracking {
     country: string;
   };
 
-  payment: {
-    method: PaymentMethod;
-    status: PaymentStatus;
-  };
+  paymentMethod: PaymentMethod;
+  paymentStatus: PaymentStatus;
 
-  pricing: {
-    subtotal: number;
-    shippingCost: number;
-    total: number;
-    currency: string;
-  };
+  subtotal: number;
+  shippingCost: number;
+  totalAmount: number;
+
+  orderStatus: OrderStatus;
+
+  statusHistory: {
+    status: OrderStatus;
+    note?: string;
+    timestamp: string;
+  }[];
+
+  trackingNumber?: string;
 
   createdAt: string;
   updatedAt: string;
