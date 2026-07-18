@@ -116,19 +116,3 @@ export const formatTime = (iso: string): string => {
     hour12: true,
   }).format(new Date(iso));
 };
-
-export const formatRelative = (iso: string): string => {
-  const target = new Date(iso).getTime();
-  const now = new Date("2026-02-17T08:00:00Z").getTime();
-  const diffMs = target - now;
-  const diffMin = Math.round(diffMs / (1000 * 60));
-  const diffHr = Math.round(diffMs / (1000 * 60 * 60));
-  const diffDay = Math.round(diffMs / (1000 * 60 * 60 * 24));
-  if (Math.abs(diffMin) < 60)
-    return diffMin <= 0 ? `${Math.abs(diffMin)} min ago` : `in ${diffMin} min`;
-  if (Math.abs(diffHr) < 24)
-    return diffHr <= 0 ? `${Math.abs(diffHr)} hr ago` : `in ${diffHr} hr`;
-  return diffDay <= 0
-    ? `${Math.abs(diffDay)} day${Math.abs(diffDay) === 1 ? "" : "s"} ago`
-    : `in ${diffDay} day${diffDay === 1 ? "" : "s"}`;
-};
