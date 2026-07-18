@@ -8,18 +8,22 @@ import { createOrderMutationOptions } from "@/domains/checkout/checkout.mutation
 import type { CreateOrderPayload } from "@/domains/checkout/checkout.types";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { useRef } from "react";
 import { toast } from "sonner";
 
 export default function CheckoutPage() {
   const router = useRouter();
+  const isRedirectingRef = useRef(false);
   const { items, clearCart } = useCartStore();
 
   const { mutate: placeOrder, isPending } = useMutation({
     ...createOrderMutationOptions,
     onSuccess: (data) => {
+      isRedirectingRef.current = true;
       clearCart();
+
       toast.success("Order placed successfully!");
-      router.push(
+      router.replace(
         `/checkout/success?orderNumber=${data.orderNumber}&token=${data.accessToken}`,
       );
     },
@@ -28,7 +32,7 @@ export default function CheckoutPage() {
     },
   });
 
-  if (items.length === 0) {
+  if (items.length === 0 && !isRedirectingRef.current) {
     return (
       <div className="min-h-screen bg-background">
         <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16 lg:px-8">
