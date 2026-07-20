@@ -7,16 +7,28 @@ import { Input } from "./input";
 
 interface SearchInputProps {
   className?: string;
+  placeholder?: string;
+  onChange?: (value: string) => void;
+  onSubmit?: (value: string) => void;
+  onClear?: () => void;
+  children?: React.ReactNode;
 }
 
-export function SearchInput({ className }: SearchInputProps) {
+export function SearchInput({
+  className,
+  placeholder = "Search products...",
+  onChange,
+  onSubmit,
+  onClear,
+  children,
+}: SearchInputProps) {
   const [isExpanded, setIsExpanded] = React.useState(false);
   const [query, setQuery] = React.useState("");
   const inputRef = React.useRef<HTMLInputElement>(null);
+  const containerRef = React.useRef<HTMLDivElement>(null);
 
   const handleExpand = () => {
     setIsExpanded(true);
-    // Small delay to ensure the DOM has updated before focusing
     setTimeout(() => inputRef.current?.focus(), 100);
   };
 
@@ -26,22 +38,40 @@ export function SearchInput({ className }: SearchInputProps) {
     }
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setQuery(value);
+    onChange?.(value);
+  };
+
   const handleClear = () => {
     setQuery("");
+    onClear?.();
     inputRef.current?.focus();
   };
 
-  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Future implementation: router.push(`/shop?search=${encodeURIComponent(query)}`)
-    console.log("Searching for:", query);
+    onSubmit?.(query);
   };
 
+  React.useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
+        handleCollapse();
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [query]);
+
   return (
-    <form
-      onSubmit={handleSubmit}
+    <div
+      ref={containerRef}
       className={cn("relative flex items-center", className)}
-      role="search"
     >
       {/* Search Icon / Toggle Button */}
       {!isExpanded && (
@@ -58,34 +88,44 @@ export function SearchInput({ className }: SearchInputProps) {
       {/* Expanding Input Container */}
       <div
         className={cn(
-          "absolute right-0 flex items-center overflow-hidden rounded-lg border bg-white transition-all duration-300 ease-in-out",
-          isExpanded ? "w-64 border-zinc-200 shadow-sm" : "w-0 border-none",
+          "absolute right-0 top-0 overflow-hidden rounded-lg border bg-background transition-all duration-300 ease-in-out",
+          isExpanded
+            ? "w-80 border-border shadow-md"
+            : "w-0 border-none shadow-none",
         )}
       >
-        <div className="relative flex flex-1 items-center">
-          <Search className="pointer-events-none absolute left-3 h-4 w-4 text-zinc-400" />
-          <Input
-            ref={inputRef}
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onBlur={handleCollapse}
-            placeholder="Search products..."
-            className="h-10 w-full border-0 bg-transparent pl-9 pr-9 focus-visible:ring-0 focus-visible:ring-offset-0"
-            aria-label="Search products"
-          />
-          {query && (
-            <button
-              type="button"
-              onClick={handleClear}
-              className="absolute right-2 flex h-6 w-6 items-center justify-center rounded-full text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-900"
-              aria-label="Clear search"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          )}
-        </div>
+        {isExpanded && (
+          <form onSubmit={handleSubmit}>
+            <div className="relative flex items-center">
+              <Search className="pointer-events-none absolute left-3 h-4 w-4 text-muted-foreground" />
+              <Input
+                ref={inputRef}
+                type="search"
+                value={query}
+                onChange={handleInputChange}
+                onBlur={handleCollapse}
+                placeholder={placeholder}
+                className="h-10 w-full border-0 bg-transparent pl-9 pr-9 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+                aria-label={placeholder}
+                autoComplete="off"
+              />
+              {query && (
+                <button
+                  type="button"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={handleClear}
+                  className="absolute right-2 flex h-6 w-6 items-center justify-center rounded-full text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-900"
+                  aria-label="Clear search"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </div>
+            {/* Slot for dropdown content — rendered by parent */}
+            {children}
+          </form>
+        )}
       </div>
-    </form>
+    </div>
   );
 }

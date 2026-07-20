@@ -2,8 +2,8 @@
 
 import { CartDrawer } from "@/components/commerce/cart-drawer";
 import { Button } from "@/components/ui/button";
-import { SearchInput } from "@/components/ui/search-input";
 import { useCartStore } from "@/domains/cart/cart.store";
+import { SearchAutocomplete } from "@/domains/search/search-autocomplete";
 import { cn } from "@/utils/utility";
 import { ShoppingBag, User } from "lucide-react";
 import Link from "next/link";
@@ -67,8 +67,8 @@ export function Navbar() {
 
             {/* Right: Actions */}
             <div className="flex items-center space-x-1">
-              <div className="hidden sm:block">
-                <SearchInput />
+              <div className="hidden sm:block sm:self-start">
+                <SearchAutocomplete />
               </div>
 
               {/* Profile / Account */}
