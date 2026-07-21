@@ -32,11 +32,11 @@ export function SearchInput({
     setTimeout(() => inputRef.current?.focus(), 100);
   };
 
-  const handleCollapse = () => {
+  const handleCollapse = React.useCallback(() => {
     if (!query) {
       setIsExpanded(false);
     }
-  };
+  }, [query]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -66,7 +66,7 @@ export function SearchInput({
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [query]);
+  }, [handleCollapse]);
 
   return (
     <div
