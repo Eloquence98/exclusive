@@ -1,22 +1,8 @@
-// import RegisterUser from "@/components/RegisterUser";
-
-// export const metadata = {
-//   title: "Login",
-// };
-
-// function Page() {
-//   return <RegisterUser />;
-// }
-
-// export default Page;
-
 "use client";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { loginUser } from "@/lib/api";
-import { useAuthStore } from "@/lib/auth-store";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -29,20 +15,24 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const login = useAuthStore((state) => state.login);
 
-  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      const response = await loginUser({ email, password });
+      // TODO: Implement login with backend
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-      // Save to global state and localStorage
-      login(response.token, response.user);
+      if (!response.ok) {
+        throw new Error("Invalid email or password");
+      }
 
       toast.success("Welcome back!");
-
       router.push("/account");
       router.refresh();
     } catch (error: any) {

@@ -1,9 +1,7 @@
 "use client";
 
-import { logoutUser } from "@/lib/api";
-import { useAuthStore } from "@/lib/auth-store";
 import { cn } from "@/utils/utility";
-import { Loader2, LogOut, Settings, ShoppingBag, User } from "lucide-react";
+import { LogOut, Settings, ShoppingBag, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -18,14 +16,12 @@ const navItems = [
 export function AccountSidebar() {
   const pathname = usePathname();
   const router = useRouter();
-  const { user, logout } = useAuthStore();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
     try {
-      await logoutUser();
-      logout(); // Clear Zustand store
+      // TODO: Implement logout with backend
       toast.success("Logged out successfully");
       router.push("/login");
       router.refresh();
@@ -43,7 +39,7 @@ export function AccountSidebar() {
           Welcome back,
         </p>
         <h2 className="truncate text-lg font-semibold tracking-tight text-foreground">
-          {user?.name || "Customer"}
+          Customer
         </h2>
       </div>
 
@@ -76,7 +72,7 @@ export function AccountSidebar() {
           className="mt-auto flex items-center gap-3 whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
         >
           {isLoggingOut ? (
-            <Loader2 className="h-4 w-4 shrink-0 animate-spin" />
+            <LogOut className="h-4 w-4 shrink-0 animate-spin" />
           ) : (
             <LogOut className="h-4 w-4 shrink-0" />
           )}

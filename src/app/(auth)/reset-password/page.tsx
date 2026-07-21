@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { resetPassword } from "@/lib/api";
 import { ArrowLeft, Eye, EyeOff, Loader2, Lock } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -30,7 +29,7 @@ export default function ResetPasswordPage() {
 
   if (!token) return null;
 
-  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
@@ -46,7 +45,18 @@ export default function ResetPasswordPage() {
     setIsLoading(true);
 
     try {
-      await resetPassword(token, password);
+      // TODO: Implement password reset with backend
+      const response = await fetch("/api/auth/reset-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token, password }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || "Failed to reset password");
+      }
+
       toast.success("Password reset successfully! Please log in.");
       router.push("/login");
     } catch (error: any) {

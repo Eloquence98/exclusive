@@ -10,19 +10,16 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { updateUserProfile } from "@/lib/api";
-import { useAuthStore } from "@/lib/auth-store";
 import { Camera, Loader2, User } from "lucide-react";
-import { SubmitEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import { toast } from "sonner";
 
 export default function ProfilePage() {
-  const { user, updateUser } = useAuthStore();
-
-  const [name, setName] = useState(user?.name || "");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!name.trim()) {
       toast.error("Name cannot be empty");
@@ -31,8 +28,7 @@ export default function ProfilePage() {
 
     setIsLoading(true);
     try {
-      await updateUserProfile({ name });
-      updateUser({ name }); // Update local Zustand store
+      // TODO: Implement profile update with backend
       toast.success("Profile updated successfully");
     } catch (error: any) {
       toast.error(error.message || "Failed to update profile");
@@ -68,9 +64,9 @@ export default function ProfilePage() {
               <div className="group relative">
                 {/* Avatar Placeholder */}
                 <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border border-border bg-muted text-muted-foreground">
-                  {user?.name ? (
+                  {name ? (
                     <span className="text-2xl font-semibold text-foreground">
-                      {user.name.charAt(0).toUpperCase()}
+                      {name.charAt(0).toUpperCase()}
                     </span>
                   ) : (
                     <User className="h-10 w-10" />
@@ -134,7 +130,8 @@ export default function ProfilePage() {
                 <Input
                   id="email"
                   type="email"
-                  value={user?.email || ""}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   disabled
                   className="h-11 cursor-not-allowed border-border bg-muted text-muted-foreground"
                 />
@@ -148,7 +145,7 @@ export default function ProfilePage() {
             <div className="flex justify-end">
               <Button
                 type="submit"
-                disabled={isLoading || name === user?.name}
+                disabled={isLoading || !name.trim()}
                 className="bg-primary text-primary-foreground hover:bg-primary/90"
               >
                 {isLoading ? (

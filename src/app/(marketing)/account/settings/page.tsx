@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { updateUserPassword } from "@/lib/api";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { FormEvent, useState } from "react";
 import { toast } from "sonner";
@@ -36,7 +35,7 @@ export default function SettingsPage() {
     setIsLoading(true);
 
     try {
-      await updateUserPassword({ currentPassword, newPassword });
+      // TODO: Implement password update with backend
       toast.success("Password updated successfully");
 
       // Clear form

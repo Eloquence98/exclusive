@@ -3,8 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { registerUser } from "@/lib/api";
-import { useAuthStore } from "@/lib/auth-store";
 import { Eye, EyeOff, Loader2, Package } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -22,7 +20,6 @@ export default function SignupPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const login = useAuthStore((state) => state.login);
 
   // Pre-fill email if passed from checkout (optional enhancement) tempeto
   useEffect(() => {
@@ -46,15 +43,22 @@ export default function SignupPage() {
     setIsLoading(true);
 
     try {
-      const response = await registerUser({
-        name,
-        email,
-        password,
-        ...(orderId && { orderId }),
+      // TODO: Implement signup with backend
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+          ...(orderId && { orderId }),
+        }),
       });
 
-      // Save to global state and localStorage
-      login(response.token, response.user);
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || "Failed to create account");
+      }
 
       toast.success(
         orderId
