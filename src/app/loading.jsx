@@ -1,9 +1,7 @@
-import Spinner from "@/components/Spinner";
-
 function Loading() {
   return (
     <div className="flex h-view w-full items-center justify-center">
-      <Spinner />
+      <div className="h-8 w-8 animate-spin rounded-full border-2 border-zinc-900 border-t-transparent" />
     </div>
   );
 }
