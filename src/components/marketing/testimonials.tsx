@@ -132,7 +132,7 @@ export function Testimonials() {
               // Mobile: 80vw width. Desktop: Fixed 400px width to show ~3 cards.
               className="min-w-[80vw] flex-shrink-0 snap-start md:min-w-[400px]"
             >
-              <div className="flex h-full flex-col rounded-2xl border border-zinc-100 bg-white p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)] md:p-8">
+              <div className="flex h-full flex-col rounded-2xl border border-muted bg-white p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)] md:p-8">
                 {/* Large Quotation Mark */}
                 <Quote
                   className="mb-6 h-10 w-10 text-zinc-200"
@@ -160,8 +160,8 @@ export function Testimonials() {
                 </p>
 
                 {/* User Avatar & Info */}
-                <div className="flex items-center gap-4 border-t border-zinc-100 pt-6">
-                  <div className="relative h-12 w-12 overflow-hidden rounded-full bg-zinc-100">
+                <div className="flex items-center gap-4 border-t border-muted pt-6">
+                  <div className="relative h-12 w-12 overflow-hidden rounded-full bg-muted">
                     <Image
                       src={testimonial.author.avatar}
                       alt={testimonial.author.name}

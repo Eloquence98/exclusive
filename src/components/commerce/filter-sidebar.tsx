@@ -13,7 +13,6 @@ import { Slider } from "@/components/ui/slider";
 import { catalogStatsOptions } from "@/domains/catalog/products.query";
 import { useShopParams } from "@/hooks/useShopParams";
 import { cn } from "@/utils/utility";
-import { Skeleton } from "@heroui/react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Star } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -213,18 +212,18 @@ export function FilterSidebarSkeleton() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <Skeleton className="h-6 w-16" />
-        <Skeleton className="h-4 w-14" />
+        <div className="h-6 w-16 animate-pulse rounded bg-muted" />
+        <div className="h-4 w-14 animate-pulse rounded bg-muted" />
       </div>
       <div className="space-y-6">
         {Array.from({ length: 4 }).map((_, i) => (
           <div key={i} className="space-y-3">
-            <Skeleton className="h-5 w-24" />
+            <div className="h-5 w-24 animate-pulse rounded bg-muted" />
             <div className="space-y-2 pl-1">
               {Array.from({ length: 4 }).map((_, j) => (
                 <div key={j} className="flex items-center gap-3">
-                  <Skeleton className="h-4 w-4 rounded" />
-                  <Skeleton className="h-4 w-32" />
+                  <div className="h-4 w-4 animate-pulse rounded bg-muted" />
+                  <div className="h-4 w-32 animate-pulse rounded bg-muted" />
                 </div>
               ))}
             </div>

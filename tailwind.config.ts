@@ -1,11 +1,9 @@
-import { heroui } from "@heroui/react";
 import type { Config } from "tailwindcss";
 
 const config = {
   content: [
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     container: {
@@ -156,27 +154,7 @@ const config = {
     },
   },
   darkMode: "class",
-  plugins: [
-    require("tailwindcss-animate"),
-    heroui({
-      themes: {
-        light: {
-          layout: {
-            radius: {
-              small: "0.375rem",
-            },
-          },
-        },
-        dark: {
-          layout: {
-            radius: {
-              small: "0.375rem",
-            },
-          },
-        },
-      },
-    }),
-  ],
+  plugins: [require("tailwindcss-animate")],
 } satisfies Config;
 
 export default config;

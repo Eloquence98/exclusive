@@ -2,7 +2,7 @@ import { cn } from "@/utils/utility";
 
 /**
  * Base Skeleton Primitive
- * Blueprint: "subtle shimmer animation (animate-pulse bg-zinc-100 rounded-lg)"
+ * Blueprint: "subtle shimmer animation (animate-pulse bg-muted rounded-lg)"
  */
 function Skeleton({
   className,
@@ -10,7 +10,7 @@ function Skeleton({
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn("animate-pulse rounded-lg bg-zinc-100", className)}
+      className={cn("animate-pulse rounded-lg bg-muted", className)}
       {...props}
     />
   );

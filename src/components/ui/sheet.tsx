@@ -52,7 +52,7 @@ const SheetContent = React.forwardRef<
       className={cn(
         "fixed z-50 gap-4 bg-white p-6 shadow-lg",
         // Premium spring-like transition (mimics Framer Motion stiffness: 300, damping: 30)
-        "ease-[cubic-bezier(0.32,0.72,0,1)] transition-[transform,opacity] duration-500",
+        "ease-&lsqb;cubic-bezier(0.32,0.72,0,1)&rsqb; transition-[transform,opacity] duration-500",
         "data-[state=closed]:duration-300 data-[state=closed]:ease-in",
         sheetVariants[side],
         className,
@@ -60,7 +60,7 @@ const SheetContent = React.forwardRef<
       {...props}
     >
       {children}
-      <DialogPrimitive.Close className="absolute right-4 top-4 rounded-full p-2 opacity-70 ring-offset-white transition-opacity hover:bg-zinc-100 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-zinc-100">
+      <DialogPrimitive.Close className="absolute right-4 top-4 rounded-full p-2 opacity-70 ring-offset-white transition-opacity hover:bg-muted hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-muted">
         <X className="h-4 w-4 text-zinc-950" />
         <span className="sr-only">Close</span>
       </DialogPrimitive.Close>

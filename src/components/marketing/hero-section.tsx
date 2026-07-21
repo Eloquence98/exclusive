@@ -28,7 +28,7 @@ const itemVariants: Variants = {
 
 export function HeroSection() {
   return (
-    <section className="relative h-[calc(100dvh-6rem)] w-full overflow-hidden bg-zinc-100">
+    <section className="relative h-[calc(100dvh-6rem)] w-full overflow-hidden bg-muted">
       {/* Background Image */}
       <Image
         src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2070&auto=format&fit=crop"
