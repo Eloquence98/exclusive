@@ -1,192 +1,28 @@
-> **This document defines architectural principles, not implementation details. Folder names, internal organization, and implementation may evolve over time, but the responsibilities and boundaries described here are considered stable.**
-
 # Frontend Architecture Blueprint v1
 
-## Vision
+> This document defines architectural principles, not implementation details. Folder names, internal organization, and implementation may evolve over time, but the responsibilities and boundaries described here are considered stable.
 
-The application is a **headless ecommerce frontend** built with **Next.js App Router**.
+# Vision
 
-Next.js is responsible for application composition and SEO.
+The application is a **headless ecommerce storefront** built with **Next.js App Router**.
 
-TanStack Query is responsible for all server state.
+Next.js is responsible for application composition, routing, and SEO.
+
+TanStack Query manages backend data synchronization and server state.
+
+Zustand manages client-side application state.
 
 The backend is the single source of truth for business data.
 
-The frontend consumes backend APIs and focuses on rendering UI and managing client interactions.
+The frontend consumes backend APIs and focuses on rendering UI and managing user interactions.
 
 ---
 
-# Core Principles
+# Authentication Strategy
 
-### 1. Single Source of Truth
+Authentication is not currently part of the storefront architecture.
 
-Business data is owned by the backend.
-
-The frontend never duplicates business logic or attempts to become another source of truth.
-
----
-
-### 2. Clear Ownership
-
-Every responsibility has exactly one owner.
-
-| Responsibility        | Owner              |
-| --------------------- | ------------------ |
-| Routing               | Next.js App Router |
-| Layouts               | Next.js            |
-| Metadata / SEO        | Next.js            |
-| Error Boundaries      | Next.js            |
-| Loading UI            | Next.js            |
-| Server State          | TanStack Query     |
-| HTTP Communication    | API Layer          |
-| UI Rendering          | React Components   |
-| Local Component State | useState           |
-| Global Client State   | Zustand            |
-| Business Data         | Backend            |
-
----
-
-### 3. Layered Architecture
-
-Every request follows the same pipeline.
-
-```text
-Browser
-    │
-    ▼
-Next.js Route
-    │
-    ▼
-Page
-    │
-    ▼
-UI Components
-    │
-    ▼
-TanStack Query
-    │
-    ▼
-API Layer
-    │
-    ▼
-Backend
-```
-
-Mutations follow the reverse path.
-
-```text
-User Action
-    │
-    ▼
-Mutation
-    │
-    ▼
-API Layer
-    │
-    ▼
-Backend
-    │
-    ▼
-Query Invalidation
-    │
-    ▼
-Updated UI
-```
-
----
-
-# Business Domains
-
-The application is organized around business domains rather than pages.
-
-Current domains include:
-
-- Authentication
-- Catalog (Products, Categories, Collections)
-- Search
-- Cart
-- Checkout
-- Orders
-- Wishlist
-- Account
-- Marketing
-
-Every new feature belongs to one business domain.
-
----
-
-# Application Layers
-
-## Route Layer
-
-Responsibilities:
-
-- Routes
-- Layouts
-- Metadata
-- SEO
-- Error pages
-- Loading pages
-- Route composition
-
-Does **not** contain business logic.
-
----
-
-## Presentation Layer
-
-Responsibilities:
-
-- React components
-- Rendering
-- Styling
-- User interaction
-
-Components should not communicate directly with the backend.
-
----
-
-## Query Layer
-
-Responsibilities:
-
-- Server state
-- Queries
-- Mutations
-- Cache management
-- Invalidations
-- Optimistic updates
-- Background synchronization
-
-Only TanStack Query manages server state.
-
----
-
-## API Layer
-
-Responsibilities:
-
-- HTTP client
-- Authentication headers
-- Endpoint functions
-- Error normalization
-- Request/response transformation
-
-No React or UI concerns exist here.
-
----
-
-## Backend
-
-Responsibilities:
-
-- Business rules
-- Validation
-- Persistence
-- Authorization
-- Business data
-
-The backend is the only source of truth.
+Future authentication implementation should integrate with the existing architecture while keeping authentication concerns separate from UI components and business logic.
 
 ---
 
@@ -196,18 +32,17 @@ The backend is the only source of truth.
 
 Managed exclusively by TanStack Query.
 
+Server state represents backend-owned data.
+
 Examples:
 
 - Products
 - Categories
 - Product Details
 - Search Results
-- Cart (if backend-owned)
 - Orders
-- User Profile
-- Wishlist
+- User Data
 - Inventory
-- Coupons
 
 ---
 
@@ -215,13 +50,18 @@ Examples:
 
 Managed by Zustand.
 
+Global client state represents frontend-owned application state.
+
 Examples:
 
+- Cart
+- Wishlist
 - Mobile Drawer
 - Sidebar State
 - Theme
 - Client Preferences
-- Other application-wide UI state
+
+Cart and Wishlist are managed locally by the storefront and are not treated as backend server state.
 
 ---
 
@@ -231,105 +71,118 @@ Managed with React state.
 
 Examples:
 
-- Selected Tab
+- Selected Tabs
 - Form Inputs
-- Image Gallery
+- Image Gallery State
 - Hover State
 - Modal Visibility
 - Accordion State
 
 ---
 
-# Rendering Philosophy
+# Business Domains
 
-Every route renders an application shell first.
+The application is organized around business domains rather than pages.
 
-The shell consists of:
+Current domains:
 
-- Layout
-- Navigation
-- Footer
-- Metadata
-- Static UI
-- Skeletons
-- Error Boundaries
+- Authentication
+- Catalog
+- Search
+- Cart
+- Checkout
+- Orders
+- Wishlist
+- Account
+- Marketing
 
-Dynamic business data is fetched by TanStack Query after hydration unless server prefetching provides a measurable benefit.
-
----
-
-# Server Prefetching Philosophy
-
-Server prefetching is an optimization.
-
-It is **not** the default architecture.
-
-Each route decides independently whether it benefits from:
-
-- `prefetchQuery`
-- `dehydrate`
-- `HydrationBoundary`
-
-If not required, the route renders the shell and lets the client fetch data.
+Each feature belongs to a business domain.
 
 ---
 
-# Design Principles
+# Application Flow
 
-### Single Responsibility
+Backend data follows:
 
-Every module should answer one question.
-
-Examples:
-
-- ProductCard → How is a product displayed?
-- Product Query → How is product data cached?
-- Products API → How are products requested?
-- Product Page → How is the route composed?
-
----
-
-### No Layer Skipping
-
-Components never communicate directly with the backend.
-
-All business data flows through:
-
-```text
-Backend
-    ↓
-API Layer
-    ↓
-TanStack Query
-    ↓
+```
+Browser
+    │
+    ▼
+Next.js Route
+    │
+    ▼
+Page Composition
+    │
+    ▼
 React Components
+    │
+    ▼
+TanStack Query
+    │
+    ▼
+API Layer
+    │
+    ▼
+Backend
+```
+
+Client-owned state follows:
+
+```
+User Interaction
+    │
+    ▼
+React Components
+    │
+    ▼
+Zustand Store
+    │
+    ▼
+Updated UI
+```
+
+Checkout submission follows:
+
+```
+Cart State
+    │
+    ▼
+Checkout
+    │
+    ▼
+API Layer
+    │
+    ▼
+Backend
+    │
+    ▼
+Order Creation
 ```
 
 ---
 
-### Reusable Infrastructure
+# Backend Responsibilities
 
-Infrastructure should be shared.
+The backend owns:
 
-Examples:
+- Business rules
+- Validation
+- Persistence
+- Authorization
+- Product data
+- Order processing
+- Business data
 
-- Query Client
-- API Client
-- Authentication
-- Query Keys
-- Error Handling
-
-Business domains consume infrastructure rather than reimplementing it.
-
----
-
-# Migration Strategy
-
-1. Finalize frontend architecture.
-2. Design project structure.
-3. Build shared infrastructure.
-4. Replace mock APIs with backend APIs.
-5. Migrate one business domain at a time.
-6. Apply server prefetching only where beneficial.
+The backend remains the single source of truth for persistent business data.
 
 ---
+
+# Architecture Rules
+
+1. Business logic belongs to the backend.
+2. Components never communicate directly with backend APIs.
+3. TanStack Query manages backend server state.
+4. Zustand manages global client-side application state.
+5. Modules should have a single responsibility.
+6. Shared infrastructure should be reused across domains.
+7. Architecture boundaries remain stable even if implementation details change.
