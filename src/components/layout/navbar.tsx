@@ -1,11 +1,13 @@
 "use client";
 
 import { CartDrawer } from "@/components/commerce/cart-drawer";
+import { WishlistDrawer } from "@/components/commerce/wishlist-drawer";
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/domains/cart/cart.store";
+import { useWishlistStore } from "@/domains/wishlist/wishlist.store";
 import { SearchAutocomplete } from "@/domains/search/search-autocomplete";
 import { cn } from "@/utils/utility";
-import { ShoppingBag, User } from "lucide-react";
+import { Heart, ShoppingBag, User } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { MobileDrawer } from "./mobile-drawer";
@@ -19,10 +21,15 @@ const navLinks = [
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isWishlistOpen, setIsWishlistOpen] = useState(false);
 
   // Cart data only — no drawer state in cart store
-  const { totalItems } = useCartStore();
-  const cartCount = totalItems();
+  const { totalItems: cartTotalItems } = useCartStore();
+  const cartCount = cartTotalItems();
+
+  // Wishlist data only — no drawer state in wishlist store
+  const { totalItems: wishlistTotalItems } = useWishlistStore();
+  const wishlistCount = wishlistTotalItems();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
@@ -78,6 +85,22 @@ export function Navbar() {
                 </Link>
               </Button>
 
+              {/* Wishlist Trigger */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative"
+                onClick={() => setIsWishlistOpen(true)}
+                aria-label="Open wishlist"
+              >
+                <Heart className="h-5 w-5 text-foreground" />
+                {wishlistCount > 0 && (
+                  <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-primary-foreground">
+                    {wishlistCount}
+                  </span>
+                )}
+              </Button>
+
               {/* Cart Trigger — Navbar owns drawer state */}
               <Button
                 variant="ghost"
@@ -95,7 +118,10 @@ export function Navbar() {
               </Button>
 
               {/* Mobile Menu Toggle */}
-              <MobileDrawer onOpenCart={() => setIsCartOpen(true)} />
+              <MobileDrawer
+                onOpenCart={() => setIsCartOpen(true)}
+                onOpenWishlist={() => setIsWishlistOpen(true)}
+              />
             </div>
           </div>
         </div>
@@ -103,6 +129,12 @@ export function Navbar() {
 
       {/* Cart Drawer — controlled by navbar state */}
       <CartDrawer isOpen={isCartOpen} onOpenChange={setIsCartOpen} />
+
+      {/* Wishlist Drawer — controlled by navbar state */}
+      <WishlistDrawer
+        isOpen={isWishlistOpen}
+        onOpenChange={setIsWishlistOpen}
+      />
     </>
   );
 }

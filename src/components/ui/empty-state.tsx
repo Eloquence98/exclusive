@@ -1,5 +1,6 @@
 import { cn } from "@/utils/utility";
 import {
+  Heart,
   PackageX,
   SearchX,
   ShoppingBag,
@@ -137,6 +138,25 @@ export function NoOrdersEmptyState() {
       action={
         <Button asChild variant="default">
           <Link href="/shop">Start Shopping</Link>
+        </Button>
+      }
+    />
+  );
+}
+
+/**
+ * Contextual Empty State: Empty Wishlist
+ * Used when wishlist drawer is open but no items have been saved.
+ */
+export function EmptyWishlistEmptyState() {
+  return (
+    <EmptyState
+      icon={<Heart className="h-7 w-7" />}
+      title="Your wishlist is empty"
+      description="Save items you love by tapping the heart icon on any product."
+      action={
+        <Button asChild variant="default">
+          <Link href="/shop">Browse Products</Link>
         </Button>
       }
     />

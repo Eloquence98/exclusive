@@ -35,13 +35,16 @@
 - Full search results page with filters
 - Navbar search integration
 
-## What's Left
+**Wishlist** — Complete
 
-**Wishlist** — Not started
-
-- Decide: localStorage only or backend-synced
+- Client-only (Zustand + localStorage, key: `atelier-wishlist`)
+- Heart icon toggle on product cards (always visible, top-right)
 - Add/remove products
-- Wishlist page
+- Wishlist drawer with "Move to Cart" action
+- Empty state with contextual CTA
+- Navbar + mobile menu integration with badge count
+
+## What's Left
 
 **Auth** — Pages exist, no logic
 
@@ -63,8 +66,9 @@
 
 Started with mixed legacy code (JSX, scattered logic). Migrated to strict domain-driven architecture:
 
-- One domain at a time (catalog first, then cart, checkout, order, search)
+- One domain at a time (catalog first, then cart, checkout, order, search, wishlist)
 - Established patterns: domain API → query → component, mutation at call site, query key factories
 - AbortController introduced for search only (not needed elsewhere)
 - Server prefetch used selectively (checkout success, order tracking, search results)
 - Component composition refined: reusable primitives (SearchInput) composed by features (SearchAutocomplete)
+- Wishlist mirrors cart pattern (client state only, no backend sync) — domain-driven architecture scales to non-API features

@@ -3,8 +3,9 @@
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/domains/cart/cart.store";
 import type { ProductListItem } from "@/domains/catalog/product.types";
+import { useWishlistStore } from "@/domains/wishlist/wishlist.store";
 import { cn } from "@/utils/utility";
-import { ShoppingBag, Star } from "lucide-react";
+import { Heart, ShoppingBag, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -17,6 +18,10 @@ interface ProductCardProps {
 export function ProductCard({ product, className }: ProductCardProps) {
   const hasSale = product.saleStatus === "ACTIVE";
   const addItem = useCartStore((state) => state.addItem);
+  const toggleWishlistItem = useWishlistStore((state) => state.toggleItem);
+  const isInWishlist = useWishlistStore((state) =>
+    state.isInWishlist(product.id),
+  );
 
   const handleQuickAdd = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -36,6 +41,30 @@ export function ProductCard({ product, className }: ProductCardProps) {
     toast.success("Added to cart", {
       description: `${product.title} has been added to your cart.`,
     });
+  };
+
+  const handleToggleWishlist = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    toggleWishlistItem({
+      id: product.id,
+      slug: product.slug,
+      name: product.title,
+      brand: product.brand,
+      price: product.price,
+      salePrice: product.salePrice,
+      imageUrl: product.imageCover,
+    });
+
+    toast.success(
+      isInWishlist ? "Removed from wishlist" : "Added to wishlist",
+      {
+        description: isInWishlist
+          ? `${product.title} has been removed from your wishlist.`
+          : `${product.title} has been added to your wishlist.`,
+      },
+    );
   };
 
   return (
@@ -72,6 +101,22 @@ export function ProductCard({ product, className }: ProductCardProps) {
             </span>
           )}
         </div>
+
+        {/* Wishlist Toggle (Top Right) */}
+        <button
+          onClick={handleToggleWishlist}
+          className="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-background/90 shadow-sm backdrop-blur-sm transition-colors hover:bg-background"
+          aria-label={isInWishlist ? "Remove from wishlist" : "Add to wishlist"}
+        >
+          <Heart
+            className={cn(
+              "h-4 w-4 transition-colors",
+              isInWishlist
+                ? "fill-destructive text-destructive"
+                : "text-foreground",
+            )}
+          />
+        </button>
 
         {/* Quick Add Button (Desktop Only) */}
         {product.stock > 0 ? (

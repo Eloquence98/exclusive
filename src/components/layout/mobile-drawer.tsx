@@ -16,7 +16,8 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useCartStore } from "@/domains/cart/cart.store";
-import { Menu } from "lucide-react";
+import { useWishlistStore } from "@/domains/wishlist/wishlist.store";
+import { Heart, Menu, ShoppingBag } from "lucide-react";
 import Link from "next/link";
 
 const categories = [
@@ -40,15 +41,26 @@ const mainLinks = [
 
 interface MobileDrawerProps {
   onOpenCart: () => void;
+  onOpenWishlist: () => void;
 }
 
-export function MobileDrawer({ onOpenCart }: MobileDrawerProps) {
-  const { totalItems } = useCartStore();
-  const cartCount = totalItems();
+export function MobileDrawer({
+  onOpenCart,
+  onOpenWishlist,
+}: MobileDrawerProps) {
+  const { totalItems: cartTotalItems } = useCartStore();
+  const cartCount = cartTotalItems();
+
+  const { totalItems: wishlistTotalItems } = useWishlistStore();
+  const wishlistCount = wishlistTotalItems();
 
   // Prevent Radix focus trap conflicts by waiting for mobile drawer to close
   const handleOpenCart = () => {
     setTimeout(() => onOpenCart(), 150);
+  };
+
+  const handleOpenWishlist = () => {
+    setTimeout(() => onOpenWishlist(), 150);
   };
 
   return (
@@ -76,7 +88,7 @@ export function MobileDrawer({ onOpenCart }: MobileDrawerProps) {
           </SheetTitle>
         </SheetHeader>
 
-        <nav className="flex-1 overflow-y-auto px-6 py-4 scrollbar-hide">
+        <nav className="scrollbar-hide flex-1 overflow-y-auto px-6 py-4">
           {/* Main Links */}
           <ul className="mb-6 space-y-1">
             {mainLinks.map((link) => (
@@ -141,13 +153,34 @@ export function MobileDrawer({ onOpenCart }: MobileDrawerProps) {
             </Link>
           </SheetClose>
 
+          {/* Mobile Wishlist Trigger */}
+          <SheetClose asChild>
+            <button
+              onClick={handleOpenWishlist}
+              className="flex w-full items-center justify-between text-base font-medium text-foreground transition-colors hover:text-muted-foreground"
+            >
+              <span className="flex items-center gap-2">
+                <Heart className="h-5 w-5" />
+                Wishlist
+              </span>
+              {wishlistCount > 0 && (
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-primary-foreground">
+                  {wishlistCount}
+                </span>
+              )}
+            </button>
+          </SheetClose>
+
           {/* Mobile Cart Trigger */}
           <SheetClose asChild>
             <button
               onClick={handleOpenCart}
               className="flex w-full items-center justify-between text-base font-medium text-foreground transition-colors hover:text-muted-foreground"
             >
-              <span>Cart</span>
+              <span className="flex items-center gap-2">
+                <ShoppingBag className="h-5 w-5" />
+                Cart
+              </span>
               {cartCount > 0 && (
                 <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-primary-foreground">
                   {cartCount}
