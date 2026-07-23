@@ -6,7 +6,7 @@ export default function Error({ error, reset }) {
       <p className="text-lg"> {error.message} </p>
 
       <button
-        className="bg-accent-500 inline-block px-6 py-3 text-lg text-primary-800"
+        className="bg-accent-500 text-primary-800 inline-block px-6 py-3 text-lg"
         onClick={reset}
       >
         Try again
