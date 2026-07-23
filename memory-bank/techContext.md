@@ -12,6 +12,7 @@
 - Framer Motion (animations)
 - shadcn/ui + Radix primitives
 - Lucide icons, Sonner toasts
+- **Auth.js v5 (NextAuth v5)** — Google OAuth provider only
 
 **Backend:**
 
@@ -33,3 +34,8 @@ Requires backend running at `http://localhost:8000/api/v1` or set via `NEXT_PUBL
 - API responses return `data` directly (not nested `data.data`)
 - `id` is used instead of `_id` in all API responses
 - Search uses AbortController for request cancellation
+
+## Dependencies
+
+- **Auth.js v5** — `next-auth@beta`, `@auth/core` — added for Google OAuth authentication
+- Google OAuth provider only — no credentials/password flows

@@ -44,23 +44,34 @@
 - Empty state with contextual CTA
 - Navbar + mobile menu integration with badge count
 
+**Auth** — In Progress (baseline working)
+
+- Auth.js v5 configured with Google OAuth provider
+- JWT session strategy
+- Login page simplified to Google sign-in only
+- Legacy auth pages removed (signup, forgot-password, reset-password)
+- `/me` route created with sign-out button
+- Middleware protecting `/me` routes
+- **Backend sync pending** — no backend handshake for user creation/retrieval yet
+
 ## What's Left
 
-**Auth** — Pages exist, no logic
+**Auth** — Backend sync needed
 
-- Login, signup, password reset flows
-- Token management
-- Protected routes
+- Auth.js callbacks need backend handshake (create/retrieve user on sign-in)
+- Backend-issued token must be stored in JWT and attached to session
+- Protected API requests need the token for authenticated endpoints
 
 **Account** — Not started
 
-- Profile page
-- Order history (authenticated)
-- Settings page
+- Profile page (read-only: name, email, avatar from Google)
+- Order history (authenticated "my orders" endpoint)
+- No Settings page (nothing user-configurable in this scope)
 
 ## Known Issues
 
 1. `domains/search/search-autocomplete.tsx` in wrong folder — should be in `components/search/`
+2. Auth backend sync not implemented — `jwt` and `session` callbacks are stubs
 
 ## Architecture Evolution
 
@@ -72,3 +83,4 @@ Started with mixed legacy code (JSX, scattered logic). Migrated to strict domain
 - Server prefetch used selectively (checkout success, order tracking, search results)
 - Component composition refined: reusable primitives (SearchInput) composed by features (SearchAutocomplete)
 - Wishlist mirrors cart pattern (client state only, no backend sync) — domain-driven architecture scales to non-API features
+- Auth migrated from legacy credentials flow to Google OAuth-only via Auth.js v5 — removed 3 legacy pages, simplified login to single sign-in button

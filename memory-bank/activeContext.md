@@ -2,30 +2,40 @@
 
 ## Current Focus
 
-Building **Auth** domain next (Google OAuth only via Auth.js).
+Auth domain implementation is in progress — **Google OAuth via Auth.js v5** baseline is functional:
 
-Scope: Sign in with Google → backend handshake → session management. No credentials, no password flows.
-
-Account control is minimal: read-only profile (Google-sourced) + authenticated order history only.
+- Auth.js v5 configured with Google provider, JWT session strategy
+- Login page simplified to only Google sign-in button (no credentials form)
+- Removed legacy pages: signup, forgot-password, reset-password
+- `/me` route created as placeholder authenticated page
+- `middleware.ts` updated with auth protection for `/me` routes
+- Backend sync (handshake for user creation/retrieval + token management) **still pending**
 
 ## Recent Work
 
-- Completed Wishlist domain (client-only store + drawer + product card integration)
-- Wishlist follows cart pattern: Zustand + localStorage, no backend sync
-- Heart icon toggle on all product cards with drawer access via navbar
+- Completed **Auth domain initial setup** (3 commits):
+  1. `0b21fd4` — Add initial Auth.js Google OAuth setup
+  2. `e206135` — Update login flow UI with Google sign-in and sign out
+  3. `ef33c8a` — Working Google Auth baseline (backend sync pending)
+- Installed `next-auth@beta` dependency
+- Deleted legacy auth pages (signup, forgot-password, reset-password)
+- Created `signin.tsx` component (Google sign-in button with server action)
+- Created `signout-button.tsx` component
+- Created `src/app/api/auth/[...nextauth]/route.ts` route handler
+- Created `src/domains/auth/auth.ts` — NextAuth config with Google provider + JWT strategy
 
 ## Known Issues
 
-`domains/search/search-autocomplete.tsx` is misplaced — should live in `components/search/`. Needs relocation.
+1. `domains/search/search-autocomplete.tsx` is misplaced — should live in `components/search/`. Needs relocation.
+2. Auth backend sync not yet implemented — `jwt` and `session` callbacks are stubs (no backend token attached to JWT)
 
 ## Next Steps
 
-1. Build Auth domain (Google OAuth only, Auth.js v5)
-   - Sign in with Google button (no credentials flow)
-   - Backend handshake (create account if first-time, else retrieve existing)
-   - Session management (backend-issued token for authenticated requests)
-   - Remove unused auth pages: signup, forgot-password, reset-password
-2. Build Account domain (minimal scope)
+1. **Complete Auth backend sync** — Auth.js callbacks need to:
+   - On sign-in: handshake with backend API to create/retrieve user
+   - Store backend-issued token in the JWT
+   - Attach token to session for authenticated API requests
+2. **Build Account domain** (minimal scope):
    - Profile page (read-only: name, email, avatar from Google)
    - Order History page (authenticated "my orders" endpoint)
    - No Settings page (nothing user-configurable in this scope)
@@ -55,6 +65,14 @@ Account control is minimal: read-only profile (Google-sourced) + authenticated o
 - `WishlistItem` component — mirrors `CartItem`, no quantity/size concept
 - Heart icon on product cards — independent toggle (no drawer auto-open)
 - Drawer state owned by navbar (not store) — matches cart precedent
+
+**Auth pattern (in progress):**
+
+- Auth.js v5 with Google OAuth only (no credentials/password)
+- JWT session strategy
+- Server action for sign-in (`signin.tsx` form action)
+- Middleware protects `/me` routes
+- Backend token attachment in JWT callback — **not yet implemented**
 
 **AbortController:**
 
