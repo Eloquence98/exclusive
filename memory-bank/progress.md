@@ -44,23 +44,19 @@
 - Empty state with contextual CTA
 - Navbar + mobile menu integration with badge count
 
-**Auth** — In Progress (baseline working)
+**Auth** — Complete
 
 - Auth.js v5 configured with Google OAuth provider
 - JWT session strategy
-- Login page simplified to Google sign-in only
-- Legacy auth pages removed (signup, forgot-password, reset-password)
-- `/me` route created with sign-out button
-- Middleware protecting `/me` routes
-- **Backend sync pending** — no backend handshake for user creation/retrieval yet
+- Login page with Google sign-in only (no credentials)
+- Backend sync implemented: `POST /users/google` handshake on sign-in
+- Backend token flows through JWT → session → HttpOnly cookie via `SyncToken` component
+- API proxy route (`/api/proxy`) for authenticated backend requests with `Authorization: Bearer`
+- Middleware protecting `/me` routes, redirecting logged-in users from `/login`
+- Customer domain with types and API for backend handshake
+- NextAuth type declarations extended
 
 ## What's Left
-
-**Auth** — Backend sync needed
-
-- Auth.js callbacks need backend handshake (create/retrieve user on sign-in)
-- Backend-issued token must be stored in JWT and attached to session
-- Protected API requests need the token for authenticated endpoints
 
 **Account** — Not started
 
@@ -71,7 +67,6 @@
 ## Known Issues
 
 1. `domains/search/search-autocomplete.tsx` in wrong folder — should be in `components/search/`
-2. Auth backend sync not implemented — `jwt` and `session` callbacks are stubs
 
 ## Architecture Evolution
 
@@ -83,4 +78,4 @@ Started with mixed legacy code (JSX, scattered logic). Migrated to strict domain
 - Server prefetch used selectively (checkout success, order tracking, search results)
 - Component composition refined: reusable primitives (SearchInput) composed by features (SearchAutocomplete)
 - Wishlist mirrors cart pattern (client state only, no backend sync) — domain-driven architecture scales to non-API features
-- Auth migrated from legacy credentials flow to Google OAuth-only via Auth.js v5 — removed 3 legacy pages, simplified login to single sign-in button
+- Auth migrated from legacy credentials flow to Google OAuth-only via Auth.js v5 — backend sync includes customer domain, token cookie management, and API proxy route for authenticated requests

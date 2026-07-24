@@ -7,6 +7,7 @@
  * {
  *   status: "success",
  *   results?: number,
+ *   token?: string,
  *   meta?: {
  *     pagination: {...}
  *   },
@@ -18,6 +19,7 @@
 export interface ApiResponse<T> {
   status: "success" | "fail" | "error";
   results?: number;
+  token?: string;
   meta?: ApiMeta;
   data: T;
 }

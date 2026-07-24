@@ -2,40 +2,36 @@
 
 ## Current Focus
 
-Auth domain implementation is in progress — **Google OAuth via Auth.js v5** baseline is functional:
+Auth domain implementation is **complete** — Google OAuth via Auth.js v5 with full backend sync:
 
 - Auth.js v5 configured with Google provider, JWT session strategy
-- Login page simplified to only Google sign-in button (no credentials form)
-- Removed legacy pages: signup, forgot-password, reset-password
-- `/me` route created as placeholder authenticated page
-- `middleware.ts` updated with auth protection for `/me` routes
-- Backend sync (handshake for user creation/retrieval + token management) **still pending**
+- `signIn` callback calls backend `POST /users/google` with Google `id_token` to create/retrieve user
+- Backend-issued token stored in JWT and exposed via session
+- `SyncToken` client component reads `backendToken` from session and sets it as HttpOnly cookie
+- API proxy route (`/api/proxy`) reads `jwt` cookie and forwards authenticated requests with `Authorization: Bearer` header
+- Customer domain created with types and API function for backend handshake
+- Next-auth types extended (`id`, `role`, `backendToken` on Session/User/JWT)
 
 ## Recent Work
 
-- Completed **Auth domain initial setup** (3 commits):
-  1. `0b21fd4` — Add initial Auth.js Google OAuth setup
-  2. `e206135` — Update login flow UI with Google sign-in and sign out
-  3. `ef33c8a` — Working Google Auth baseline (backend sync pending)
-- Installed `next-auth@beta` dependency
-- Deleted legacy auth pages (signup, forgot-password, reset-password)
-- Created `signin.tsx` component (Google sign-in button with server action)
-- Created `signout-button.tsx` component
-- Created `src/app/api/auth/[...nextauth]/route.ts` route handler
-- Created `src/domains/auth/auth.ts` — NextAuth config with Google provider + JWT strategy
+- **Completed Auth backend sync** (commit `c776e0c`):
+  - Implemented `signIn` callback with backend handshake
+  - Updated `jwt` and `session` callbacks to propagate backend token
+  - Created `customer` domain (`customer.api.ts`, `customer.types.ts`)
+  - Created `SyncToken` component for HttpOnly cookie management
+  - Created server action `setBackendTokenCookie`
+  - Created API proxy route for authenticated backend requests
+  - Extended NextAuth type declarations
+  - Wrapped app in `SessionProvider` with server-side session hydration
+  - Added optional `token` field to `ApiResponse` interface
 
 ## Known Issues
 
 1. `domains/search/search-autocomplete.tsx` is misplaced — should live in `components/search/`. Needs relocation.
-2. Auth backend sync not yet implemented — `jwt` and `session` callbacks are stubs (no backend token attached to JWT)
 
 ## Next Steps
 
-1. **Complete Auth backend sync** — Auth.js callbacks need to:
-   - On sign-in: handshake with backend API to create/retrieve user
-   - Store backend-issued token in the JWT
-   - Attach token to session for authenticated API requests
-2. **Build Account domain** (minimal scope):
+1. **Build Account domain** (minimal scope):
    - Profile page (read-only: name, email, avatar from Google)
    - Order History page (authenticated "my orders" endpoint)
    - No Settings page (nothing user-configurable in this scope)
@@ -66,13 +62,14 @@ Auth domain implementation is in progress — **Google OAuth via Auth.js v5** ba
 - Heart icon on product cards — independent toggle (no drawer auto-open)
 - Drawer state owned by navbar (not store) — matches cart precedent
 
-**Auth pattern (in progress):**
+**Auth pattern (complete):**
 
 - Auth.js v5 with Google OAuth only (no credentials/password)
 - JWT session strategy
-- Server action for sign-in (`signin.tsx` form action)
-- Middleware protects `/me` routes
-- Backend token attachment in JWT callback — **not yet implemented**
+- `signIn` callback: backend handshake via `POST /users/google` with Google `id_token`
+- Backend token flows: `signIn` → `jwt` callback → `session` callback → `SyncToken` component → HttpOnly cookie → API proxy
+- API proxy route forwards authenticated requests with `Authorization: Bearer <token>`
+- Middleware protects `/me` routes, redirects logged-in users from `/login`
 
 **AbortController:**
 
@@ -91,3 +88,5 @@ Auth domain implementation is in progress — **Google OAuth via Auth.js v5** ba
 - Order token 404 after delivery is deliberate security — not a bug
 - Client-only features (cart, wishlist) use same architecture as server-synced domains — no special cases
 - Auth is convenience, not requirement — Google OAuth removes password management burden, backend owns identity handshake
+- Backend token is stored in HttpOnly cookie via server action for security (not accessible to JS)
+- API proxy pattern centralizes auth header injection for all authenticated requests
