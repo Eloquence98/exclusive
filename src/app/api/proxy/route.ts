@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { getBackendToken } from "@/domains/auth/get-backend-token";
 
 export async function POST(req: NextRequest) {
   return handleProxy(req);
@@ -18,11 +18,10 @@ export async function DELETE(req: NextRequest) {
 }
 
 async function handleProxy(req: NextRequest) {
-  const cookieStore = await cookies();
-  // 1. Get the token we saved as 'jwt'
-  const token = cookieStore.get("jwt")?.value;
+  // 1. Get the backend access token from the Auth.js JWT (server-only)
+  const backendToken = await getBackendToken();
 
-  if (!token) {
+  if (!backendToken) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -46,13 +45,12 @@ async function handleProxy(req: NextRequest) {
     method: req.method,
     headers: {
       "Content-Type": "application/json",
-      // 4. Inject the token as Authorization Header (Standard for backends)
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${backendToken}`,
     },
     body: body ? JSON.stringify(body) : undefined,
   });
 
-  // 5. Return the backend's response directly to the frontend
+  // 4. Return the backend's response directly to the frontend
   const data = await response.json();
   return NextResponse.json(data, { status: response.status });
 }

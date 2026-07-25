@@ -80,7 +80,7 @@ export function Navbar() {
 
               {/* Profile / Account */}
               <Button variant="ghost" size="icon" asChild>
-                <Link href="/account" aria-label="My Account">
+                <Link href="/me" aria-label="My Account">
                   <User className="h-5 w-5 text-foreground" />
                 </Link>
               </Button>

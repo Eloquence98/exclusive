@@ -66,7 +66,7 @@ export function ProductAccordions({ description }: ProductAccordionsProps) {
           <p>
             To initiate a return, please visit your{" "}
             <Link
-              href="/account/orders"
+              href="/me/orders"
               className="text-foreground underline underline-offset-4"
             >
               Order History

@@ -14,7 +14,7 @@ const supportLinks = [
   { name: "Contact Us", href: "/contact" },
   { name: "FAQs", href: "/faqs" },
   { name: "Shipping & Returns", href: "/shipping" },
-  { name: "Track Order", href: "/account/orders" },
+  { name: "Track Order", href: "/orders/track" },
 ];
 
 const paymentMethods = ["Visa", "Mastercard", "Amex", "PayPal"];

@@ -1,5 +1,3 @@
-import { SyncToken } from "@/components/sync-token";
-import { auth } from "@/domains/auth/auth";
 import "@/styles/globals.css";
 import { cn } from "@/utils/utility";
 import { Metadata, Viewport } from "next";
@@ -33,15 +31,11 @@ export const viewport: Viewport = {
   ],
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Fetch session on the server
-  const session = await auth();
-  console.log("SESSION: ", session);
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -50,10 +44,9 @@ export default async function RootLayout({
           inter.variable,
         )}
       >
-        <Providers session={session}>
+        <Providers>
           {children}
           <Toaster />
-          <SyncToken />
         </Providers>
       </body>
     </html>

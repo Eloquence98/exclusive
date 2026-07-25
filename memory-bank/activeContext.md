@@ -2,28 +2,24 @@
 
 ## Current Focus
 
-Auth domain implementation is **complete** — Google OAuth via Auth.js v5 with full backend sync:
+Authentication architecture has been **simplified to a single session manager**:
 
-- Auth.js v5 configured with Google provider, JWT session strategy
-- `signIn` callback calls backend `POST /users/google` with Google `id_token` to create/retrieve user
-- Backend-issued token stored in JWT and exposed via session
-- `SyncToken` client component reads `backendToken` from session and sets it as HttpOnly cookie
-- API proxy route (`/api/proxy`) reads `jwt` cookie and forwards authenticated requests with `Authorization: Bearer` header
-- Customer domain created with types and API function for backend handshake
-- Next-auth types extended (`id`, `role`, `backendToken` on Session/User/JWT)
+- **Auth.js is the only session manager** — one cookie, one source of truth
+- Backend JWT is stored **only inside the Auth.js JWT** (via `jwt` callback)
+- Backend token is **never exposed to the browser** — not in `session` callback, not in a custom cookie
+- `getBackendToken()` helper (in `get-backend-token.ts`) is the only way server-side code retrieves the backend token
+- Route protection uses Auth.js `authorized` callback checking `auth` session
+- Logout is just Auth.js `signOut()` — no backend logout call, no cookie cleanup
 
 ## Recent Work
 
-- **Completed Auth backend sync** (commit `c776e0c`):
-  - Implemented `signIn` callback with backend handshake
-  - Updated `jwt` and `session` callbacks to propagate backend token
-  - Created `customer` domain (`customer.api.ts`, `customer.types.ts`)
-  - Created `SyncToken` component for HttpOnly cookie management
-  - Created server action `setBackendTokenCookie`
-  - Created API proxy route for authenticated backend requests
-  - Extended NextAuth type declarations
-  - Wrapped app in `SessionProvider` with server-side session hydration
-  - Added optional `token` field to `ApiResponse` interface
+- **Removed custom `jwt` cookie** — no more `cookies().set("jwt", ...)` in `signIn` callback
+- **Updated proxy route** — uses `getBackendToken()` instead of reading a custom cookie
+- **Simplified logout** — just `signOut({ redirectTo: "/login" })`, no `handleSignOut` or backend logout
+- **Deleted `lib/actions.ts`** — `setBackendTokenCookie`, `clearBackendTokenCookie`, `handleSignOut` all removed
+- **Removed `logoutUser()`** from `customer.api.ts` — no longer called
+- **Cleaned up `layout.tsx`** — removed leftover `auth()` call and `console.log`
+- **Cleaned up `me/page.tsx`** — removed debug `<pre>` tags exposing session and token
 
 ## Known Issues
 
@@ -50,26 +46,16 @@ Auth domain implementation is **complete** — Google OAuth via Auth.js v5 with 
 - TanStack Query for server state: products, orders, search results
 - `useState` for component-local UI state: form fields, modals, tabs
 
-**Search pattern established:**
-
-- `SearchInput` — reusable UI (owns `query`, `isExpanded`)
-- `SearchAutocomplete` — feature (debounce, query, navigation)
-
-**Wishlist pattern (mirrors cart):**
-
-- `WishlistStore` — Zustand with persist middleware (localStorage)
-- `WishlistItem` component — mirrors `CartItem`, no quantity/size concept
-- Heart icon on product cards — independent toggle (no drawer auto-open)
-- Drawer state owned by navbar (not store) — matches cart precedent
-
-**Auth pattern (complete):**
+**Auth architecture (simplified):**
 
 - Auth.js v5 with Google OAuth only (no credentials/password)
 - JWT session strategy
-- `signIn` callback: backend handshake via `POST /users/google` with Google `id_token`
-- Backend token flows: `signIn` → `jwt` callback → `session` callback → `SyncToken` component → HttpOnly cookie → API proxy
-- API proxy route forwards authenticated requests with `Authorization: Bearer <token>`
-- Middleware protects `/me` routes, redirects logged-in users from `/login`
+- `signIn` callback: backend handshake via `POST /users/google`, stores backend token in JWT
+- `authorized` callback: checks Auth.js session for route protection
+- `getBackendToken()`: server-only helper that decodes Auth.js JWT and returns the backend token
+- API proxy route: uses `getBackendToken()` for `Authorization: Bearer` header
+- Middleware: thin proxy `export { auth as middleware }`
+- Logout: just `signOut({ redirectTo: "/login" })` — no backend call, no cookie cleanup
 
 **AbortController:**
 
@@ -88,5 +74,5 @@ Auth domain implementation is **complete** — Google OAuth via Auth.js v5 with 
 - Order token 404 after delivery is deliberate security — not a bug
 - Client-only features (cart, wishlist) use same architecture as server-synced domains — no special cases
 - Auth is convenience, not requirement — Google OAuth removes password management burden, backend owns identity handshake
-- Backend token is stored in HttpOnly cookie via server action for security (not accessible to JS)
-- API proxy pattern centralizes auth header injection for all authenticated requests
+- One session, one cookie (Auth.js), one place storing the backend token (Auth.js JWT) — no duplicate authentication state
+- Backend token never reaches the browser — retrieved server-side via `getBackendToken()`

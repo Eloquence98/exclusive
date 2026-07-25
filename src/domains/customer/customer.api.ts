@@ -29,18 +29,3 @@ export async function syncGoogleUser(
 
   return json as SyncGoogleUserResponse;
 }
-
-export async function logoutUser(token: string): Promise<void> {
-  const res = await fetch(`${API_BASE_URL}/users/logout`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  if (!res.ok) {
-    const json = await res.json();
-    throw new Error(json.message ?? json.error ?? "Logout failed");
-  }
-}

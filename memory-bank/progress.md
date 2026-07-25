@@ -44,17 +44,19 @@
 - Empty state with contextual CTA
 - Navbar + mobile menu integration with badge count
 
-**Auth** — Complete
+**Auth** — Complete (simplified architecture)
 
-- Auth.js v5 configured with Google OAuth provider
+- Auth.js v5 with Google OAuth only
 - JWT session strategy
 - Login page with Google sign-in only (no credentials)
-- Backend sync implemented: `POST /users/google` handshake on sign-in
-- Backend token flows through JWT → session → HttpOnly cookie via `SyncToken` component
-- API proxy route (`/api/proxy`) for authenticated backend requests with `Authorization: Bearer`
-- Middleware protecting `/me` routes, redirecting logged-in users from `/login`
-- Customer domain with types and API for backend handshake
-- NextAuth type declarations extended
+- Backend sync: `POST /users/google` handshake on sign-in via `signIn` callback
+- Backend token stored only inside Auth.js JWT — never exposed to browser
+- `getBackendToken()` helper decodes Auth.js JWT server-side to retrieve backend token
+- API proxy route (`/api/proxy`) uses `getBackendToken()` for `Authorization: Bearer`
+- Route protection via `authorized` callback checking Auth.js session
+- Middleware: thin proxy `export { auth as middleware }`
+- Logout: just `signOut({ redirectTo: "/login" })` — no backend call, no cookie cleanup
+- No custom cookies, no duplicate authentication state
 
 ## What's Left
 
@@ -78,4 +80,4 @@ Started with mixed legacy code (JSX, scattered logic). Migrated to strict domain
 - Server prefetch used selectively (checkout success, order tracking, search results)
 - Component composition refined: reusable primitives (SearchInput) composed by features (SearchAutocomplete)
 - Wishlist mirrors cart pattern (client state only, no backend sync) — domain-driven architecture scales to non-API features
-- Auth migrated from legacy credentials flow to Google OAuth-only via Auth.js v5 — backend sync includes customer domain, token cookie management, and API proxy route for authenticated requests
+- Auth evolved through multiple iterations: legacy credentials → Google OAuth with custom cookie → **simplified single-session architecture** where Auth.js is the only session manager, backend token lives only in the Auth.js JWT, and `getBackendToken()` is the sole server-side access point

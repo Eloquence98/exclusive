@@ -8,9 +8,9 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 const navItems = [
-  { name: "Profile", href: "/account", icon: User },
-  { name: "My Orders", href: "/account/orders", icon: ShoppingBag },
-  { name: "Settings", href: "/account/settings", icon: Settings },
+  { name: "Profile", href: "/me", icon: User },
+  { name: "My Orders", href: "/me/orders", icon: ShoppingBag },
+  { name: "Settings", href: "/me/settings", icon: Settings },
 ];
 
 export function AccountSidebar() {
@@ -45,7 +45,7 @@ export function AccountSidebar() {
 
       {/* Navigation Links */}
       {/* Mobile: Horizontal scroll. Desktop: Vertical stack */}
-      <nav className="mb-8 flex gap-2 overflow-x-auto border-b border-border pb-4 scrollbar-hide md:mb-0 md:flex-col md:gap-1 md:overflow-visible md:border-b-0 md:border-r md:pb-0 md:pr-8">
+      <nav className="scrollbar-hide mb-8 flex gap-2 overflow-x-auto border-b border-border pb-4 md:mb-0 md:flex-col md:gap-1 md:overflow-visible md:border-b-0 md:border-r md:pb-0 md:pr-8">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           return (

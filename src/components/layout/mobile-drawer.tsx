@@ -146,7 +146,7 @@ export function MobileDrawer({
         <div className="space-y-4 border-t border-border px-6 py-6">
           <SheetClose asChild>
             <Link
-              href="/account"
+              href="/me"
               className="block text-base font-medium text-foreground transition-colors hover:text-muted-foreground"
             >
               My Account
