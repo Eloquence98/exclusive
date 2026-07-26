@@ -36,15 +36,15 @@ export function EmptyState({
       )}
     >
       {/* Minimalist Icon Container */}
-      <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-zinc-50 text-zinc-400">
+      <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-muted text-muted-foreground">
         {icon}
       </div>
 
       {/* Typography Hierarchy */}
-      <h3 className="mb-2 text-xl font-semibold tracking-tight text-zinc-950">
+      <h3 className="mb-2 text-xl font-semibold tracking-tight text-foreground">
         {title}
       </h3>
-      <p className="mb-8 max-w-sm text-sm leading-relaxed text-zinc-500">
+      <p className="mb-8 max-w-sm text-sm leading-relaxed text-muted-foreground">
         {description}
       </p>
 

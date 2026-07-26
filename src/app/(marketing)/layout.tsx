@@ -9,8 +9,8 @@ export default function MarketingLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative flex min-h-screen flex-col bg-white">
-      <div className="relative flex min-h-screen flex-col bg-white">
+    <div className="relative flex min-h-screen flex-col bg-background">
+      <div className="relative flex min-h-screen flex-col bg-background">
         <PortfolioBanner />
         <AnnouncementBar />
         <Navbar />

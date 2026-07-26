@@ -62,7 +62,7 @@ function ProductSectionSkeletonWrapper({
 }) {
   return (
     <section
-      className={`py-16 md:py-24 lg:py-32 ${bg === "zinc" ? "bg-zinc-50" : "bg-white"}`}
+      className={`py-16 md:py-24 lg:py-32 ${bg === "zinc" ? "bg-muted" : "bg-background"}`}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <ProductSectionSkeleton />

@@ -103,7 +103,7 @@ export function OrderTimeline({
               {state === "completed" ? (
                 isCancelledStep ? (
                   // Cancelled — rose filled circle with X
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-rose-500 text-white shadow-sm shadow-rose-500/30">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-destructive text-primary-foreground shadow-sm shadow-destructive/30">
                     <X className="h-4 w-4" strokeWidth={3} />
                   </div>
                 ) : (

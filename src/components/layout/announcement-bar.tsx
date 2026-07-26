@@ -32,7 +32,7 @@ export function AnnouncementBar({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "bg-primary px-4 py-2 text-center text-xs font-medium tracking-wide text-white",
+        "bg-primary px-4 py-2 text-center text-xs font-medium tracking-wide text-primary-foreground",
         className,
       )}
     >

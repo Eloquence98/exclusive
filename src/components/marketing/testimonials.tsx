@@ -84,8 +84,8 @@ export function Testimonials() {
   };
 
   return (
-    // Alternating background: Off-white
-    <section className="overflow-hidden bg-white py-16 md:py-24 lg:py-32">
+    // Alternating background: Off-primary-foreground
+    <section className="overflow-hidden bg-background py-16 md:py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <SectionHeader
@@ -99,7 +99,7 @@ export function Testimonials() {
             <Button
               variant="outline"
               size="icon"
-              className="rounded-full border-zinc-200 hover:bg-primary hover:text-white"
+              className="rounded-full border-border hover:bg-primary hover:text-primary-foreground"
               onClick={() => scroll("left")}
               aria-label="Previous testimonials"
             >
@@ -108,7 +108,7 @@ export function Testimonials() {
             <Button
               variant="outline"
               size="icon"
-              className="rounded-full border-zinc-200 hover:bg-primary hover:text-white"
+              className="rounded-full border-border hover:bg-primary hover:text-primary-foreground"
               onClick={() => scroll("right")}
               aria-label="Next testimonials"
             >
@@ -120,7 +120,7 @@ export function Testimonials() {
         {/* Slider Container */}
         <div
           ref={sliderRef}
-          className="-mx-4 flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth px-4 pb-4 scrollbar-hide md:-mx-0 md:px-0"
+          className="scrollbar-hide -mx-4 flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth px-4 pb-4 md:-mx-0 md:px-0"
         >
           {mockTestimonials.map((testimonial, index) => (
             <motion.div
@@ -132,10 +132,10 @@ export function Testimonials() {
               // Mobile: 80vw width. Desktop: Fixed 400px width to show ~3 cards.
               className="min-w-[80vw] flex-shrink-0 snap-start md:min-w-[400px]"
             >
-              <div className="flex h-full flex-col rounded-2xl border border-muted bg-white p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)] md:p-8">
+              <div className="flex h-full flex-col rounded-2xl border border-muted bg-background p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)] md:p-8">
                 {/* Large Quotation Mark */}
                 <Quote
-                  className="mb-6 h-10 w-10 text-zinc-200"
+                  className="mb-6 h-10 w-10 text-muted"
                   strokeWidth={1.5}
                 />
 
@@ -148,14 +148,14 @@ export function Testimonials() {
                         "h-4 w-4",
                         i < testimonial.rating
                           ? "fill-amber-500 text-amber-500"
-                          : "fill-zinc-200 text-zinc-200",
+                          : "fill-muted text-muted",
                       )}
                     />
                   ))}
                 </div>
 
                 {/* Italicized Review Text */}
-                <p className="mb-8 flex-1 text-base italic leading-relaxed text-zinc-600">
+                <p className="mb-8 flex-1 text-base italic leading-relaxed text-muted-foreground">
                   &quot;{testimonial.quote}&quot;
                 </p>
 
@@ -170,10 +170,10 @@ export function Testimonials() {
                     />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-zinc-950">
+                    <p className="text-sm font-semibold text-foreground">
                       {testimonial.author.name}
                     </p>
-                    <p className="text-xs text-zinc-400">
+                    <p className="text-xs text-muted-foreground">
                       {testimonial.author.role}
                     </p>
                   </div>

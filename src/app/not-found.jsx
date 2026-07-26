@@ -15,7 +15,7 @@ function NotFound() {
       </p>
       <Link
         href="/"
-        className="inline-flex h-11 items-center justify-center rounded-lg bg-zinc-900 px-8 text-sm font-medium text-white transition-colors hover:bg-zinc-800"
+        className="inline-flex h-11 items-center justify-center rounded-lg bg-primary px-8 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
       >
         Go back home
       </Link>

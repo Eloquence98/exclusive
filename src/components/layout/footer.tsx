@@ -26,7 +26,7 @@ const paymentMethods = ["Visa", "Mastercard", "Amex", "PayPal"];
 
 export function Footer() {
   return (
-    <footer className="border-t border-zinc-200 bg-zinc-50">
+    <footer className="border-t border-border bg-muted">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
         {/* Main Grid */}
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
@@ -34,11 +34,11 @@ export function Footer() {
           <div className="lg:col-span-1">
             <Link
               href="/"
-              className="mb-4 block text-xl font-semibold tracking-tight text-zinc-950"
+              className="mb-4 block text-xl font-semibold tracking-tight text-foreground"
             >
               EXCLUSIVE
             </Link>
-            <p className="mb-6 max-w-xs text-sm leading-relaxed text-zinc-600">
+            <p className="mb-6 max-w-xs text-sm leading-relaxed text-muted-foreground">
               Curating premium, timeless essentials designed for the modern
               lifestyle. Quality materials, exceptional craftsmanship.
             </p>
@@ -46,7 +46,7 @@ export function Footer() {
 
           {/* Column 2: Shop Links */}
           <div>
-            <h3 className="mb-6 text-xs font-semibold uppercase tracking-widest text-zinc-400">
+            <h3 className="mb-6 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
               Shop
             </h3>
             <ul className="space-y-4">
@@ -54,7 +54,7 @@ export function Footer() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-zinc-600 transition-colors hover:text-zinc-950"
+                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
                     {link.name}
                   </Link>
@@ -65,7 +65,7 @@ export function Footer() {
 
           {/* Column 3: Customer Service */}
           <div>
-            <h3 className="mb-6 text-xs font-semibold uppercase tracking-widest text-zinc-400">
+            <h3 className="mb-6 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
               Customer Service
             </h3>
             <ul className="space-y-4">
@@ -73,7 +73,7 @@ export function Footer() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-zinc-600 transition-colors hover:text-zinc-950"
+                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
                     {link.name}
                   </Link>
@@ -84,10 +84,10 @@ export function Footer() {
 
           {/* Column 4: Newsletter */}
           <div>
-            <h3 className="mb-6 text-xs font-semibold uppercase tracking-widest text-zinc-400">
+            <h3 className="mb-6 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
               Join the Club
             </h3>
-            <p className="mb-4 text-sm leading-relaxed text-zinc-600">
+            <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
               Subscribe for early access to new arrivals, exclusive offers, and
               styling inspiration.
             </p>
@@ -95,7 +95,7 @@ export function Footer() {
               <Input
                 type="email"
                 placeholder="Your email address"
-                className="h-11 bg-white"
+                className="h-11 bg-background"
                 aria-label="Email address for newsletter"
               />
               <Button
@@ -111,8 +111,8 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-16 flex flex-col items-center justify-between gap-6 border-t border-zinc-200 pt-8 md:flex-row">
-          <p className="text-xs text-zinc-400">
+        <div className="mt-16 flex flex-col items-center justify-between gap-6 border-t border-border pt-8 md:flex-row">
+          <p className="text-xs text-muted-foreground">
             &copy; {new Date().getFullYear()} EXCLUSIVE. All rights reserved.
           </p>
 
@@ -122,7 +122,7 @@ export function Footer() {
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-xs text-zinc-400 transition-colors hover:text-zinc-950"
+                className="text-xs text-muted-foreground transition-colors hover:text-foreground"
               >
                 {link.name}
               </Link>
@@ -133,7 +133,7 @@ export function Footer() {
             {paymentMethods.map((method) => (
               <span
                 key={method}
-                className="text-xs font-medium tracking-wide text-zinc-400"
+                className="text-xs font-medium tracking-wide text-muted-foreground"
               >
                 {method}
               </span>

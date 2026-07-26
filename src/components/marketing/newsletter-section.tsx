@@ -20,7 +20,7 @@ export function NewsletterSection() {
   };
 
   return (
-    <section className="overflow-hidden bg-primary py-24 text-white md:py-32 lg:py-40">
+    <section className="overflow-hidden bg-primary py-24 text-primary-foreground md:py-32 lg:py-40">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           className="mx-auto max-w-2xl text-center"
@@ -30,7 +30,7 @@ export function NewsletterSection() {
           transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
         >
           {/* Overline */}
-          <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-zinc-500">
+          <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
             Newsletter
           </p>
 
@@ -40,7 +40,7 @@ export function NewsletterSection() {
           </h2>
 
           {/* Subtitle */}
-          <p className="mx-auto mb-10 max-w-md text-base leading-relaxed text-zinc-400">
+          <p className="mx-auto mb-10 max-w-md text-base leading-relaxed text-muted-foreground">
             Subscribe for early access to new collections, exclusive offers, and
             styling inspiration.
           </p>
@@ -60,27 +60,27 @@ export function NewsletterSection() {
           ) : (
             <form onSubmit={handleSubmit} className="mx-auto w-full max-w-md">
               {/* Unified Pill Input Group */}
-              <div className="flex items-center rounded-full border border-zinc-700 bg-zinc-800 p-1.5 transition-colors focus-within:border-zinc-500">
+              <div className="flex items-center rounded-full border border-border bg-muted p-1.5 transition-colors focus-within:border-ring">
                 <Input
                   type="email"
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="h-11 flex-1 border-0 bg-transparent px-4 text-white placeholder:text-zinc-500 focus-visible:ring-0 focus-visible:ring-offset-0"
+                  className="h-11 flex-1 border-0 bg-transparent px-4 text-primary-foreground placeholder:text-muted-foreground focus-visible:ring-0 focus-visible:ring-offset-0"
                   aria-label="Email address"
                 />
                 <Button
                   type="submit"
                   size="icon"
-                  className="h-9 w-9 shrink-0 rounded-full bg-white text-primary hover:bg-zinc-200"
+                  className="h-9 w-9 shrink-0 rounded-full bg-background text-primary hover:bg-muted"
                   aria-label="Subscribe"
                 >
                   <ArrowRight className="h-4 w-4" />
                 </Button>
               </div>
 
-              <p className="mt-4 text-xs text-zinc-600">
+              <p className="mt-4 text-xs text-muted-foreground">
                 No spam, ever. Unsubscribe at any time.
               </p>
             </form>

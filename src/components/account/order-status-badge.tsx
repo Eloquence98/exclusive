@@ -21,7 +21,7 @@ const statusConfig: Record<OrderStatus, { label: string; className: string }> =
     },
     cancelled: {
       label: "Cancelled",
-      className: "bg-rose-500/10 text-rose-700 border-rose-500/20",
+      className: "bg-destructive/10 text-destructive border-destructive/20",
     },
   };
 

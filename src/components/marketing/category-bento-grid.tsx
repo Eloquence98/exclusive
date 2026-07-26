@@ -62,7 +62,7 @@ const itemVariants: Variants = {
 
 export function CategoryBentoGrid() {
   return (
-    <section className="bg-zinc-50 py-16 md:py-24 lg:py-32">
+    <section className="bg-muted py-16 md:py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeader overline="Explore" title="Shop by Category" />
 
@@ -72,7 +72,7 @@ export function CategoryBentoGrid() {
           Desktop: Asymmetrical CSS Grid (1 large square, 2 stacked rectangles).
         */}
         <motion.div
-          className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 scrollbar-hide md:-mx-0 md:grid md:grid-cols-2 md:grid-rows-2 md:gap-6 md:overflow-visible md:px-0 md:pb-0 lg:gap-8"
+          className="scrollbar-hide -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 md:-mx-0 md:grid md:grid-cols-2 md:grid-rows-2 md:gap-6 md:overflow-visible md:px-0 md:pb-0 lg:gap-8"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -111,18 +111,18 @@ export function CategoryBentoGrid() {
 
                 {/* Content Container */}
                 <div className="absolute bottom-0 left-0 right-0 flex flex-col justify-end p-6 md:p-8">
-                  <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-white/70">
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-primary-foreground/70">
                     Collection
                   </p>
-                  <h3 className="mb-2 text-2xl font-medium tracking-tight text-white md:text-3xl">
+                  <h3 className="mb-2 text-2xl font-medium tracking-tight text-primary-foreground md:text-3xl">
                     {category.name}
                   </h3>
-                  <p className="mb-4 line-clamp-2 max-w-xs text-sm text-white/80">
+                  <p className="mb-4 line-clamp-2 max-w-xs text-sm text-primary-foreground/80">
                     {category.description}
                   </p>
 
                   {/* Action Indicator */}
-                  <div className="flex translate-y-4 items-center gap-2 text-sm font-medium text-white opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                  <div className="flex translate-y-4 items-center gap-2 text-sm font-medium text-primary-foreground opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
                     <span>Shop Now</span>
                     <ArrowUpRight className="h-4 w-4" />
                   </div>

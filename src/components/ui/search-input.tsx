@@ -101,7 +101,7 @@ export function SearchInput({
                 type="button"
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={handleClear}
-                className="absolute right-2 flex h-6 w-6 items-center justify-center rounded-full text-zinc-400 transition-colors hover:bg-muted hover:text-zinc-900"
+                className="absolute right-2 flex h-6 w-6 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-primary"
                 aria-label="Clear search"
               >
                 <X className="h-4 w-4" />
@@ -124,7 +124,7 @@ export function SearchInput({
         <button
           type="button"
           onClick={handleExpand}
-          className="flex h-10 w-10 items-center justify-center rounded-full text-zinc-600 transition-colors hover:bg-muted hover:text-zinc-900"
+          className="flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-primary"
           aria-label="Open search"
         >
           <Search className="h-5 w-5" />
@@ -159,7 +159,7 @@ export function SearchInput({
                   type="button"
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={handleClear}
-                  className="absolute right-2 flex h-6 w-6 items-center justify-center rounded-full text-zinc-400 transition-colors hover:bg-muted hover:text-zinc-900"
+                  className="absolute right-2 flex h-6 w-6 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-primary"
                   aria-label="Clear search"
                 >
                   <X className="h-4 w-4" />

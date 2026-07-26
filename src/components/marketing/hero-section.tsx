@@ -40,7 +40,7 @@ export function HeroSection() {
       />
 
       {/* Gradient Overlay for text readability and bottom blending */}
-      <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-primary-foreground via-primary-foreground/20 to-transparent" />
       <div className="absolute inset-0 bg-black/10" />
 
       {/* Content Container */}
@@ -54,7 +54,7 @@ export function HeroSection() {
           {/* Overline */}
           <motion.p
             variants={itemVariants}
-            className="text-xs font-semibold uppercase tracking-widest text-zinc-500"
+            className="text-xs font-semibold uppercase tracking-widest text-muted-foreground"
           >
             New Season Collection
           </motion.p>
@@ -62,7 +62,7 @@ export function HeroSection() {
           {/* H1 Display */}
           <motion.h1
             variants={itemVariants}
-            className="text-5xl font-medium tracking-tight text-zinc-950 md:text-7xl"
+            className="text-5xl font-medium tracking-tight text-foreground md:text-7xl"
           >
             The Art of Quiet Luxury
           </motion.h1>
@@ -70,7 +70,7 @@ export function HeroSection() {
           {/* Subtitle */}
           <motion.p
             variants={itemVariants}
-            className="mx-auto max-w-xl text-base leading-relaxed text-zinc-600 md:text-lg"
+            className="mx-auto max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg"
           >
             Timeless essentials crafted for the modern wardrobe. Discover pieces
             designed to elevate your everyday.

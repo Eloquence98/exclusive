@@ -29,7 +29,7 @@ export function FeaturedProducts() {
   const { data: products } = useSuspenseQuery(featuredProductsOptions);
 
   return (
-    <section className="bg-white py-16 md:py-24 lg:py-32">
+    <section className="bg-background py-16 md:py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeader
           overline="Curated Selection"
@@ -38,7 +38,7 @@ export function FeaturedProducts() {
         />
 
         <motion.div
-          className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 scrollbar-hide md:-mx-0 md:grid md:grid-cols-4 md:gap-6 md:overflow-visible md:px-0 lg:gap-8"
+          className="scrollbar-hide -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 md:-mx-0 md:grid md:grid-cols-4 md:gap-6 md:overflow-visible md:px-0 lg:gap-8"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"

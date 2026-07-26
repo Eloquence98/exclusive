@@ -9,7 +9,7 @@ export default function AuthLayout({
   return (
     <div className="grid min-h-screen grid-cols-1 lg:grid-cols-2">
       {/* Left Column: Brand Imagery (Hidden on mobile) */}
-      <div className="relative hidden flex-col justify-between overflow-hidden bg-zinc-900 p-12 text-white lg:flex">
+      <div className="relative hidden flex-col justify-between overflow-hidden bg-primary p-12 text-primary-foreground lg:flex">
         {/* Background Image */}
         <Image
           src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?q=80&w=2000&auto=format&fit=crop"
@@ -26,7 +26,7 @@ export default function AuthLayout({
         <div className="relative z-10 flex h-full flex-col justify-between">
           <Link
             href="/"
-            className="text-2xl font-semibold tracking-tight text-white"
+            className="text-2xl font-semibold tracking-tight text-primary-foreground"
           >
             EXCLUSIVE
           </Link>
@@ -37,10 +37,10 @@ export default function AuthLayout({
               timeless nature of the design.&rdquo;
             </blockquote>
             <div className="space-y-1">
-              <p className="text-sm font-semibold text-white">
+              <p className="text-sm font-semibold text-primary-foreground">
                 The Exclusive Philosophy
               </p>
-              <p className="text-xs text-zinc-400">
+              <p className="text-xs text-muted-foreground">
                 Crafting essentials for the modern wardrobe since 2020.
               </p>
             </div>

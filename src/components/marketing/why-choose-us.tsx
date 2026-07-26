@@ -71,15 +71,15 @@ export function WhyChooseUs() {
               className="flex flex-col"
             >
               {/* Icon Container */}
-              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl border border-secondary bg-zinc-50 text-zinc-900">
+              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl border border-secondary bg-muted text-foreground">
                 <feature.icon className="h-6 w-6" strokeWidth={1.5} />
               </div>
 
               {/* Text Content */}
-              <h3 className="mb-3 text-lg font-medium tracking-tight text-zinc-950">
+              <h3 className="mb-3 text-lg font-medium tracking-tight text-foreground">
                 {feature.title}
               </h3>
-              <p className="max-w-sm text-sm leading-relaxed text-zinc-500">
+              <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
                 {feature.description}
               </p>
             </motion.div>

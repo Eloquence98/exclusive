@@ -26,11 +26,11 @@ export function SectionHeader({
     >
       <div className="space-y-2">
         {overline && (
-          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-400">
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
             {overline}
           </p>
         )}
-        <h2 className="text-2xl font-medium tracking-tight text-zinc-950 md:text-3xl">
+        <h2 className="text-2xl font-medium tracking-tight text-foreground md:text-3xl">
           {title}
         </h2>
       </div>
@@ -38,7 +38,7 @@ export function SectionHeader({
       {actionHref && (
         <Link
           href={actionHref}
-          className="group inline-flex items-center gap-2 text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-950"
+          className="group inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
         >
           {actionLabel}
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />

@@ -18,7 +18,7 @@ export default async function MeLayout({
   }
 
   return (
-    <div className="relative flex min-h-screen flex-col bg-white">
+    <div className="relative flex min-h-screen flex-col bg-background">
       <Navbar />
 
       <main className="flex-1">

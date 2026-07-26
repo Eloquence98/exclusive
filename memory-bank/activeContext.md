@@ -2,29 +2,18 @@
 
 ## Current Focus
 
-**Account domain** is in progress — profile page and order history are built:
-
-- Profile page (`/me`) — read-only display of name, email, avatar from Google
-- Order history (`/me/orders`) — authenticated list of past orders with status timeline, pagination
-- Account sidebar with navigation links (Profile, My Orders) and sign-out button
-- Order history uses TanStack Query with proxy route for authenticated backend requests
+**Theme audit complete** — all hardcoded Tailwind color utilities (zinc, white, black, gray, slate, neutral) have been replaced with semantic CSS variable classes throughout the entire frontend.
 
 ## Recent Work
 
+- **Theme color audit** (uncommitted): Replaced all hardcoded color utilities with semantic theme classes across 32 files:
+  - Core UI components: `input.tsx`, `label.tsx`, `button.tsx`, `dialog.tsx`, `sheet.tsx`, `accordion.tsx`, `card.tsx`, `empty-state.tsx`, `search-input.tsx`, `sonner.tsx`
+  - Layout: `footer.tsx`, `portfolio-banner.tsx`, `announcement-bar.tsx`, `marketing/layout.tsx`, `me/layout.tsx`
+  - Marketing: `hero-section.tsx`, `section-header.tsx`, `category-bento-grid.tsx`, `why-choose-us.tsx`, `trending-products.tsx`, `testimonials.tsx`, `newsletter-section.tsx`, `featured-products.tsx`, `top-rated-products.tsx`
+  - Pages: `(auth)/layout.tsx`, `(marketing)/page.tsx`, `loading.jsx`, `not-found.jsx`
+  - Account: `order-status-badge.tsx`, `order-timeline.tsx`
 - **Brand rename** (commit `584648f`): Changed "ATELIER" to "EXCLUSIVE" across all UI text, metadata, SEO titles, and localStorage keys
-- **Account domain** (uncommitted):
-  - `me/page.tsx` — Profile page with avatar, name, email display
-  - `me/orders/page.tsx` — Order history page with `OrderHistoryClient`
-  - `me/orders/order-history-client.tsx` — Client component with TanStack Query, pagination, loading/error/empty states
-  - `components/account/account-nav-links.tsx` — Extracted nav links component (Profile, My Orders)
-  - `components/account/account-sidebar.tsx` — Refactored to use `AccountNavLinks` and `SignOut` components
-  - `components/account/order-history-list.tsx` — Accordion-based order list with product details and status timeline
-  - `components/account/order-history-skeleton.tsx` — Loading skeleton for order history
-  - `components/signout-button.tsx` — Updated styling to match sidebar design
-  - `domains/order/order.api.ts` — Added `getMyOrders()` using proxy route
-  - `domains/order/order.query.ts` — Added `myOrdersOptions` query options
-  - `domains/order/order.types.ts` — Added `MyOrdersParams`, `MyOrdersResponse` types
-- **Removed redundant redirect guard** in `me/page.tsx` — middleware `authorized` callback already protects `/me` routes
+- **Account domain** (commit pending): Profile page, order history, sidebar navigation
 
 ## Known Issues
 
@@ -32,9 +21,8 @@
 
 ## Next Steps
 
-1. **Complete Account domain** (if anything remaining):
-   - Verify order history pagination works end-to-end
-   - Add any missing edge cases
+1. **Verify dark mode** — ensure all semantic classes render correctly when a dark theme is applied
+2. **Complete Account domain** — verify order history pagination works end-to-end
 
 ## Active Patterns
 
@@ -80,3 +68,4 @@
 - Auth is convenience, not requirement — Google OAuth removes password management burden, backend owns identity handshake
 - One session, one cookie (Auth.js), one place storing the backend token (Auth.js JWT) — no duplicate authentication state
 - Backend token never reaches the browser — retrieved server-side via `getBackendToken()`
+- **Theme system**: All colors derive from semantic CSS variables (`--background`, `--foreground`, `--primary`, `--muted`, `--border`, `--ring`, `--destructive`, etc.) — no hardcoded Tailwind color utilities for theme-equivalent colors. This ensures consistent dark mode support and theming.
