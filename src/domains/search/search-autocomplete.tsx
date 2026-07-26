@@ -10,7 +10,18 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export function SearchAutocomplete({ className }: { className?: string }) {
+interface SearchAutocompleteProps {
+  className?: string;
+  alwaysExpanded?: boolean;
+  /** Called after navigating to a product or search results — used to close parent drawers */
+  onNavigate?: () => void;
+}
+
+export function SearchAutocomplete({
+  className,
+  alwaysExpanded,
+  onNavigate,
+}: SearchAutocompleteProps) {
   const router = useRouter();
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [pendingValue, setPendingValue] = useState("");
@@ -35,6 +46,7 @@ export function SearchAutocomplete({ className }: { className?: string }) {
   function handleSubmit(value: string) {
     if (value.trim().length >= 2) {
       router.push(`/search?q=${encodeURIComponent(value.trim())}`);
+      onNavigate?.();
     }
   }
 
@@ -46,6 +58,7 @@ export function SearchAutocomplete({ className }: { className?: string }) {
   return (
     <SearchInput
       className={className}
+      alwaysExpanded={alwaysExpanded}
       onChange={handleChange}
       onSubmit={handleSubmit}
       onClear={handleClear}
@@ -74,6 +87,7 @@ export function SearchAutocomplete({ className }: { className?: string }) {
                       href={`/product/${product.slug}`}
                       className="flex items-center gap-3 px-3 py-2 transition-colors hover:bg-muted"
                       onMouseDown={(e) => e.preventDefault()}
+                      onClick={onNavigate}
                     >
                       <div className="relative h-11 w-11 flex-shrink-0 overflow-hidden rounded-lg border border-border bg-muted">
                         <Image

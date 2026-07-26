@@ -12,6 +12,12 @@ interface SearchInputProps {
   onSubmit?: (value: string) => void;
   onClear?: () => void;
   children?: React.ReactNode;
+  /**
+   * When true, renders as a static, always-expanded inline search bar
+   * (no collapse/expand behavior). Used in contexts like the mobile
+   * drawer where an absolutely-positioned overlay doesn't fit.
+   */
+  alwaysExpanded?: boolean;
 }
 
 export function SearchInput({
@@ -21,22 +27,25 @@ export function SearchInput({
   onSubmit,
   onClear,
   children,
+  alwaysExpanded = false,
 }: SearchInputProps) {
-  const [isExpanded, setIsExpanded] = React.useState(false);
+  const [isExpanded, setIsExpanded] = React.useState(alwaysExpanded);
   const [query, setQuery] = React.useState("");
   const inputRef = React.useRef<HTMLInputElement>(null);
   const containerRef = React.useRef<HTMLDivElement>(null);
 
   const handleExpand = () => {
+    if (alwaysExpanded) return;
     setIsExpanded(true);
     setTimeout(() => inputRef.current?.focus(), 100);
   };
 
   const handleCollapse = React.useCallback(() => {
+    if (alwaysExpanded) return;
     if (!query) {
       setIsExpanded(false);
     }
-  }, [query]);
+  }, [query, alwaysExpanded]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -56,6 +65,8 @@ export function SearchInput({
   };
 
   React.useEffect(() => {
+    if (alwaysExpanded) return;
+
     function handleClickOutside(e: MouseEvent) {
       if (
         containerRef.current &&
@@ -66,14 +77,49 @@ export function SearchInput({
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [handleCollapse]);
+  }, [handleCollapse, alwaysExpanded]);
 
+  // Always-expanded variant — static inline search bar, no overlay
+  if (alwaysExpanded) {
+    return (
+      <div ref={containerRef} className={cn("w-full", className)}>
+        <form onSubmit={handleSubmit}>
+          <div className="relative flex items-center rounded-lg border border-border bg-background">
+            <Search className="pointer-events-none absolute left-3 h-4 w-4 text-muted-foreground" />
+            <Input
+              ref={inputRef}
+              type="search"
+              value={query}
+              onChange={handleInputChange}
+              placeholder={placeholder}
+              className="h-11 w-full border-0 bg-transparent pl-9 pr-9 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+              aria-label={placeholder}
+              autoComplete="off"
+            />
+            {query && (
+              <button
+                type="button"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={handleClear}
+                className="absolute right-2 flex h-6 w-6 items-center justify-center rounded-full text-zinc-400 transition-colors hover:bg-muted hover:text-zinc-900"
+                aria-label="Clear search"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
+          </div>
+          {children}
+        </form>
+      </div>
+    );
+  }
+
+  // Default variant — collapsed icon that expands into an overlay
   return (
     <div
       ref={containerRef}
       className={cn("relative flex items-center", className)}
     >
-      {/* Search Icon / Toggle Button */}
       {!isExpanded && (
         <button
           type="button"
@@ -85,7 +131,6 @@ export function SearchInput({
         </button>
       )}
 
-      {/* Expanding Input Container */}
       <div
         className={cn(
           "absolute right-0 top-0 overflow-hidden rounded-lg border bg-background transition-all duration-300 ease-in-out",
@@ -121,7 +166,6 @@ export function SearchInput({
                 </button>
               )}
             </div>
-            {/* Slot for dropdown content — rendered by parent */}
             {children}
           </form>
         )}

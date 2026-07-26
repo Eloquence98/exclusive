@@ -17,6 +17,11 @@ const supportLinks = [
   { name: "Track Order", href: "/orders/track" },
 ];
 
+const legalLinks = [
+  { name: "Privacy Policy", href: "/privacy" },
+  { name: "Terms of Service", href: "/terms" },
+];
+
 const paymentMethods = ["Visa", "Mastercard", "Amex", "PayPal"];
 
 export function Footer() {
@@ -39,7 +44,7 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Column 2: Quick Links */}
+          {/* Column 2: Shop Links */}
           <div>
             <h3 className="mb-6 text-xs font-semibold uppercase tracking-widest text-zinc-400">
               Shop
@@ -86,7 +91,6 @@ export function Footer() {
               Subscribe for early access to new arrivals, exclusive offers, and
               styling inspiration.
             </p>
-            {/* <form className="flex gap-2" onSubmit={(e) => e.preventDefault()}> */}
             <form className="flex gap-2">
               <Input
                 type="email"
@@ -111,6 +115,19 @@ export function Footer() {
           <p className="text-xs text-zinc-400">
             &copy; {new Date().getFullYear()} EXCLUSIVE. All rights reserved.
           </p>
+
+          {/* Legal Links */}
+          <div className="flex items-center gap-6">
+            {legalLinks.map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                className="text-xs text-zinc-400 transition-colors hover:text-zinc-950"
+              >
+                {link.name}
+              </Link>
+            ))}
+          </div>
 
           <div className="flex items-center gap-6">
             {paymentMethods.map((method) => (

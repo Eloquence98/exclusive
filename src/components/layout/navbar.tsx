@@ -15,9 +15,9 @@ import { MobileDrawer } from "./mobile-drawer";
 const navLinks = [
   { name: "Shop", href: "/shop" },
   { name: "New Arrivals", href: "/shop?sort=newest" },
-  { name: "Categories", href: "/shop" },
+  { name: "Sale", href: "/shop?sale=true" },
+  { name: "Contact", href: "/contact" },
 ];
-
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);

@@ -1,6 +1,7 @@
 import { AnnouncementBar } from "@/components/layout/announcement-bar";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
+import { PortfolioBanner } from "@/components/layout/portfolio-banner";
 
 export default function MarketingLayout({
   children,
@@ -9,16 +10,13 @@ export default function MarketingLayout({
 }) {
   return (
     <div className="relative flex min-h-screen flex-col bg-white">
-      <AnnouncementBar />
-      <Navbar />
-
-      {/* 
-        flex-1 ensures the main content area grows to fill available space, 
-        pushing the footer to the bottom even on pages with little content.
-      */}
-      <main className="flex-1">{children}</main>
-
-      <Footer />
+      <div className="relative flex min-h-screen flex-col bg-white">
+        <PortfolioBanner />
+        <AnnouncementBar />
+        <Navbar />
+        <main className="flex-1">{children}</main>
+        <Footer />
+      </div>
     </div>
   );
 }
