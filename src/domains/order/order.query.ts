@@ -1,6 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
 import * as orderApi from "./order.api";
-import { OrderStatus } from "./order.types";
+import { MyOrdersParams, OrderStatus } from "./order.types";
 
 /**
  * Query key factory for order domain.
@@ -18,6 +18,9 @@ export const orderKeys = {
 
   tracking: (orderNumber: string) =>
     [...orderKeys.all, "tracking", orderNumber] as const,
+
+  myOrders: (params: MyOrdersParams) =>
+    [...orderKeys.all, "my-orders", params] as const,
 };
 
 /**
@@ -63,6 +66,19 @@ export const orderTrackingOptions = (
     queryKey: orderKeys.tracking(orderNumber),
 
     queryFn: () => orderApi.getOrderTracking(orderNumber, options),
+
+    staleTime: 30 * 1000,
+  });
+
+/**
+ * Authenticated user's order history query options.
+ * Routed through /api/proxy — requires active Auth.js session.
+ */
+export const myOrdersOptions = (params: MyOrdersParams = {}) =>
+  queryOptions({
+    queryKey: orderKeys.myOrders(params),
+
+    queryFn: () => orderApi.getMyOrders(params),
 
     staleTime: 30 * 1000,
   });

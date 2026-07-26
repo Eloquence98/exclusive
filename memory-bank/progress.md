@@ -58,13 +58,20 @@
 - Logout: just `signOut({ redirectTo: "/login" })` — no backend call, no cookie cleanup
 - No custom cookies, no duplicate authentication state
 
+**Account** — In Progress
+
+- Profile page (`/me`) — read-only display of name, email, avatar from Google
+- Order history (`/me/orders`) — authenticated list of past orders with accordion details, status timeline, pagination
+- Account sidebar with navigation links (Profile, My Orders) and sign-out button
+- Order history uses TanStack Query with proxy route for authenticated backend requests
+- Loading skeleton, error state, and empty state for order history
+
 ## What's Left
 
-**Account** — Not started
+**Account** — Polish
 
-- Profile page (read-only: name, email, avatar from Google)
-- Order history (authenticated "my orders" endpoint)
-- No Settings page (nothing user-configurable in this scope)
+- Verify order history pagination works end-to-end
+- Add any missing edge cases
 
 ## Known Issues
 
@@ -81,3 +88,4 @@ Started with mixed legacy code (JSX, scattered logic). Migrated to strict domain
 - Component composition refined: reusable primitives (SearchInput) composed by features (SearchAutocomplete)
 - Wishlist mirrors cart pattern (client state only, no backend sync) — domain-driven architecture scales to non-API features
 - Auth evolved through multiple iterations: legacy credentials → Google OAuth with custom cookie → **simplified single-session architecture** where Auth.js is the only session manager, backend token lives only in the Auth.js JWT, and `getBackendToken()` is the sole server-side access point
+- Account domain follows established patterns: domain API → query → client component, with proxy route for authenticated requests

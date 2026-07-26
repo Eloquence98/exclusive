@@ -1,3 +1,4 @@
+import { PaginationMeta } from "@/types/api";
 import { ShippingAddress } from "../checkout/checkout.types";
 
 export type OrderStatus =
@@ -117,4 +118,24 @@ export interface OrderTracking {
 
   createdAt: string;
   updatedAt: string;
+}
+
+/**
+ * Params for fetching authenticated user's order list.
+ * Maps to GET /orders/my-orders (via proxy)
+ */
+export interface MyOrdersParams {
+  page?: number;
+  limit?: number;
+}
+
+/**
+ * Frontend order history response shape.
+ * After unwrapping backend { data, meta.pagination } structure.
+ * Reuses OrderTracking — raw Order doc shape returned by getMyOrders
+ * is structurally identical (id, orderNumber, products, statusHistory, etc.)
+ */
+export interface MyOrdersResponse {
+  orders: OrderTracking[];
+  pagination: PaginationMeta;
 }

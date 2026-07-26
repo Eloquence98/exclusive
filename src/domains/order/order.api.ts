@@ -1,5 +1,10 @@
 import { ApiResponse } from "@/types/api";
-import { OrderConfirmation, OrderTracking } from "./order.types";
+import type {
+  MyOrdersParams,
+  MyOrdersResponse,
+  OrderConfirmation,
+  OrderTracking,
+} from "./order.types";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
@@ -80,4 +85,42 @@ export async function getOrderTracking(
   }
 
   return (json as ApiResponse<OrderTracking>).data;
+}
+
+/**
+ * Fetches authenticated user's order history.
+ * GET /api/proxy?path=/orders/my-orders?page=X&limit=Y
+ *
+ * Routed through the Next.js proxy since this is an authenticated
+ * request — the backend JWT lives only in the Auth.js session (server-side)
+ * and is never exposed to the browser. The proxy attaches the
+ * Authorization header using getBackendToken().
+ *
+ * Uses relative URL — safe to call from the client, cookies are
+ * automatically included (same-origin).
+ */
+export async function getMyOrders(
+  params: MyOrdersParams = {},
+): Promise<MyOrdersResponse> {
+  const { page = 1, limit = 10 } = params;
+
+  const backendPath = `/orders/my-orders?page=${page}&limit=${limit}`;
+  const proxyUrl = `/api/proxy?path=${encodeURIComponent(backendPath)}`;
+
+  const res = await fetch(proxyUrl, {
+    cache: "no-store",
+  });
+
+  const json = await res.json();
+
+  if (!res.ok) {
+    throw new Error(
+      json.message ?? json.error ?? `Failed to fetch orders: ${res.statusText}`,
+    );
+  }
+
+  return {
+    orders: json.data,
+    pagination: json.meta.pagination,
+  };
 }

@@ -2,24 +2,29 @@
 
 ## Current Focus
 
-Authentication architecture has been **simplified to a single session manager**:
+**Account domain** is in progress — profile page and order history are built:
 
-- **Auth.js is the only session manager** — one cookie, one source of truth
-- Backend JWT is stored **only inside the Auth.js JWT** (via `jwt` callback)
-- Backend token is **never exposed to the browser** — not in `session` callback, not in a custom cookie
-- `getBackendToken()` helper (in `get-backend-token.ts`) is the only way server-side code retrieves the backend token
-- Route protection uses Auth.js `authorized` callback checking `auth` session
-- Logout is just Auth.js `signOut()` — no backend logout call, no cookie cleanup
+- Profile page (`/me`) — read-only display of name, email, avatar from Google
+- Order history (`/me/orders`) — authenticated list of past orders with status timeline, pagination
+- Account sidebar with navigation links (Profile, My Orders) and sign-out button
+- Order history uses TanStack Query with proxy route for authenticated backend requests
 
 ## Recent Work
 
-- **Removed custom `jwt` cookie** — no more `cookies().set("jwt", ...)` in `signIn` callback
-- **Updated proxy route** — uses `getBackendToken()` instead of reading a custom cookie
-- **Simplified logout** — just `signOut({ redirectTo: "/login" })`, no `handleSignOut` or backend logout
-- **Deleted `lib/actions.ts`** — `setBackendTokenCookie`, `clearBackendTokenCookie`, `handleSignOut` all removed
-- **Removed `logoutUser()`** from `customer.api.ts` — no longer called
-- **Cleaned up `layout.tsx`** — removed leftover `auth()` call and `console.log`
-- **Cleaned up `me/page.tsx`** — removed debug `<pre>` tags exposing session and token
+- **Brand rename** (commit `584648f`): Changed "ATELIER" to "EXCLUSIVE" across all UI text, metadata, SEO titles, and localStorage keys
+- **Account domain** (uncommitted):
+  - `me/page.tsx` — Profile page with avatar, name, email display
+  - `me/orders/page.tsx` — Order history page with `OrderHistoryClient`
+  - `me/orders/order-history-client.tsx` — Client component with TanStack Query, pagination, loading/error/empty states
+  - `components/account/account-nav-links.tsx` — Extracted nav links component (Profile, My Orders)
+  - `components/account/account-sidebar.tsx` — Refactored to use `AccountNavLinks` and `SignOut` components
+  - `components/account/order-history-list.tsx` — Accordion-based order list with product details and status timeline
+  - `components/account/order-history-skeleton.tsx` — Loading skeleton for order history
+  - `components/signout-button.tsx` — Updated styling to match sidebar design
+  - `domains/order/order.api.ts` — Added `getMyOrders()` using proxy route
+  - `domains/order/order.query.ts` — Added `myOrdersOptions` query options
+  - `domains/order/order.types.ts` — Added `MyOrdersParams`, `MyOrdersResponse` types
+- **Removed redundant redirect guard** in `me/page.tsx` — middleware `authorized` callback already protects `/me` routes
 
 ## Known Issues
 
@@ -27,10 +32,9 @@ Authentication architecture has been **simplified to a single session manager**:
 
 ## Next Steps
 
-1. **Build Account domain** (minimal scope):
-   - Profile page (read-only: name, email, avatar from Google)
-   - Order History page (authenticated "my orders" endpoint)
-   - No Settings page (nothing user-configurable in this scope)
+1. **Complete Account domain** (if anything remaining):
+   - Verify order history pagination works end-to-end
+   - Add any missing edge cases
 
 ## Active Patterns
 
@@ -65,7 +69,7 @@ Authentication architecture has been **simplified to a single session manager**:
 
 - Always provide next action
 - Use `components/ui/empty-state.tsx` variants
-- Contextual variants: `EmptyCartEmptyState`, `EmptyWishlistEmptyState`, `NoSearchResultsEmptyState`, etc.
+- Contextual variants: `EmptyCartEmptyState`, `EmptyWishlistEmptyState`, `NoSearchResultsEmptyState`, `NoOrdersEmptyState`, etc.
 
 ## Project Insights
 

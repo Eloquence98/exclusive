@@ -34,7 +34,7 @@ async function handleProxy(req: NextRequest) {
   }
 
   // 3. Forward the request to your backend
-  const backendUrl = `${process.env.BACKEND_URL}${targetPath}`;
+  const backendUrl = `${process.env.NEXT_PUBLIC_API_URL}${targetPath}`;
 
   const body =
     req.method !== "GET" && req.method !== "HEAD"
