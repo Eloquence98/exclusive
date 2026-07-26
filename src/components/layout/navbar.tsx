@@ -55,7 +55,7 @@ export function Navbar() {
                 href="/"
                 className="text-xl font-semibold tracking-tight text-foreground transition-opacity hover:opacity-80"
               >
-                ATELIER
+                EXCLUSIVE
               </Link>
             </div>
 

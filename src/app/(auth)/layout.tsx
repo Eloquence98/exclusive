@@ -13,7 +13,7 @@ export default function AuthLayout({
         {/* Background Image */}
         <Image
           src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?q=80&w=2000&auto=format&fit=crop"
-          alt="Atelier Brand"
+          alt="Exclusive Brand"
           fill
           className="object-cover opacity-40"
           priority
@@ -28,7 +28,7 @@ export default function AuthLayout({
             href="/"
             className="text-2xl font-semibold tracking-tight text-white"
           >
-            ATELIER
+            EXCLUSIVE
           </Link>
 
           <div className="max-w-md space-y-6">
@@ -38,7 +38,7 @@ export default function AuthLayout({
             </blockquote>
             <div className="space-y-1">
               <p className="text-sm font-semibold text-white">
-                The Atelier Philosophy
+                The Exclusive Philosophy
               </p>
               <p className="text-xs text-zinc-400">
                 Crafting essentials for the modern wardrobe since 2020.
@@ -56,7 +56,7 @@ export default function AuthLayout({
             href="/"
             className="text-xl font-semibold tracking-tight text-foreground"
           >
-            ATELIER
+            EXCLUSIVE
           </Link>
         </div>
 

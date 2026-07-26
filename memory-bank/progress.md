@@ -37,7 +37,7 @@
 
 **Wishlist** — Complete
 
-- Client-only (Zustand + localStorage, key: `atelier-wishlist`)
+- Client-only (Zustand + localStorage, key: `exclusive-wishlist`)
 - Heart icon toggle on product cards (always visible, top-right)
 - Add/remove products
 - Wishlist drawer with "Move to Cart" action

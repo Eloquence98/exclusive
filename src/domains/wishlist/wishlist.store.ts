@@ -47,7 +47,7 @@ export const useWishlistStore = create<WishlistState>()(
       isInWishlist: (id) => !!findWishlistItem(get().items, id),
     }),
     {
-      name: "atelier-wishlist", // localStorage key
+      name: "exclusive-wishlist", // localStorage key
     },
   ),
 );

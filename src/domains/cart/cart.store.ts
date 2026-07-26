@@ -70,7 +70,7 @@ export const useCartStore = create<CartStoreState>()(
       subtotal: () => calculateSubtotal(get().items),
     }),
     {
-      name: "atelier-cart", // localStorage key
+      name: "exclusive-cart", // localStorage key
     },
   ),
 );

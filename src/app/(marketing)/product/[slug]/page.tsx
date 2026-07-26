@@ -20,15 +20,15 @@ export async function generateMetadata({
 
   if (!product) {
     return {
-      title: "Product Not Found | ATELIER",
+      title: "Product Not Found | EXCLUSIVE",
     };
   }
 
   return {
-    title: `${product.title} | ATELIER`,
+    title: `${product.title} | EXCLUSIVE`,
     description: product.description,
     openGraph: {
-      title: `${product.title} | ATELIER`,
+      title: `${product.title} | EXCLUSIVE`,
       description: product.description,
       images: [
         {
@@ -41,7 +41,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${product.title} | ATELIER`,
+      title: `${product.title} | EXCLUSIVE`,
       description: product.description,
       images: [product.imageCover],
     },

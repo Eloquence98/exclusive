@@ -13,11 +13,11 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s / ATELIER",
-    default: "Welcome / ATELIER",
+    template: "%s / EXCLUSIVE",
+    default: "Welcome / EXCLUSIVE",
   },
   description:
-    "Welcome to the official ATELIER's online store. Shop new arrivals & latest trends for men, women and juniors online.",
+    "Welcome to the official EXCLUSIVE's online store. Shop new arrivals & latest trends for men, women and juniors online.",
 };
 
 export const viewport: Viewport = {

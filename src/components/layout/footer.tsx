@@ -31,7 +31,7 @@ export function Footer() {
               href="/"
               className="mb-4 block text-xl font-semibold tracking-tight text-zinc-950"
             >
-              ATELIER
+              EXCLUSIVE
             </Link>
             <p className="mb-6 max-w-xs text-sm leading-relaxed text-zinc-600">
               Curating premium, timeless essentials designed for the modern
@@ -109,7 +109,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="mt-16 flex flex-col items-center justify-between gap-6 border-t border-zinc-200 pt-8 md:flex-row">
           <p className="text-xs text-zinc-400">
-            &copy; {new Date().getFullYear()} ATELIER. All rights reserved.
+            &copy; {new Date().getFullYear()} EXCLUSIVE. All rights reserved.
           </p>
 
           <div className="flex items-center gap-6">
