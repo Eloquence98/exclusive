@@ -1,3 +1,4 @@
+import { getSession } from "next-auth/react";
 import type { ApiResponse } from "@/types/api";
 import type { CreateOrderPayload, CreateOrderResponse } from "./checkout.types";
 
@@ -7,11 +8,15 @@ const API_BASE_URL =
 export async function createOrder(
   payload: CreateOrderPayload,
 ): Promise<CreateOrderResponse> {
-  const res = await fetch(`${API_BASE_URL}/orders`, {
+  const session = await getSession(); // client-safe session check
+
+  const url = session
+    ? `/api/proxy?path=${encodeURIComponent("/orders")}`
+    : `${API_BASE_URL}/orders`;
+
+  const res = await fetch(url, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
 
