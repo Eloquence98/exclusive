@@ -62,6 +62,10 @@ export function SearchInput({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit?.(query);
+
+    if (!alwaysExpanded) {
+      setIsExpanded(false);
+    }
   };
 
   React.useEffect(() => {

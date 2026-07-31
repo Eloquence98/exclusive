@@ -47,6 +47,8 @@ export function SearchAutocomplete({
     if (value.trim().length >= 2) {
       router.push(`/search?q=${encodeURIComponent(value.trim())}`);
       onNavigate?.();
+      setPendingValue("");
+      setDebouncedQuery("");
     }
   }
 
