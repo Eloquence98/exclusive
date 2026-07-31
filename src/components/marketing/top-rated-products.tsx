@@ -3,7 +3,7 @@
 import { ProductCard } from "@/components/commerce/product-card";
 import { topRatedProductsOptions } from "@/domains/catalog/products.query";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { motion, Variants } from "framer-motion";
+import { motion, Variants } from "motion/react";
 import { SectionHeader } from "./section-header";
 
 const containerVariants = {

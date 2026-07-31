@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatShippingCost } from "@/domains/checkout/checkout.utils";
 import type { OrderTracking } from "@/domains/order/order.types";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { ArrowRight, MapPin, RefreshCw } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";

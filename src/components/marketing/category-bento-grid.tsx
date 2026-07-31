@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/utils/utility";
-import { motion, type Variants } from "framer-motion";
+import { motion, type Variants } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";

@@ -5,7 +5,7 @@ import { TrackOrderLookupForm } from "@/components/commerce/track-order-lookup-f
 import { TrackOrderSkeleton } from "@/components/commerce/track-order-skeleton";
 import { orderTrackingOptions } from "@/domains/order/order.query";
 import { useQuery } from "@tanstack/react-query";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { useState } from "react";
 
 interface TrackOrderClientProps {

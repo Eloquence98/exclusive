@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { motion, type Variants } from "motion/react";
 import { RefreshCw, ShieldCheck, Truck, type LucideIcon } from "lucide-react";
 import { SectionHeader } from "./section-header";
 

@@ -1,30 +1,73 @@
+// "use client";
+
+// import { cn } from "@/utils/utility";
+// import { useEffect, useState } from "react";
+
+// const messages = [
+//   "Free shipping on all orders over $100",
+//   "New arrivals every week — shop the latest drops",
+//   "Easy 30-day returns, no questions asked",
+//   "Pay on delivery — no card required at checkout",
+// ];
+
+// export function AnnouncementBar({ className }: { className?: string }) {
+//   const [current, setCurrent] = useState(0);
+//   const [visible, setVisible] = useState(true);
+
+//   useEffect(() => {
+//     const interval = setInterval(() => {
+//       // Fade out
+//       setVisible(false);
+
+//       setTimeout(() => {
+//         setCurrent((prev) => (prev + 1) % messages.length);
+//         // Fade in
+//         setVisible(true);
+//       }, 400);
+//     }, 4000);
+
+//     return () => clearInterval(interval);
+//   }, []);
+
+//   return (
+//     <div
+//       className={cn(
+//         "bg-primary px-4 py-2 text-center text-xs font-medium tracking-wide text-primary-foreground",
+//         className,
+//       )}
+//     >
+//       <span
+//         className={cn(
+//           "duration-400 inline-block transition-opacity",
+//           visible ? "opacity-100" : "opacity-0",
+//         )}
+//       >
+//         {messages[current]}
+//       </span>
+//     </div>
+//   );
+// }
+
 "use client";
 
 import { cn } from "@/utils/utility";
+import { motion, AnimatePresence } from "motion/react";
 import { useEffect, useState } from "react";
 
 const messages = [
-  "Free shipping on all orders over $100",
-  "New arrivals every week — shop the latest drops",
-  "Easy 30-day returns, no questions asked",
-  "Pay on delivery — no card required at checkout",
+  "Free shipping on orders over $100",
+  "New season collection now available",
+  "30-day effortless returns",
+  "Exclusive drops released every week",
 ];
 
 export function AnnouncementBar({ className }: { className?: string }) {
   const [current, setCurrent] = useState(0);
-  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      // Fade out
-      setVisible(false);
-
-      setTimeout(() => {
-        setCurrent((prev) => (prev + 1) % messages.length);
-        // Fade in
-        setVisible(true);
-      }, 400);
-    }, 4000);
+      setCurrent((prev) => (prev + 1) % messages.length);
+    }, 4500);
 
     return () => clearInterval(interval);
   }, []);
@@ -32,18 +75,22 @@ export function AnnouncementBar({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "bg-primary px-4 py-2 text-center text-xs font-medium tracking-wide text-primary-foreground",
+        "flex h-10 w-full items-center justify-center bg-primary px-4 text-xs font-medium tracking-wide text-primary-foreground",
         className,
       )}
     >
-      <span
-        className={cn(
-          "duration-400 inline-block transition-opacity",
-          visible ? "opacity-100" : "opacity-0",
-        )}
-      >
-        {messages[current]}
-      </span>
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={current}
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -6 }}
+          transition={{ duration: 0.25, ease: "easeOut" }}
+          className="text-center"
+        >
+          {messages[current]}
+        </motion.span>
+      </AnimatePresence>
     </div>
   );
 }

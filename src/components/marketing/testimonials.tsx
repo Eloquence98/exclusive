@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/utils/utility";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { ChevronLeft, ChevronRight, Quote, Star } from "lucide-react";
 import Image from "next/image";
 import { useRef } from "react";

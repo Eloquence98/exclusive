@@ -1,16 +1,12 @@
 export function PortfolioBanner() {
   return (
-    <div className="w-full bg-primary px-4 py-2 text-center text-xs text-primary-foreground/70">
+    <div className="flex w-full items-center justify-center border-b border-border bg-muted px-4 py-2 text-center text-xs text-muted-foreground">
       <span>
-        This is a{" "}
-        <span className="font-semibold text-primary-foreground">
-          portfolio project
-        </span>{" "}
-        — not a real store. No payments are processed and no orders will be
-        fulfilled.{" "}
-        <span className="text-muted-foreground">
-          Built to demonstrate production-grade frontend engineering.
+        <span className="mr-1 rounded-full bg-background px-2 py-0.5 font-medium text-foreground shadow-sm">
+          Demo
         </span>
+        This is a portfolio project. No payments are processed and no orders
+        will be fulfilled.
       </span>
     </div>
   );

@@ -11,6 +11,7 @@ import { Heart, ShoppingBag, User } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { MobileDrawer } from "./mobile-drawer";
+import { GooeyInput } from "../ui/gooey-input";
 
 const navLinks = [
   { name: "Shop", href: "/shop" },
