@@ -19,7 +19,7 @@ export default function ContactPage() {
     e.preventDefault();
     setIsPending(true);
 
-    // Portfolio app — log only, no backend
+    // Demonstration only — logs submissions, no backend
     console.log("[Contact Form Submission]", form);
 
     await new Promise((resolve) => setTimeout(resolve, 800));
@@ -93,12 +93,9 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* Portfolio note */}
+          {/* Demo information */}
           <div className="rounded-lg border border-border bg-muted/30 p-4">
             <p className="text-xs leading-relaxed text-muted-foreground">
-              <span className="font-semibold text-foreground">
-                Portfolio note:
-              </span>{" "}
               This is a demo application. Contact form submissions are logged to
               the console and no emails are sent.
             </p>

@@ -8,7 +8,7 @@
 
 - **Theme color audit** (uncommitted): Replaced all hardcoded color utilities with semantic theme classes across 32 files:
   - Core UI components: `input.tsx`, `label.tsx`, `button.tsx`, `dialog.tsx`, `sheet.tsx`, `accordion.tsx`, `card.tsx`, `empty-state.tsx`, `search-input.tsx`, `sonner.tsx`
-  - Layout: `footer.tsx`, `portfolio-banner.tsx`, `announcement-bar.tsx`, `marketing/layout.tsx`, `me/layout.tsx`
+  - Layout: `footer.tsx`, `demo-banner.tsx`, `announcement-bar.tsx`, `marketing/layout.tsx`, `me/layout.tsx`
   - Marketing: `hero-section.tsx`, `section-header.tsx`, `category-bento-grid.tsx`, `why-choose-us.tsx`, `trending-products.tsx`, `testimonials.tsx`, `newsletter-section.tsx`, `featured-products.tsx`, `top-rated-products.tsx`
   - Pages: `(auth)/layout.tsx`, `(marketing)/page.tsx`, `loading.jsx`, `not-found.jsx`
   - Account: `order-status-badge.tsx`, `order-timeline.tsx`

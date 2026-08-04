@@ -18,14 +18,14 @@ export default function TermsPage() {
         </p>
       </div>
 
-      {/* Portfolio Disclaimer */}
+      {/* Demonstration Disclaimer */}
       <div className="mb-12 rounded-lg border border-amber-200 bg-amber-50 p-4">
         <p className="text-sm leading-relaxed text-amber-800">
-          <span className="font-semibold">Portfolio Project Notice:</span>{" "}
-          EXCLUSIVE is a fictional ecommerce brand built as a portfolio
-          demonstration. No real transactions are processed, no real goods are
-          sold, and no real money is ever charged. These terms exist for
-          completeness and realism as part of the portfolio presentation.
+          <span className="font-semibold">Demonstration Project Notice:</span>{" "}
+          EXCLUSIVE is a fictional ecommerce brand built as a demonstration
+          project. No real transactions are processed, no real goods are sold,
+          and no real money is ever charged. These terms exist for completeness
+          and realism as part of the demonstration presentation.
         </p>
       </div>
 
@@ -46,8 +46,8 @@ export default function TermsPage() {
             2. Nature of Service
           </h2>
           <p>
-            EXCLUSIVE is a portfolio demonstration project. It is not a real
-            ecommerce store. Products shown are fictional. Orders placed are not
+            EXCLUSIVE is a demonstration project. It is not a real ecommerce
+            store. Products shown are fictional. Orders placed are not
             fulfilled. No payments are processed. No goods are shipped.
           </p>
         </section>

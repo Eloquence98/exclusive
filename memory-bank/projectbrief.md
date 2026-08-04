@@ -2,7 +2,7 @@
 
 ## What This Is
 
-**Exclusive** is a fictional ecommerce brand and portfolio project. This repository contains the **frontend only** — a Next.js 15 (App Router) application built using a clean, domain-driven architecture.
+**Exclusive** is a fictional ecommerce brand created for demonstration purposes This repository contains the **frontend only** — a Next.js 15 (App Router) application built using a clean, domain-driven architecture.
 
 This is a solo frontend project. The backend is a **separate, external repository** — Node.js + Express + MongoDB (Mongoose) — and is treated as a black-box API. The frontend never assumes backend implementation details beyond documented API contracts.
 
@@ -14,7 +14,7 @@ This project exists to demonstrate production-grade frontend engineering:
 - Proper separation of server state (TanStack Query) vs client state (Zustand) vs local state (`useState`)
 - Real-world ecommerce UX patterns (checkout, order tracking, search, etc.)
 
-There is no real business behind "Exclusive" — it is a portfolio-grade fictional brand selling apparel and lifestyle products (t-shirts, shirts, polos, jeans, shorts, trousers, activewear, fragrances, shoes, underwear).
+There is no real business behind "Exclusive" — it is a fictional brand created for demonstration purposes selling apparel and lifestyle products (t-shirts, shirts, polos, jeans, shorts, trousers, activewear, fragrances, shoes, underwear).
 
 ## Core Requirements
 

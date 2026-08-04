@@ -18,13 +18,13 @@ export default function PrivacyPage() {
         </p>
       </div>
 
-      {/* Portfolio Disclaimer */}
+      {/* Demonstration Disclaimer */}
       <div className="mb-12 rounded-lg border border-amber-200 bg-amber-50 p-4">
         <p className="text-sm leading-relaxed text-amber-800">
-          <span className="font-semibold">Portfolio Project Notice:</span>{" "}
-          EXCLUSIVE is a fictional ecommerce brand built as a portfolio
-          demonstration. This privacy policy accurately reflects how this
-          application handles data — which is minimally and transparently.
+          <span className="font-semibold">Demonstration Project Notice:</span>{" "}
+          EXCLUSIVE is a fictional ecommerce brand built as a demonstration
+          project. This privacy policy accurately reflects how this application
+          handles data — which is minimally and transparently.
         </p>
       </div>
 
