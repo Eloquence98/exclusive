@@ -35,7 +35,7 @@ const mockTestimonials: Testimonial[] = [
   {
     id: "2",
     quote:
-      "Atelier has completely elevated my wardrobe. The tailoring on the wool trousers is impeccable, and the customer service experience was flawless from start to finish.",
+      "Exclusive has completely elevated my wardrobe. The tailoring on the wool trousers is impeccable, and the customer service experience was flawless from start to finish.",
     rating: 5,
     author: {
       name: "Marcus T.",

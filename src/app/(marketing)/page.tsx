@@ -27,7 +27,7 @@ export default function Home() {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className="flex flex-col">
-        <HeroSection />
+        <HeroSection className="-mt-16 min-h-[calc(100dvh+4rem)]" />
 
         {/* Each product section has independent loading state */}
         <Suspense fallback={<ProductSectionSkeletonWrapper />}>

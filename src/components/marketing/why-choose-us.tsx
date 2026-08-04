@@ -55,7 +55,7 @@ export function WhyChooseUs() {
     // Alternating background: Pure white
     <section className="bg-background py-16 md:py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionHeader overline="The Atelier Promise" title="Why Choose Us" />
+        <SectionHeader overline="The Exclusive Promise" title="Why Choose Us" />
 
         <motion.div
           className="mt-12 grid grid-cols-1 gap-12 md:mt-16 md:grid-cols-3 md:gap-8 lg:gap-16"
