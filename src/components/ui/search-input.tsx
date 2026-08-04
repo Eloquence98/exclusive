@@ -124,16 +124,19 @@ export function SearchInput({
       ref={containerRef}
       className={cn("relative flex items-center", className)}
     >
-      {!isExpanded && (
-        <button
-          type="button"
-          onClick={handleExpand}
-          className="flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-primary"
-          aria-label="Open search"
-        >
-          <Search className="h-5 w-5" />
-        </button>
-      )}
+      <button
+        type="button"
+        onClick={handleExpand}
+        className={cn(
+          "flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-opacity",
+          isExpanded
+            ? "pointer-events-none invisible"
+            : "hover:bg-muted hover:text-primary",
+        )}
+        aria-label="Open search"
+      >
+        <Search className="h-5 w-5" />
+      </button>
 
       <div
         className={cn(
